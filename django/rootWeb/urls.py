@@ -22,8 +22,13 @@ from django.conf.urls.static import static
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('accounts/', include('accounts.urls')),
+    ## life category
     path('life/', include('adopts.urls')),
     path('life/', include('markets.urls')),
+    path('life/', include('maps.urls')),
+    ## finance
+    path('finance/', include('finances.urls')),
+    ## django-rest-auth
     path('dj-rest-auth/', include('dj_rest_auth.urls')),
     path('dj-rest-auth/registration/', include('dj_rest_auth.registration.urls')),
 ] + static(settings.MEDIA_URL, document_root = settings.MEDIA_ROOT)
