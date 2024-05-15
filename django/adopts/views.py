@@ -28,7 +28,6 @@ def adopt_api(request):
     #   params ={'serviceKey' : ADOPT_KEY,'upkind' : 417000, 'pageNo' : i, 'numOfRows' : 1000, '_type' : 'json'}
     #   response = requests.get(url, params=params)
     #   data = response.json()
-    #   print(data)
     #   for item in data['response']['body']['items']['item']:
     #     adopt = Adopt()
     #     adopt.start_date = datetime.strptime(item.get('noticeSdt'), '%Y%m%d').date()
