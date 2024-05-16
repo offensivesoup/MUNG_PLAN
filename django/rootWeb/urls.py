@@ -31,6 +31,8 @@ urlpatterns = [
     path('finance/', include('finances.urls')),
     ## community
     path('community/', include('community.urls')),
+    ## accounts
+    path('accounts/', include('accounts.urls')),
     ## django-rest-auth
     path('auth/', include('dj_rest_auth.urls')),
     path('auth/registration/', include('dj_rest_auth.registration.urls')),

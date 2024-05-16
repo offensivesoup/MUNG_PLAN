@@ -10,6 +10,7 @@ class User(AbstractUser):
     address = models.TextField(blank=True, null=True)
     profile_img = models.ImageField(upload_to='profile_images/', blank=True, null=True)
     birth_date = models.DateField(null=True, blank=True)
+    followings = models.ManyToManyField('self', symmetrical=False, related_name='followers')
 
     def __str__(self):
         return self.username
