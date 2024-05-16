@@ -15,11 +15,16 @@ import os
 import requests
 from datetime import datetime
 import html
-
+import re
 ## 네이버 쇼핑 api가져오기
 @api_view(['GET'])
 def market_api(request):
-    return
+    records = Market.objects.all()
+    for record in records:
+        cleaned_title = re.sub('<b>|</b>', '', record.item_name)
+        record.item_name = cleaned_title
+        record.save()
+    return JsonResponse(records.json())
 #   ## 기본 정보들
 #   url = 'https://openapi.naver.com/v1/search/shop.json'
 #   NAVER_ID = os.getenv('NAVER_ID')
@@ -57,7 +62,6 @@ def market_api(request):
 #           market.item_maker = item.get('maker', 'No Maker')
 #           market.item_link = item.get('link', 'No Link')
 #           market.item_type = f'강아지 {params["query"]}'
-          
 #           market.item_cateogry_1 = item.get('category1', 'No Category 1')
 #           market.item_cateogry_2 = item.get('category2', 'No Category 2')
 #           market.item_cateogry_3 = item.get('category3', 'No Category 3')

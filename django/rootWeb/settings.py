@@ -30,11 +30,6 @@ DEBUG = env('DEBUG')
 
 ALLOWED_HOSTS = []
 
-REST_FRAMEWORK = {
-    'DEFAULT_AUTHENTICATION_CLASSES' : [
-        'rest_framework.authentication.TokenAuthentication',
-    ]
-}
 # Application definition
 
 INSTALLED_APPS = [
@@ -44,16 +39,19 @@ INSTALLED_APPS = [
     'markets',
     'maps',
     'finances',
+    'community',
     # DRF
     'rest_framework',
     'rest_framework.authtoken',
     # REST_AUTH
     'dj_rest_auth',
+    'dj_rest_auth.registration',
+    'corsheaders',
     'allauth',
     'allauth.account',
     # social login 
-    # 'django.contrib.sites',
-    # 'allauth.socialaccount',
+    'django.contrib.sites',
+    'allauth.socialaccount',
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',
@@ -62,14 +60,59 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
 ]
 
+## CORS_POLICY
+
+CORS_ALLOWED_ORIGINS = [
+    'http://127.0.0.1:5173',
+    'http://localhost:5173',
+]
+
+REST_FRAMEWORK = {
+    'DEFAULT_SCHEMA_CLASS': 'drf_spectacular.openapi.AutoSchema',
+    'DEFAULT_AUTHENTICATION_CLASSES' : [
+        'rest_framework.authentication.TokenAuthentication',
+    ],
+}
+
+REST_AUTH = {
+    'REGISTER_SERIALIZER' : 'accounts.serializers.CustomRegisterSerializer',
+    'LOGIN_SERIALIZER' : 'accounts.serializers.CustomLoginSerializer',
+    'USER_DETAILS_SERIALIZER': 'accounts.serializers.LoginSerializer',
+}
+
+## for dj-rest-auth login
+## just use username, password for login
+
+ACCOUNT_ADAPTER = 'accounts.models.CustomAccountAdapter'
+
+SITE_ID = 1
+
+REST_USE_JWT = True
+ACCOUNT_UNIQUE_USERNAME= True
+ACCOUNT_USERNAME_REQUIRED = False  #username 필드(아이디) ㅇ
+ACCOUNT_AUTHENTICATION_METHOD = ('email',)
+ACCOUNT_EMAIL_VERIFICATION = 'none'
+
+## for OAS
+
+SPECTACULAR_SETTINGS = {
+    'TITLE': 'Your Project API',
+    'DESCRIPTION': 'Your project description',
+    'VERSION': '1.0.0',
+    'SERVE_INCLUDE_SCHEMA': False,
+}
+
+# add rest registration, auth
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
-    'django.middleware.common.CommonMiddleware',
     'django.middleware.csrf.CsrfViewMiddleware',
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
+    ## cors
+    "corsheaders.middleware.CorsMiddleware",
+    "django.middleware.common.CommonMiddleware",
 ]
 
 ROOT_URLCONF = 'rootWeb.urls'
