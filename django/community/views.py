@@ -77,3 +77,13 @@ def comment_create(request, article_pk):
   if serializer.is_valid(raise_exception=True):
     serializer.save(article = article, user = request.user)
     return Response(serializer.data, status = status.HTTP_201_CREATED)
+  
+@api_view(['POST'])
+@permission_classes([IsAuthenticated])
+def likes(request, article_pk):
+  article = Article.objects.get(pk=article_pk)
+  if request.user in article.like_users.all():
+    article.like_users.remove(request.user)
+  else:
+    article.like_users.add(request.user)
+  return Response(status = status.HTTP_200_OK)
