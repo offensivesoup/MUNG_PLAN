@@ -2,7 +2,7 @@
   <header>
     <nav>
       <!-- <RouterLink :to="{name: HomeView}">로고 넣을 건디</RouterLink> -->
-      <RouterLink :to="{name: AdoptView}">Life</RouterLink>
+      <RouterLink :to="{ name: 'AdoptView' }">Life</RouterLink>
       <!-- <RouterLink :to="{name: }">Community</RouterLink>-->
       <!-- <RouterLink :to="{name: }">Market</RouterLink>-->
       <!-- <RouterLink :to="{name: }">Finance</RouterLink>-->
@@ -15,5 +15,4 @@
 import { RouterLink, RouterView } from 'vue-router'
 </script>
 
-<style scoped>
-</style>
+<style scoped></style>
