@@ -9,4 +9,3 @@ urlpatterns = [
   path('<int:article_pk>/comments/', views.comment_create),
 ]
 
-#d133fca1590cc5650aa81d08f5d60a1f6462bfe7
