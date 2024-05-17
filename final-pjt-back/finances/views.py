@@ -19,6 +19,7 @@ import html
 # Create your views here.
 @api_view(['GET'])
 def deposit_api(request):
+    print('hello')
     return
     # ## 예금, 적금 가져오기
     # url = 'http://finlife.fss.or.kr/finlifeapi/savingProductsSearch.json'

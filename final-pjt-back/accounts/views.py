@@ -11,6 +11,7 @@ from rest_framework.permissions import IsAuthenticated
 
 ## from local
 @api_view(['POST'])
+@permission_classes([IsAuthenticated])
 def follow(request, user_pk):
     me = request.user
     you = get_user_model().objects.get(pk = user_pk)
