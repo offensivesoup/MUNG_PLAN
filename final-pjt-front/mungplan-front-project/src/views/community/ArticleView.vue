@@ -1,6 +1,5 @@
 <template>
   <div>
-    <ArticleCategory />
     <h1>Article Page</h1>
     <RouterLink :to="{ name: 'CreateView' }">
       [CREATE]
@@ -24,6 +23,4 @@ onMounted(() => {
 
 </script>
 
-<style>
-
-</style>
+<style></style>

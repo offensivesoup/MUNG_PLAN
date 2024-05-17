@@ -25,6 +25,8 @@ const router = createRouter({
     //   name: 'HomeView',
     //   component: HomeView
     // },
+
+    // for adopt
     {
       path: '/life/adopts',
       name: 'AdoptView',
@@ -60,6 +62,8 @@ const router = createRouter({
     //   name: 'ArticleTownView',
     //   component: ArticleTownView
     // },
+
+    // for community
     {
       path: '/community/article/:id',
       name: 'ArticleDetailView',
@@ -70,6 +74,8 @@ const router = createRouter({
       name: 'CreateView',
       component: CreateView
     },
+
+    // for finance
     {
       path: '/finance/deposits',
       name: 'DepositView',

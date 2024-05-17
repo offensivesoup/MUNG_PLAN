@@ -73,5 +73,5 @@ def deposit_likes(request, deposit_pk):
 def deposit_recommend(request):
     ## 강아지를 키우고 있따면
     deposit = Deposit.objects.all()
-    return
     
+    return

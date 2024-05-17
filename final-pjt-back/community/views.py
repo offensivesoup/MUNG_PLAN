@@ -28,6 +28,14 @@ def article_list(request):
             serializer.save(user=request.user)
             return Response(serializer.data, status=status.HTTP_201_CREATED)
 
+## 커뮤니티 글 분류
+@api_view(['GET'])
+def article_filtering(request, category_name):
+  articles = Article.objects.filter(category = category_name)
+  serializer = ArticleListSerializer(articles, many = True)
+  print(serializer.data)
+  return Response(serializer.data)
+
 @api_view(['GET', 'DELETE', 'PUT'])
 # @permission_classes([IsAuthenticated])
 def article_detail(request, article_pk):
