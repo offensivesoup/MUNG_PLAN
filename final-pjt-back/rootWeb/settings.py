@@ -58,6 +58,8 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+    # dummy data
+    'django_seed'
 ]
 
 ## CORS_POLICY

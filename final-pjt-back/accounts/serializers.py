@@ -40,6 +40,8 @@ class CustomRegisterSerializer(RegisterSerializer):
       allow_blank=False,
       max_length=10
     )
+    
+    read_only_fields = ('followings', )
         
     def get_cleaned_data(self):
         return {

@@ -8,12 +8,12 @@ from rest_framework.response import Response
 from rest_framework import status
 ## from pjt
 from .models import Deposit
-from .serializer import DepositListSerializer
+from .serializer import DepositListSerializer, DepositSerializer
 ## library
 import os
 import requests
 from datetime import datetime
-import html
+import random
 
 # ## 예금, 적금 가져오기
 # url = 'http://finlife.fss.or.kr/finlifeapi/savingProductsSearch.json'
@@ -46,17 +46,16 @@ import html
 #                 deposit.save()
 #     print('저장')
 # return JsonResponse(data)
-
 @api_view(['GET'])
 def deposit_list(request):
-    deposit = get_list_or_404(Deposit)
-    serializer = DepositListSerializer(deposit, many = True)
+    deposits = get_list_or_404(Deposit)
+    serializer = DepositListSerializer(deposits, many = True)
     return Response(serializer.data, status = status.HTTP_200_OK)
 
 @api_view(['GET'])
 def deposit_detail(request, deposit_pk):
-    deposit = get_list_or_404(Deposit, pk = deposit_pk)
-    serializer = DepositListSerializer(deposit)
+    deposit = get_object_or_404(Deposit, pk = deposit_pk)
+    serializer = DepositSerializer(deposit)
     return Response(serializer.data, status = status.HTTP_200_OK)
 
 @api_view(['POST'])
