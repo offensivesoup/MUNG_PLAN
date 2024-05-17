@@ -4,11 +4,9 @@ from django.conf import settings
 ## qna, 고민나누기, 중고장터, 동네사람들, 기타
 
 article_category = [
-    ("Q&A", "Q&A"),
     ("고민나누기", "고민나누기"),
     ("중고장터", "중고장터"),
     ("동네사람들", "동네사람들"),
-    ("기타", "기타"),
 ]
 
 class Article(models.Model):
