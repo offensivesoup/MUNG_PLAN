@@ -6,22 +6,38 @@ export const useArticleStore = defineStore('article', () => {
   const API_URL = 'http://127.0.0.1:8000'
 
   // state
-  const articles = ref([])
-  
+  let articles = ref([])
+
   // getters
 
   // actions
   const getArticles = function () {
     axios({
       method: 'get',
-      url: `${API_URL}/articles/`
+      url: `${API_URL}/community/articles/`
     })
       .then(response => {
         articles.value = response.data
+        console.log(articles)
       })
       .catch(error => {
         console.log(error)
       })
   }
-  return { API_URL, articles, getArticles }
+
+  const articleFiltering = function (categoryName) {
+    axios({
+      method: 'get',
+      url: `${API_URL}/community/articles/${categoryName}`
+    })
+      .then(response => {
+        articles.value = response.data
+        console.log(articles)
+      })
+      .catch(error => {
+        console.log(error)
+        getArticles()
+      })
+  }
+  return { API_URL, articles, getArticles, articleFiltering }
 }, { persist: true })

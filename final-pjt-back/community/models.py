@@ -12,7 +12,7 @@ article_category = [
 class Article(models.Model):
   user = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete = models.CASCADE)
   like_users = models.ManyToManyField(settings.AUTH_USER_MODEL, related_name='like_article')
-  Category = models.CharField(max_length = 5, choices = article_category)
+  category = models.CharField(max_length = 5, choices = article_category)
   title = models.CharField(max_length=15)
   content = models.TextField()
   content_img = models.ImageField(upload_to='community_images/', blank=True, null=True)
