@@ -18,8 +18,15 @@
 </template>
 
 <script setup>
+import { onMounted } from 'vue'
+import { useAdoptStore } from '@/stores/adopt'
 import AdoptList from '@/components/life/AdoptList.vue'
-// 보호소 강쥐 몇 마리 인지 받아와야겠찌?
+
+const store = useAdoptStore()
+
+onMounted(() => {
+  store.getShelterDogs()
+})
 </script>
 
 <style scoped>
