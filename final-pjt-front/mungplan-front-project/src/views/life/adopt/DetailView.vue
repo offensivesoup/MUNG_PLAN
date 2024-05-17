@@ -28,9 +28,10 @@ const dog = ref(null)
 onMounted(() => {
   axios({
     method: 'get',
-    url: `${store.API_URL}/${route.params.id}/`
+    url: `${store.API_URL}/life/adopt/${route.params.id}/`
   })
     .then((response) => {
+      console.log(response)
       dog.value = response.data
     })
     .catch((error) => {

@@ -1,6 +1,7 @@
 ## django
 from django.shortcuts import render
 from django.http import JsonResponse
+from django.shortcuts import get_object_or_404, get_list_or_404
 
 ## DRF
 from rest_framework.decorators import api_view, renderer_classes
@@ -8,6 +9,7 @@ from rest_framework.renderers import JSONRenderer, TemplateHTMLRenderer
 from rest_framework.response import Response
 
 ## from pjt
+from .serializers import AdoptListSerializer, AdoptSerializer
 from .models import Adopt
 
 ## library
@@ -43,3 +45,18 @@ def adopt_api(request):
     #     adopt.save()
     # return JsonResponse({'status': 'success', 'message': 'Data imported successfully'}, status=200)
         
+@api_view(['GET'])
+def adopt_list(request):
+  adopts = get_list_or_404(Adopt)
+  serializer = AdoptListSerializer(adopts, many=True)
+  return Response(serializer.data)
+
+
+@api_view(['GET'])
+def adopt_detail(request, adopt_pk):
+    adopt = get_object_or_404(Adopt, pk=adopt_pk)
+
+    if request.method == 'GET':
+        serializer = AdoptSerializer(adopt)
+        print(serializer.data)
+        return Response(serializer.data)

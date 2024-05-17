@@ -11,7 +11,7 @@
 </template>
 
 <script setup>
-defindProps({
+defineProps({
   dog: Object
 })
 </script>

@@ -5,7 +5,7 @@
 
 <template>
   <nav>
-    <!-- 입양, 내 근처 장소 지도 nav-->
+    <!-- 입양, 내 근처 장소 지도 button-->
   </nav>
 </template>
 

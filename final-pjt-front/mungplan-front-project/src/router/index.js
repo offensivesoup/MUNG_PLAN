@@ -26,7 +26,7 @@ const router = createRouter({
     //   component: HomeView
     // },
     {
-      path: '/life/adopts',
+      path: '/life/adopts/',
       name: 'AdoptView',
       component: AdoptView
     },
