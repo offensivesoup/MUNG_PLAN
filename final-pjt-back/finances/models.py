@@ -1,4 +1,5 @@
 from django.db import models
+from django.conf import settings
 
 # Create your models here.
 class Deposit(models.Model):
@@ -15,6 +16,7 @@ class Deposit(models.Model):
     interate_type = models.CharField(max_length = 15, blank = True, null = True)
     interate_rate = models.FloatField(blank = True, null = True)
     maxi_interate_rate = models.FloatField(blank = True, null = True)
+    like_users = models.ManyToManyField(settings.AUTH_USER_MODEL, related_name='like_deposit')
 
 class Insurance(models.Model):
     product_name = models.CharField(max_length = 225)

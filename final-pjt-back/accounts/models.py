@@ -1,5 +1,6 @@
 from django.db import models
 from django.contrib.auth.models import AbstractUser
+from django.conf import settings
 from django.db import models
 from allauth.account.adapter import DefaultAccountAdapter
 
@@ -57,3 +58,14 @@ class CustomAccountAdapter(DefaultAccountAdapter):
             # this adapter by adding
             user.save()
         return user
+    
+GENDERS = (('M', '남성(Man)'),('W', '여성(Woman)'),('X', '중성'))
+TYPES   = ((1, '말티즈'),(2, '푸들'),(3, '포메라니안'),(4, '시츄'),(5, '비숑프리제'),(6, '요크셔테리어'),(7, '진도견'),(8, '치와와'),(9, '스피츠'),(10, '닥스훈트'),(11, '리트리버'),(12, '기타'))
+class Dog(models.Model):
+    user = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete = models.CASCADE)
+    name = models.CharField(max_length = 10)
+    age = models.IntegerField()
+    gender = models.CharField(max_length = 1, choices = GENDERS)
+    birth_date = models.DateField()
+    Type = models.CharField(max_length = 10, choices = TYPES)
+    
