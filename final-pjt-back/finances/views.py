@@ -1,19 +1,26 @@
 ## django
 from django.shortcuts import render, get_object_or_404, get_list_or_404
 from django.http import JsonResponse
+from django.contrib.auth import get_user_model
+from django.forms.models import model_to_dict
 ## DRF
 from rest_framework.decorators import api_view, renderer_classes
 from rest_framework.renderers import JSONRenderer, TemplateHTMLRenderer
 from rest_framework.response import Response
 from rest_framework import status
+from rest_framework.decorators import permission_classes
+from rest_framework.permissions import IsAuthenticated
 ## from pjt
 from .models import Deposit
+from accounts.models import Dog
 from .serializer import DepositListSerializer, DepositSerializer
 ## library
 import os
 import requests
 from datetime import datetime
 import random
+import numpy as np
+from sklearn.metrics.pairwise import cosine_similarity
 
 # ## 예금, 적금 가져오기
 # url = 'http://finlife.fss.or.kr/finlifeapi/savingProductsSearch.json'
@@ -69,8 +76,70 @@ def deposit_likes(request, deposit_pk):
 
 # Create your views here.
 @api_view(['GET'])
-def deposit_recommend(request):
-    ## 강아지를 키우고 있따면
-    deposit = Deposit.objects.all()
-    
-    return
+def deposit_recommend(request, user_id):
+    users = get_user_model().objects.all()
+    user = get_object_or_404(get_user_model(), id=user_id)
+    # 사용자가 좋아하는 예적금 조회 (최적화를 위해 select_related 사용)
+    liked_deposits = user.like_deposit.select_related('category').all()
+    # 모든 예적금 조회
+    deposits = Deposit.objects.all()
+    # 각 사용자의 강아지 조회 (최적화를 위해 prefetch_related 사용)
+    dogs = Dog.objects.filter(user=user).prefetch_related('breed').all()
+    dogs = Dog.objects.all()
+
+    user_ids = {user.id: idx for idx, user in enumerate(users)}
+    deposit_ids = {deposit.id: idx for idx, deposit in enumerate(deposits)}
+
+    user_likes_matrix = np.zeros((len(users), len(deposits)))
+
+    for deposit in deposits:
+        for user in deposit.like_users.all():
+            user_idx = user_ids.get(user.id)
+            deposit_idx = deposit_ids.get(deposit.id)
+            if user_idx is not None and deposit_idx is not None:
+                user_likes_matrix[user_idx, deposit_idx] = 1
+
+    user_dog_matrix = np.zeros((len(users), len(dogs)))
+
+    for dog in dogs:
+        user_idx = user_ids.get(dog.user.id)
+        if user_idx is not None:
+            user_dog_matrix[user_idx] += 1
+
+    combined_matrix = np.hstack((user_likes_matrix, user_dog_matrix))
+    similarity_matrix = cosine_similarity(combined_matrix)
+    target_user_index = user_ids[user_id]
+
+    user_similarites = similarity_matrix[target_user_index]
+
+    recommended_deposits = []
+    deposit_list = list(deposits)
+    for user_idx, similarity in enumerate(user_similarites):
+        if user_idx != target_user_index and similarity > 0:
+            liked_deposits = list(np.where(user_likes_matrix[user_idx] == 1))[0]
+            for deposit_idx in liked_deposits:
+                if user_likes_matrix[target_user_index, deposit_idx] == 0:
+                    recommended_deposits.append((deposit_list[deposit_idx], similarity))
+    # 유사도 점수로 정렬하고 상위 10개 선택
+    recommended_deposits.sort(key=lambda x: x[1], reverse=True)
+    top_recommended_deposits = [deposit for deposit, similarity in recommended_deposits[:10]]
+
+    # 직렬화된 데이터 생성
+    response_data = [{
+        'id': deposit.id,
+        'category': deposit.category,
+        'company_name': deposit.company_name,
+        'product_num': deposit.product_num,
+        'product_name': deposit.product_name,
+        'product_explain': deposit.product_explain,
+        'special_explain': deposit.special_explain,
+        'special_condition': deposit.special_condition,
+        'join_member': deposit.join_member,
+        'limit': deposit.limit,
+        'save_term': deposit.save_term,
+        'interate_type': deposit.interate_type,
+        'interate_rate': deposit.interate_rate,
+        'maxi_interate_rate': deposit.maxi_interate_rate,
+    } for deposit in top_recommended_deposits]
+
+    return Response(response_data)

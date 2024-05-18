@@ -3,7 +3,7 @@ import { defineStore } from 'pinia'
 import axios from 'axios'
 
 export const useArticleStore = defineStore('article', () => {
-  const API_URL = 'http://127.0.0.1:8000'
+  const API_URL = 'http://127.0.0.1:8000/'
 
   // state
   let articles = ref([])
@@ -14,7 +14,7 @@ export const useArticleStore = defineStore('article', () => {
   const getArticles = function () {
     axios({
       method: 'get',
-      url: `${API_URL}/community/articles/`
+      url: `${API_URL}community/articles/`
     })
       .then(response => {
         articles.value = response.data
@@ -28,7 +28,7 @@ export const useArticleStore = defineStore('article', () => {
   const articleFiltering = function (categoryName) {
     axios({
       method: 'get',
-      url: `${API_URL}/community/articles/${categoryName}`
+      url: `${API_URL}community/articles/${categoryName}`
     })
       .then(response => {
         articles.value = response.data

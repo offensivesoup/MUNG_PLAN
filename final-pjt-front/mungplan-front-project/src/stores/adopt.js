@@ -14,7 +14,7 @@ export const useAdoptStore = defineStore('adopt', () => {
   const getShelterDogs = function () {
     axios({
       method: 'get',
-      url: `${API_URL}/life/adopts/`
+      url: `${API_URL}life/adopts/`
     })
       .then(response => {
         console.log(response)
