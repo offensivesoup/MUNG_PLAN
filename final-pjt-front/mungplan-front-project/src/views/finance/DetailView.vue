@@ -27,7 +27,7 @@ const deposit = ref(null)
 onMounted(() => {
   axios({
     method: 'get',
-    url: `${store.API_URL}/`
+    // url: `${store.API_URL}`
   })
     .then((response) => {
       deposit.value = response.data

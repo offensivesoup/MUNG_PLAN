@@ -29,7 +29,7 @@ const router = useRouter()
 const createArticle = function () {
   axios({
     method: 'post',
-    url: `${store.API_URL}/`,
+    // url: `${store.API_URL}`,
     data: {
       title: title.value,
       content: content.value
