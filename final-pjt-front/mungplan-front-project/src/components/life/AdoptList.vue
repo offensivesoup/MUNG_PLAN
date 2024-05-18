@@ -7,31 +7,47 @@
     />
   </div>
   <div>
-    <button v-if="currentPage > 1" @click="currentPage--">이전페이지</button>
+    <button @click="prevPage">이전 페이지</button>
     <span>{{ currentPage }} / {{ totalPages }}</span>
-    <button v-if="currentPage < totalPages" @click="currentPage++">다음페이지</button>
+    <button @click="nextPage">다음 페이지</button>
   </div>
 </template>
 
 <script setup>
-import { ref, computed } from 'vue'
+import { ref, computed, watch } from 'vue'
 import { useAdoptStore } from '@/stores/adopt'
 import AdoptListItem from './AdoptListItem.vue'
+import { useRoute, useRouter } from 'vue-router'
 
 const store = useAdoptStore()
+const route = useRoute()
+const router = useRouter()
 
-const currentPage = ref(1)
-const postsPerPage = 10
+// 페이지네이션
+const currentPage = ref(parseInt(route.query.page) || 1)
+const postsPerPage = 10 // 한 페이지에 보여줄 개수
+
+watch(route, () => {
+  currentPage.value = parseInt(route.query.page) || 1
+})
+
+const totalPages = computed(() => {
+  return Math.ceil(store.shelterDogs.length / postsPerPage)
+})
 
 const displayedPosts = computed(() => {
   const startIndex = (currentPage.value - 1) * postsPerPage
   const endIndex = startIndex + postsPerPage
-  return store.shelterDog.slice(startIndex, endIndex)
+  return store.shelterDogs.slice(startIndex, endIndex)
 })
 
-const totalPages = computed(() => {
-  return Math.ceil(store.shelterDog.length / postsPerPage)
-})
+const nextPage = () => {
+  router.push({ query: { ...route.query, page: currentPage.value + 1 } })
+}
+
+const prevPage = () => {
+  router.push({ query: { ...route.query, page: currentPage.value - 1 } })
+}
 </script>
 
 <style scoped>

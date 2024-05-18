@@ -11,9 +11,9 @@
     <!-- + : 필터 - 나이, 성별, 중성화, 지역, 품종? 너무 많은가 -->
   </div>
   <div class="adopt-count-info">
-    <img src="#" alt="brown dog icon">
-    <!-- <p>{{ 보호소 강아지 총 몇 마리 }}명의 아이들이 가족을 기다리고 있어요.</p> -->
-  </div>
+    <img src="/adopt/brownDog1.png" alt="brown dog icon" style="width: 40px; height: 40px;">
+    <h5 style="margin: 0; font-size: 18px;">{{ store.shelterDogs.length }}명의 아이들이 가족을 기다리고 있어요.</h5>
+</div>
   <AdoptList />
 </template>
 
@@ -30,5 +30,9 @@ onMounted(() => {
 </script>
 
 <style scoped>
-
+.adopt-count-info {
+  display: flex;
+  align-items: center;
+  margin: 20px 0;
+}
 </style>

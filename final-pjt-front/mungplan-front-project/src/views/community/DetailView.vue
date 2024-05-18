@@ -24,7 +24,7 @@ const article = ref(null)
 onMounted(() => {
   axios({
     method: 'get',
-    url: `${store.API_URL}/${route.params.id}/`
+    // url: `${store.API_URL}${route.params.id}`
   })
     .then((response) => {
       article.value = response.data
