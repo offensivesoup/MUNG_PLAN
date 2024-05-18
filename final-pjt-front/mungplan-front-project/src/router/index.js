@@ -3,9 +3,9 @@
 
 import { createRouter, createWebHistory } from 'vue-router'
 // life
-import AdoptView from '@/views/life/adopt/AdoptView.vue'
-import AdoptDetailView from '@/views/life/adopt/DetailView.vue'
-import MapView from '@/views/life/map/MapView.vue'
+import AdoptView from '@/views/adopt/AdoptView.vue'
+import AdoptDetailView from '@/views/adopt/DetailView.vue'
+import MapView from '@/views/map/MapView.vue'
 
 // community
 import ArticleView from '@/views/community/ArticleView.vue'
@@ -28,17 +28,17 @@ const router = createRouter({
 
     // for adopt
     {
-      path: '/life/adopts/',
+      path: '/adopts/',
       name: 'AdoptView',
       component: AdoptView
     },
     {
-      path: '/life/adopt/:id',
+      path: '/adopt/:id',
       name: 'AdoptDetailView',
       component: AdoptDetailView
     },
     {
-      path: '/life/map',
+      path: '/map',
       name: 'MapView',
       component: MapView
     },
@@ -90,6 +90,12 @@ const router = createRouter({
       path: '/finance/deposit/recommend',
       name: 'DepositRecommendView',
       component: DepositRecommendView
+    },
+    // for map
+    {
+      path: '/map',
+      name: 'MapView',
+      component: MapView
     },
   ]
 })

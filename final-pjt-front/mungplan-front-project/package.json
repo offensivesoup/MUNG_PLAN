@@ -12,8 +12,11 @@
     "axios": "^1.6.8",
     "pinia": "^2.1.7",
     "pinia-plugin-persistedstate": "^3.2.1",
+    "save": "^2.9.0",
     "vue": "^3.4.21",
-    "vue-router": "^4.3.0"
+    "vue-naver-maps": "^0.15.0",
+    "vue-router": "^4.3.0",
+    "vue3-naver-maps": "^4.2.0"
   },
   "devDependencies": {
     "@vitejs/plugin-vue": "^5.0.4",

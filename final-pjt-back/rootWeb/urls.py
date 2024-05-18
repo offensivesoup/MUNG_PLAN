@@ -24,9 +24,9 @@ urlpatterns = [
     path('admin/', admin.site.urls),
     path('accounts/', include('accounts.urls')),
     ## life category
-    path('life/', include('adopts.urls')),
-    path('life/', include('markets.urls')),
-    path('life/', include('maps.urls')),
+    path('', include('adopts.urls')),
+    path('', include('markets.urls')),
+    path('', include('maps.urls')),
     ## finance
     path('finance/', include('finances.urls')),
     ## community

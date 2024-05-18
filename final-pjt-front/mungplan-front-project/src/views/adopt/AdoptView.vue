@@ -20,7 +20,7 @@
 <script setup>
 import { onMounted } from 'vue'
 import { useAdoptStore } from '@/stores/adopt'
-import AdoptList from '@/components/life/AdoptList.vue'
+import AdoptList from '@/components/adopt/AdoptList.vue'
 
 const store = useAdoptStore()
 
