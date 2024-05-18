@@ -2,6 +2,8 @@
 // path에 community, life 이런 거 꼭 넣어야 할까? 뺄까? 넘 길어져서
 
 import { createRouter, createWebHistory } from 'vue-router'
+
+import HomeView from '@/views/HomeView.vue'
 // life
 import AdoptView from '@/views/life/adopt/AdoptView.vue'
 import AdoptDetailView from '@/views/life/adopt/DetailView.vue'
@@ -20,11 +22,11 @@ import DepositRecommendView from '@/views/finance/DepositRecommendView.vue'
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
   routes: [
-    // {
-    //   path: '/',
-    //   name: 'HomeView',
-    //   component: HomeView
-    // },
+    {
+      path: '/',
+      name: 'HomeView',
+      component: HomeView
+    },
 
     // for adopt
     {
