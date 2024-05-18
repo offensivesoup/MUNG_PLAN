@@ -1,13 +1,13 @@
 <template>
-  <div class="adopt adopt-list row">
-    <AdoptListItem
-      v-for="dog in displayedPosts"
-      :key="dog.id"
-      :dog="dog"
+  <div class="market market-list row">
+    <MarketListItem
+      v-for="product in displayedPosts"
+      :key="product.id"
+      :product="product"
       class="col-4"
     />
   </div>
-  <div class="adopt adopt-page">
+  <div class="market market-page">
     <button @click="prevPage">이전 페이지</button>
     <span>{{ currentPage }} / {{ totalPages }}</span>
     <button @click="nextPage">다음 페이지</button>
@@ -16,11 +16,11 @@
 
 <script setup>
 import { ref, computed, watch } from 'vue'
-import { useAdoptStore } from '@/stores/adopt'
-import AdoptListItem from './AdoptListItem.vue'
+import { useMarketStore } from '@/stores/market'
+import MarketListItem from './MarketListItem.vue'
 import { useRoute, useRouter } from 'vue-router'
 
-const store = useAdoptStore()
+const store = useMarketStore()
 const route = useRoute()
 const router = useRouter()
 
@@ -33,13 +33,13 @@ watch(route, () => {
 })
 
 const totalPages = computed(() => {
-  return Math.ceil(store.shelterDogs.length / postsPerPage)
+  return Math.ceil(store.products.length / postsPerPage)
 })
 
 const displayedPosts = computed(() => {
   const startIndex = (currentPage.value - 1) * postsPerPage
   const endIndex = startIndex + postsPerPage
-  return store.shelterDogs.slice(startIndex, endIndex)
+  return store.products.slice(startIndex, endIndex)
 })
 
 const nextPage = () => {
@@ -53,7 +53,7 @@ const prevPage = () => {
 
 <style scoped>
 /* 카드형식의 컨테이너 스타일 정의 */
-.adopt {
+.market {
   padding: 0 15%;
   display: flex;
   justify-content: center;

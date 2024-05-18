@@ -1,6 +1,8 @@
 ## django
 from django.shortcuts import render
 from django.http import JsonResponse
+from django.shortcuts import get_object_or_404, get_list_or_404
+
 
 ## DRF
 from rest_framework.decorators import api_view, renderer_classes
@@ -8,6 +10,7 @@ from rest_framework.renderers import JSONRenderer, TemplateHTMLRenderer
 from rest_framework.response import Response
 
 ## from pjt
+from .serializers import MarketSerializer, MarketListSerializer
 from .models import Market
 
 ## library
@@ -16,6 +19,7 @@ import requests
 from datetime import datetime
 import html
 import re
+
 ## 네이버 쇼핑 api가져오기
 @api_view(['GET'])
 def market_api(request):
@@ -70,3 +74,19 @@ def market_api(request):
 #       ## 한 사이클이 돌면 출력해줄 멘트
 #       print('정상저장')
 #   return JsonResponse(response_data, safe=False)  # Return the JSON data
+
+@api_view(['GET'])
+def market_list(request):
+  markets = get_list_or_404(Market)
+  serializer = MarketListSerializer(markets, many=True)
+  return Response(serializer.data)
+
+
+@api_view(['GET'])
+def market_detail(request, product_pk):
+    market = get_object_or_404(Market, pk=product_pk)
+
+    if request.method == 'GET':
+        serializer = MarketSerializer(market)
+        # print(serializer.data)
+        return Response(serializer.data)

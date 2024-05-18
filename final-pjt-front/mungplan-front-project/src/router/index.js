@@ -4,15 +4,20 @@
 import { createRouter, createWebHistory } from 'vue-router'
 
 import HomeView from '@/views/HomeView.vue'
-// life
+// adopt
 import AdoptView from '@/views/adopt/AdoptView.vue'
 import AdoptDetailView from '@/views/adopt/DetailView.vue'
+
+// map
 import MapView from '@/views/map/MapView.vue'
 
 // community
 import ArticleView from '@/views/community/ArticleView.vue'
 import ArticleDetailView from '@/views/community/DetailView.vue'
 import CreateView from '@/views/community/CreateView.vue'
+
+// market
+import MarketView from '@/views/market/MarketView.vue'
 
 // finance
 import DepositView from '@/views/finance/DepositView.vue'
@@ -75,6 +80,13 @@ const router = createRouter({
       path: '/community/article/create',
       name: 'CreateView',
       component: CreateView
+    },
+
+    // for market
+    {
+      path: '/market',
+      name: 'MarketView',
+      component: MarketView
     },
 
     // for finance
