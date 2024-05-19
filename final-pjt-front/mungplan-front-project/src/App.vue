@@ -14,17 +14,24 @@
               <RouterLink :to="{ name: 'AdoptView' }" class="nav-link">Adopt</RouterLink>
             </li>
             <li class="nav-item">
+              <RouterLink :to="{ name: 'MapView' }" class="nav-link">Map</RouterLink>
+            </li>
+            <li class="nav-item">
               <RouterLink :to="{ name: 'ArticleView' }" class="nav-link">Community</RouterLink>
+            </li>
+            <li class="nav-item">
+              <RouterLink :to="{ name: 'MarketView' }" class="nav-link">Market</RouterLink>
             </li>
             <li class="nav-item">
               <RouterLink :to="{ name: 'DepositView' }" class="nav-link">Finance</RouterLink>
             </li>
           </ul>
         </div>
-        <div class="d-flex nav-item dropdown">
-          <button class="nav-item image-button" href="#" id="userDropDown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
-            <img src="/landing/userIcon.png" id="user-icon" alt="user icon" />
-            Hello, 김승지렁이와두루미!
+        <!-- 여기. 사이즈가 안 맞아.. 이상해.. 반응형도 더 넣어야할 듯 ㅜㅜ -->
+        <div class="d-flex nav-item dropdown d-none d-lg-block">
+          <button class="image-button" href="#" id="userDropDown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+            <img src="/landing/userIcon.png" id="user-icon" class="user" alt="user icon" />
+            김민수김수현진영고진영고
           </button>
           <ul class="dropdown-menu" aria-labelledby="userDropDown">
             <li><a class="dropdown-item" href="#">Login</a></li>
@@ -42,28 +49,44 @@ import { RouterLink, RouterView } from 'vue-router'
 </script>
 
 <style scoped>
+.navbar{
+  padding:0;
+}
+.container-fluid{
+  padding: 0 15%;
+}
 .navbar-brand{
-  margin: 0 10% 0 5%;
+  margin: 0 4% 0 0;
 }
 .logo {
-  height: 60px; /* 로고 이미지의 높이를 조정합니다. */
-  width: auto; /* 너비는 자동으로 설정하여 비율을 유지합니다. */
+  height: 100%; /* 로고 이미지의 높이를 조정합니다. */
+  width: 150px; /* 너비는 자동으로 설정하여 비율을 유지합니다. */
+}
+.nav-item{
+  font-size: 1.3rem;
 }
 #user-icon{
   width: 20%;
-  height: 95%;
+  height: 70%;
   object-fit: contain;
+}
+.navbar-nav > li{
+  padding-left:10px;
+  padding-right:10px;
 }
 .navbar-collapse{
   flex-grow : 0;
 }
-/* 버튼에 잡히는 크기가 좀 큰데 어떻게 줄이는지 모르겠음 .ㅜ ㅜ ㅜ ㅜ 이미지&텍스트와 딱 맞추고 싶어요 */
 .image-button {
+  box-sizing: content-box;
   padding: 0px;
   margin: 0px;
   border: none;
   background-color: transparent;
   outline: none;
+  /* 이렇게 하면 버튼사이즈랑 안에 컨텐츠 내용이랑 딱 맞긴 하는데 글자수 제한을 둬야할 듯 아오 */
+  width: 150px;
+  height: auto;
 }
 .dropdown-menu {
   position:absolute;

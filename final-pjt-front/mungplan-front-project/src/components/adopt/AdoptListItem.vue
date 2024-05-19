@@ -22,10 +22,36 @@ defineProps({
 </script>
 
 <style scoped>
-.dog-image {
-  width: 200px; 
-  height: 200px; 
-  background-size: cover; /* 이미지가 너비와 높이를 모두 채우게 하려면 cover를 사용 */
-  background-position: center; /* 이미지를 중앙에 위치시키려면 center를 사용 */
-}
+.adopt-list-item {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    margin-bottom: 20px;
+  }
+
+  .card {
+    width: 100%;
+  }
+
+  .dog-image {
+    height: 200px;
+    background-size: cover; /* 이미지를 가능한 한 크게 확장하되, 이미지의 일부가 잘릴 수 있게 하려면 cover를 사용 */
+    background-position: center; /* 이미지를 중앙에 위치시키려면 center를 사용 */
+    /* object-fit: cover; */
+  }
+
+  .card-body {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 1rem;
+  }
+
+  .card-text {
+    margin-bottom: 0.5rem;
+  }
+
+  .btn-primary {
+    margin-top: 1rem;
+  }
 </style>
