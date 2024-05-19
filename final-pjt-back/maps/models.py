@@ -17,3 +17,10 @@ class Map(models.Model):
     facility_category3 = models.CharField(max_length = 255, blank = True, null = True)
     facility_link = models.CharField(max_length = 255, blank = True, null = True)
     pass
+
+class Location(models.Model):
+    docity = models.CharField(max_length = 255, blank = True)
+    do = models.CharField(max_length = 255, blank = True)
+    city = models.CharField(max_length = 255, blank = True)
+    longitude = models.CharField(max_length = 255, blank = True)
+    latitude = models.CharField(max_length = 255, blank = True)

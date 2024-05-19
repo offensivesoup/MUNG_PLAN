@@ -8,16 +8,32 @@ export const useMapStore = defineStore('map', () => {
   const API_URL = 'http://127.0.0.1:8000/'
 
   // state
-
+  const places = ref([])
+  let count = ref(0)
   // getters
 
   // actions
 
-  Map.use(naver, {
-    clientID: import.meta.env.VUE_APP_CLIENT_ID,
-    useGovAPI : false,
-    subModules:'',
+  const getPlace = function (word) {
+    count.value += 1
+    axios({
+      method:'GET',
+      url:`${API_URL}maps/${word}`
     })
+    .then(response => {
+      places.value = response.data
+      console.log(places.value)
+    })
+    .catch(error => {
+      console.log(error)
+    })
+  }
 
-  return { API_URL }
+  // Map.use(naver, {
+  //   clientID: import.meta.env.VUE_APP_CLIENT_ID,
+  //   useGovAPI : false,
+  //   subModules:'',
+  //   })
+
+  return { API_URL, getPlace, places, count }
 }, { persist: true })

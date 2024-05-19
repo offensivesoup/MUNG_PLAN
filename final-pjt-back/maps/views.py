@@ -6,10 +6,11 @@ from django.http import JsonResponse
 from rest_framework.decorators import api_view, renderer_classes
 from rest_framework.renderers import JSONRenderer, TemplateHTMLRenderer
 from rest_framework.response import Response
+from rest_framework import status
 
 ## from pjt
 from .models import Map
-
+from .serializer import MapListSerializer
 ## library
 import os
 import requests
@@ -18,8 +19,20 @@ import html
 
 
 # Create your views here.
-def maps_api(request):
-    return
+@api_view(['GET'])
+def maps_api(request, category_name, latitude, longitude):
+    lat = float(latitude)
+    lng = float(longitude)
+    mini_lat = lat - 0.1
+    maxi_lat = lat + 0.1
+    mini_lng = lng - 0.1
+    maxi_lng = lng + 0.1
+    maps = Map.objects.filter(facility_category2__icontains=category_name,
+                                facility_lat__range=(float(mini_lat), float(maxi_lat)),
+                                facility_lng__range=(float(mini_lng), float(maxi_lng)))
+    serializer = MapListSerializer(maps, many=True)
+    return Response(serializer.data, status=status.HTTP_200_OK)
+
     # url = 'https://api.odcloud.kr/api/15111389/v1/uddi:41944402-8249-4e45-9e9d-a52d0a7db1cc'
     # MAP_KEY = os.getenv('MAP_KEY')
     # for i in range(1,25):
