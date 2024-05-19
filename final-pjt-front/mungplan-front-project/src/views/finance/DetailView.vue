@@ -6,10 +6,13 @@
     <h1>DetailView</h1>
     <div v-if="deposit">
       <p>{{ deposit.id }}</p>
-      <p>{{ deposit.title }}</p>
-      <p>{{ deposit.content }}</p>
-      <p>{{ deposit.created_at }}</p>
-      <p>{{ deposit.updated_at }}</p>
+      <p>{{ deposit.product_name }}</p>
+      <p>{{ deposit.company_name }}</p>
+      <p>{{ deposit.special_condition }}</p>
+      <p>{{ deposit.save_term }}</p>
+      <p>{{ deposit.interate_type }}</p>
+      <p>{{ deposit.interate_rate }}</p>
+      <p>{{ deposit.maxi_interate_rate }}</p>
     </div>
   </div>
 </template>
@@ -27,7 +30,7 @@ const deposit = ref(null)
 onMounted(() => {
   axios({
     method: 'get',
-    // url: `${store.API_URL}`
+    url: `${store.API_URL}finance/deposit/${route.params.id}`
   })
     .then((response) => {
       deposit.value = response.data

@@ -12,7 +12,7 @@
   </div>
   <div class="adopt adopt-count-info">
     <img src="/adopt/brownDog1.png" alt="brown dog icon" style="width: 40px; height: 40px;">
-    <h5 style="margin: 0; font-size: 18px;">{{ store.shelterDogs.length }}명의 아이들이 가족을 기다리고 있어요.</h5>
+    <h5 style="margin: 0; font-size: 18px;">{{ store.shelterDogs.length }}마리의 아이들이 가족을 기다리고 있어요.</h5>
   </div>
   <AdoptList />
 </template>

@@ -1,11 +1,11 @@
 <template>
   <div class="market-list-item">
     <div class="card" style="width: 18rem;">
-      <img class="product-image card-img-top" :src="product.img" alt="product">
+      <img class="product-image card-img-top" :src="product.item_img" alt="product">
       <div class="card-body">
         <p class="card-text" v-html="product.item_name"></p> <!-- v-html 디렉티브를 사용하여 HTML 문자열을 렌더링 -->
         <p class="card-text">{{ product.item_low_price }}원</p>
-        <a :href="generatedUrl" class="btn btn-primary"> 상세보기</a> <!-- simplifiedUrl 사용 -->
+        <a :href="generatedUrl" class="btn btn-primary" target="_blank"> 상세보기</a> <!-- target="_blank" 속성을 사용하여 새 창에서 링크 열기 -->   
       </div>
     </div>
   </div>
@@ -14,7 +14,7 @@
 <script setup>
 import { ref, computed, defineProps } from 'vue'
 
-// url 생성
+// 상품 상제 url 올바르게 생성
 const props = defineProps({
   product: {
     type: Object,

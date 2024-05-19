@@ -2,6 +2,7 @@ import piniaPluginPersistedstate from 'pinia-plugin-persistedstate'
 import { createApp } from 'vue'
 import { createNaverMap } from "vue3-naver-maps";
 import { createPinia } from 'pinia'
+import './styles/global.css'
 import App from './App.vue'
 import router from './router'
 

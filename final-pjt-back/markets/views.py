@@ -10,7 +10,7 @@ from rest_framework.renderers import JSONRenderer, TemplateHTMLRenderer
 from rest_framework.response import Response
 
 ## from pjt
-from .serializers import MarketSerializer, MarketListSerializer
+from .serializers import MarketListSerializer
 from .models import Market
 
 ## library
@@ -82,11 +82,11 @@ def market_list(request):
   return Response(serializer.data)
 
 
-@api_view(['GET'])
-def market_detail(request, product_pk):
-    market = get_object_or_404(Market, pk=product_pk)
+# @api_view(['GET'])
+# def market_detail(request, product_pk):
+#     market = get_object_or_404(Market, pk=product_pk)
 
-    if request.method == 'GET':
-        serializer = MarketSerializer(market)
-        # print(serializer.data)
-        return Response(serializer.data)
+#     if request.method == 'GET':
+#         serializer = MarketSerializer(market)
+#         # print(serializer.data)
+#         return Response(serializer.data)

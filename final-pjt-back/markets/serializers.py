@@ -5,11 +5,10 @@ from .models import Market
 class MarketListSerializer(serializers.ModelSerializer):
     class Meta:
         model = Market
-        # fields = ('id', 'state', 'img', 'kind', 'gender', 'notice', 'center_address')
-        fields = '__all__'
+        fields = ('id', 'item_img', 'item_name')
 
 
-class MarketSerializer(serializers.ModelSerializer):
-    class Meta:
-        model = Market
-        fields = '__all__'
+# class MarketSerializer(serializers.ModelSerializer):
+#     class Meta:
+#         model = Market
+#         fields = '__all__'

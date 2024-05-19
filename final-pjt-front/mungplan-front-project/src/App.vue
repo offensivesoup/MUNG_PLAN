@@ -1,47 +1,49 @@
 <template>
-  <header>
-    <nav class="navbar navbar-expand-lg navbar-light bg-light">
-      <div class="container-fluid">
-        <RouterLink :to="{ name: 'HomeView' }" class="navbar-brand">
-          <img src="/landing/logo.png" alt="logo" class="logo" />
-        </RouterLink>
-        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
-          <span class="navbar-toggler-icon"></span>
-        </button>
-        <div class="collapse navbar-collapse" id="navbarSupportedContent">
-          <ul class="navbar-nav me-auto mb-2 mb-lg-0">
-            <li class="nav-item">
-              <RouterLink :to="{ name: 'AdoptView' }" class="nav-link">Adopt</RouterLink>
-            </li>
-            <li class="nav-item">
-              <RouterLink :to="{ name: 'MapView' }" class="nav-link">Map</RouterLink>
-            </li>
-            <li class="nav-item">
-              <RouterLink :to="{ name: 'ArticleView' }" class="nav-link">Community</RouterLink>
-            </li>
-            <li class="nav-item">
-              <RouterLink :to="{ name: 'MarketView' }" class="nav-link">Market</RouterLink>
-            </li>
-            <li class="nav-item">
-              <RouterLink :to="{ name: 'DepositView' }" class="nav-link">Finance</RouterLink>
-            </li>
-          </ul>
-        </div>
-        <!-- 여기. 사이즈가 안 맞아.. 이상해.. 반응형도 더 넣어야할 듯 ㅜㅜ -->
-        <div class="d-flex nav-item dropdown d-none d-lg-block">
-          <button class="image-button" href="#" id="userDropDown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
-            <img src="/landing/userIcon.png" id="user-icon" class="user" alt="user icon" />
-            김민수김수현진영고진영고
+  <div class="container">
+    <header>
+      <nav class="navbar navbar-expand-lg navbar-light bg-light">
+        <div class="container-fluid">
+          <RouterLink :to="{ name: 'HomeView' }" class="navbar-brand">
+            <img src="/landing/logo.png" alt="logo" class="logo" />
+          </RouterLink>
+          <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
           </button>
-          <ul class="dropdown-menu" aria-labelledby="userDropDown">
-            <li><a class="dropdown-item" href="#">Login</a></li>
-            <li><a class="dropdown-item" href="#">Signup</a></li>
-          </ul>
+          <div class="collapse navbar-collapse" id="navbarSupportedContent">
+            <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+              <li class="nav-item">
+                <RouterLink :to="{ name: 'AdoptView' }" class="nav-link">Adopt</RouterLink>
+              </li>
+              <li class="nav-item">
+                <RouterLink :to="{ name: 'MapView' }" class="nav-link">Map</RouterLink>
+              </li>
+              <li class="nav-item">
+                <RouterLink :to="{ name: 'ArticleView' }" class="nav-link">Community</RouterLink>
+              </li>
+              <li class="nav-item">
+                <RouterLink :to="{ name: 'MarketView' }" class="nav-link">Market</RouterLink>
+              </li>
+              <li class="nav-item">
+                <RouterLink :to="{ name: 'DepositView' }" class="nav-link">Finance</RouterLink>
+              </li>
+            </ul>
+          </div>
+          <!-- 여기. 사이즈가 안 맞아.. 이상해.. 반응형도 더 넣어야할 듯 ㅜㅜ -->
+          <div class="d-flex nav-item dropdown d-none d-lg-block">
+            <button class="image-button" href="#" id="userDropDown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+              <img src="/landing/userIcon.png" id="user-icon" class="user" alt="user icon" />
+              김동환과 이승지!
+            </button>
+            <ul class="dropdown-menu" aria-labelledby="userDropDown">
+              <li><RouterLink :to="{ name: 'LogInView' }" class="dropdown-item">Login</RouterLink></li>
+              <li><RouterLink :to="{ name: 'SignUpView' }" class="dropdown-item">Signup</RouterLink></li>
+            </ul>
+          </div>
         </div>
-      </div>
-    </nav>
-  </header>
-  <RouterView />
+      </nav>
+    </header>
+    <RouterView />
+  </div>
 </template>
 
 <script setup>
@@ -52,12 +54,12 @@ import { RouterLink, RouterView } from 'vue-router'
 .navbar{
   padding:0;
 }
-.container-fluid{
+/* .container-fluid{
   padding: 0 15%;
-}
-.navbar-brand{
+} */
+/* .navbar-brand{
   margin: 0 4% 0 0;
-}
+} */
 .logo {
   height: 100%; /* 로고 이미지의 높이를 조정합니다. */
   width: 150px; /* 너비는 자동으로 설정하여 비율을 유지합니다. */

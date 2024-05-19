@@ -3,6 +3,7 @@ from django.shortcuts import render, get_object_or_404, get_list_or_404
 from django.http import JsonResponse
 from django.contrib.auth import get_user_model
 from django.forms.models import model_to_dict
+from django.conf import settings
 ## DRF
 from rest_framework.decorators import api_view, renderer_classes
 from rest_framework.renderers import JSONRenderer, TemplateHTMLRenderer
@@ -57,7 +58,7 @@ from sklearn.metrics.pairwise import cosine_similarity
 def deposit_list(request):
     deposits = get_list_or_404(Deposit)
     serializer = DepositListSerializer(deposits, many = True)
-    return Response(serializer.data, status = status.HTTP_200_OK)
+    return Response({'static_url': settings.STATIC_URL, 'deposits': serializer.data}, status=status.HTTP_200_OK)
 
 @api_view(['GET'])
 def deposit_detail(request, deposit_pk):
