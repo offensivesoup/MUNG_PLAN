@@ -60,8 +60,10 @@
 </template>
 
 <script setup>
+import { useAccountStore } from './stores/account';
+import { ref, computed } from 'vue'
+import { onMounted } from 'vue';
 import { RouterLink, RouterView } from 'vue-router'
-<<<<<<< HEAD
 import { onMounted, onBeforeUnmount, ref } from 'vue'
 
 // navbar 스크롤 이벤트 - 지금은 border-bottom 추가
@@ -84,34 +86,27 @@ const handleScroll = () => {
     }
   }
 }
-</script>
-
-<style scoped>
-.navbar{
-  padding: 0 15px;
-  max-width: 1700px; 
-  margin: 0 auto; 
-}
-.navbar.border-bottom {
-  border-bottom: 1px solid #ccc;
-=======
-import { useAccountStore } from './stores/account';
-import { ref, computed } from 'vue'
-import { onMounted } from 'vue';
 
 const store = useAccountStore()
-
 const userNickname = computed(() => {
   return store.state.isAuthenticated ? store.state.username : '로그인이 필요합니다'
-})
 
-
+}) 
 </script>
 
 <style scoped>
 .navbar {
+  padding: 0 15px;
+  max-width: 1700px;
+  margin: 0 auto;
+}
+
+.navbar.border-bottom {
+  border-bottom: 1px solid #ccc;
+}
+
+.navbar {
   padding: 0;
->>>>>>> 69d27c6edb597680fbb9d82c6bf167d3cd21efdc
 }
 
 /* .container-fluid{
@@ -120,27 +115,29 @@ const userNickname = computed(() => {
 /* .navbar-brand{
   margin: 0 4% 0 0;
 } */
-.bg-light{
+.bg-light {
   background-color: #FFF4E0 !important;
 }
+
 .logo {
   height: 100%;
   /* 로고 이미지의 높이를 조정합니다. */
   width: 150px;
   /* 너비는 자동으로 설정하여 비율을 유지합니다. */
 }
-<<<<<<< HEAD
-.nav-item{
+
+.nav-item {
   font-size: 1.1rem;
   padding-top: 25px;
 }
-.nav-item a:hover {
-  text-shadow: 0 0 1px black; /* 커서가 위에 있을 때 가상의 굵은 텍스트 생성 */
-=======
 
+.nav-item a:hover {
+  text-shadow: 0 0 1px black;
+}
+
+/* 커서가 위에 있을 때 가상의 굵은 텍스트 생성 */
 .nav-item {
   font-size: 1.3rem;
->>>>>>> 69d27c6edb597680fbb9d82c6bf167d3cd21efdc
 }
 
 #user-icon {
@@ -148,16 +145,10 @@ const userNickname = computed(() => {
   height: 70%;
   object-fit: contain;
 }
-<<<<<<< HEAD
-.navbar-nav > li{
-  padding-left:30px;
-  padding-right:30px;
-=======
 
 .navbar-nav>li {
-  padding-left: 10px;
-  padding-right: 10px;
->>>>>>> 69d27c6edb597680fbb9d82c6bf167d3cd21efdc
+  padding-left: 30px;
+  padding-right: 30px;
 }
 
 .navbar-collapse {
