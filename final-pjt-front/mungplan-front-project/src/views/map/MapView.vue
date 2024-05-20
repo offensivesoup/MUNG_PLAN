@@ -7,27 +7,28 @@
   </header>
 
   <main class="main">
-    <naver-map ref="map" class="map" :map-options="mapOptions" @onLoad="onLoadMap($event)"  @idle="onIdle"></naver-map>
-    <naver-marker v-for="place in placeList" 
-    :key=place.id 
-    :latitude="Number(place.facility_lat)" 
-    :longitude="Number(place.facility_lng)"
-    @onLoad="onLoadMarker($event)" 
-    @click="selectMarker(place)">
-    <div class="marker-place">
-      <img class="marker" src="@/assets/dog_foot.png" alt="">
-    </div>
-  </naver-marker>
+    <naver-map ref="map" class="map" :map-options="mapOptions" @onLoad="onLoadMap($event)" @idle="onIdle"></naver-map>
+    <naver-marker v-for="place in placeList" :key=place.id :latitude="Number(place.facility_lat)"
+      :longitude="Number(place.facility_lng)" @onLoad="onLoadMarker($event)" @click="selectMarker(place)">
+      <div class="marker-place">
+        <img class="marker" src="@/assets/dog_foot.png" alt="">
+      </div>
+    </naver-marker>
     <naver-info-window :open="isOpen" :marker="targetMarker" @onLoad="onLoadInfoWindow($event)">
       <div v-if="targetPlace" id="info-place">
-        장소 : {{ targetPlace.facility_name }} <hr>
-        위치 : {{ targetPlace.facility_new_address }} <hr>
-        주차 : {{ targetPlace.facility_parking }} <hr>
-        <p v-if="targetPlace.facility_link !=='정보없음'">
-        링크 : <a :href=targetPlace.facility_link>바로가기</a> <hr>
+        장소 : {{ targetPlace.facility_name }}
+        <hr>
+        위치 : {{ targetPlace.facility_new_address }}
+        <hr>
+        주차 : {{ targetPlace.facility_parking }}
+        <hr>
+        <p v-if="targetPlace.facility_link !== '정보없음'">
+          링크 : <a :href=targetPlace.facility_link>바로가기</a>
+          <hr>
         </p>
         <p v-else>
-        링크 : 정보 없음 <hr>  
+          링크 : 정보 없음
+          <hr>
         </p>
       </div>
     </naver-info-window>
@@ -39,7 +40,7 @@
 <script setup>
 import axios from 'axios';
 import { ref, onMounted } from 'vue'
-import { NaverMap, NaverMarker , NaverInfoWindow } from 'vue3-naver-maps'
+import { NaverMap, NaverMarker, NaverInfoWindow } from 'vue3-naver-maps'
 import { useMapStore } from '@/stores/map'
 
 const store = useMapStore()
@@ -131,22 +132,22 @@ const onLoadMarker = (markerObject) => {
 const getPlace = (word) => {
   placeList.value = []
   axios({
-    method : 'GET',
-    url : `${store.API_URL}/maps/${word}/${markerLatitude.value}/${markerLongitude.value}`
+    method: 'GET',
+    url: `${store.API_URL}maps/${word}/${markerLatitude.value}/${markerLongitude.value}`
   })
     .then((response) => {
       if (response.data.length === 0) {
         console.log('결과가 없음')
         updateMap();
       } else {
-      console.log(response.data)
-      placeList.value = response.data.filter(place => place.facility_lat && place.facility_lng)
-      updateMap();
+        console.log(response.data)
+        placeList.value = response.data.filter(place => place.facility_lat && place.facility_lng)
+        updateMap();
       }
     })
     .catch((error) => {
-       console.log(error)
-     })
+      console.log(error)
+    })
 }
 
 const onLoadInfoWindow = (infoWindowObject) => {
@@ -159,8 +160,8 @@ const selectMarker = (place) => {
   targetPlace.value = []
   map.value = mapData.value
   isOpen.value = !isOpen.value
-  const coord = { lat: Number(place.facility_lat), lng: Number(place.facility_lng)}
-  map.value.morph(coord,15)
+  const coord = { lat: Number(place.facility_lat), lng: Number(place.facility_lng) }
+  map.value.morph(coord, 15)
   markers.value.forEach((marker) => {
     if (marker.position.y === coord.lat && marker.position.x === coord.lng) {
       targetMarker.value = marker
@@ -175,58 +176,61 @@ const selectMarker = (place) => {
 
 
 <style scoped>
-  .main {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-    width: 100%;
-    height: 100vh; /* Ensure the main container takes full viewport height */
-  }
+.main {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+  height: 100vh;
+  /* Ensure the main container takes full viewport height */
+}
 
-  .map {
-    width: 100%;
-    height: 100%; /* Ensure the map takes full height of its container */
-  }
+.map {
+  width: 100%;
+  height: 100%;
+  /* Ensure the map takes full height of its container */
+}
 
-  .header {
-    position: fixed;
-    top: 100px;
-    left: 17%;
-    transform: translateX(-50%);
-    display: flex;
-    gap: 10px; /* Ensure there is a 10px gap between buttons */
-    z-index: 1000; /* Ensure the header is above the map */
-  }
+.header {
+  position: fixed;
+  top: 100px;
+  left: 17%;
+  transform: translateX(-50%);
+  display: flex;
+  gap: 10px;
+  /* Ensure there is a 10px gap between buttons */
+  z-index: 1000;
+  /* Ensure the header is above the map */
+}
 
-  #select-btn {
-    background-color: white;
-    color: black;
-    border-color: whitesmoke;
-    border-radius: 35%;
-    padding:5px 10px;
-  }
+#select-btn {
+  background-color: white;
+  color: black;
+  border-color: whitesmoke;
+  border-radius: 35%;
+  padding: 5px 10px;
+}
 
-  #info-place {
-    position : absolute;
-    bottom:0px;
-    right:-50px;
-    text-align: center;
-    background-color: white;
-    padding: 10px;
-    width : 100px;
-    height : 250px;
-    font-size : 10px;
-    border: black solid 2px;
-    border-radius: 30px;
-  }
+#info-place {
+  position: absolute;
+  bottom: 0px;
+  right: -50px;
+  text-align: center;
+  background-color: white;
+  padding: 10px;
+  width: 100px;
+  height: 250px;
+  font-size: 10px;
+  border: black solid 2px;
+  border-radius: 30px;
+}
 
-  .marker {
-    position:absolute;
-    top:22px;
-    right:-10px;
-    width:20px;
-    border-radius: 50px;
-  }
-
+.marker {
+  position: absolute;
+  top: 22px;
+  right: -10px;
+  width: 20px;
+  border-radius: 50px;
+}
 </style>

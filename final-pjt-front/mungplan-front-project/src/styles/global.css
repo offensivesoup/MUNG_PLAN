@@ -2,7 +2,7 @@
 
 .container {
   padding: 0 15px; /* 상하 0, 좌우 15px 패딩 적용 */
-  max-width: 1200px; /* 컨테이너 최대 너비 설정 */
+  max-width: 1700px; /* 컨테이너 최대 너비 설정 */
   margin: 0 auto; /* 좌우 중앙 정렬 */
 }
 

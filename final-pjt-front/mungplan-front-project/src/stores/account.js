@@ -25,7 +25,7 @@ export const useAccountStore = defineStore('account', () => {
     // 2. axios로 django에 요청을 보냄
     axios({
       method: 'post',
-      url: `${API_URL}/accounts/signup/`,
+      url: `${API_URL}auth/registration/`,
       data: {
         // username: username,
         // password1: password1,
@@ -33,14 +33,14 @@ export const useAccountStore = defineStore('account', () => {
         username, password1, password2
       }
     })
-     .then((response) => {
-       console.log('회원가입 성공!')
-       const password = password1
-       logIn({ username, password })
-     })
-     .catch((error) => {
-       console.log(error)
-     })
+      .then((response) => {
+        console.log('회원가입 성공!')
+        const password = password1
+        logIn({ username, password })
+      })
+      .catch((error) => {
+        console.log(error)
+      })
   }
 
   const logIn = function (payload) {
@@ -49,7 +49,7 @@ export const useAccountStore = defineStore('account', () => {
     // 2. axios로 django에 요청을 보냄
     axios({
       method: 'post',
-      url: `${API_URL}/accounts/login/`,
+      url: `${API_URL}auth/login/`,
       data: {
         username, password
       }
