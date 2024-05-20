@@ -14,7 +14,7 @@ import MapView from '@/views/map/MapView.vue'
 // community
 import ArticleView from '@/views/community/ArticleView.vue'
 import ArticleDetailView from '@/views/community/DetailView.vue'
-import CreateView from '@/views/community/CreateView.vue'
+import ArticleCreateView from '@/views/community/CreateView.vue'
 
 // market
 import MarketView from '@/views/market/MarketView.vue'
@@ -83,8 +83,8 @@ const router = createRouter({
     },
     {
       path: '/community/article/create',
-      name: 'CreateView',
-      component: CreateView
+      name: 'ArticleCreateView',
+      component: ArticleCreateView
     },
 
     // for market
@@ -141,8 +141,8 @@ import { useAccountStore } from '@/stores/account'
 
 router.beforeEach((to, from) => {
   const store = useAccountStore()
-  // 인증되지 않은 사용자는 메인 페이지에 접근 할 수 없음
-  if (to.name === 'ArticleView' && store.state.isAuthenticated === false) {
+  // 인증되지 않은 사용자는 create에 접근 할 수 없음
+  if (to.name === 'ArticleCreateView' && store.state.isAuthenticated === false) {
     window.alert('로그인이 필요해요!!')
     return { name: 'LogInView' }
   }

@@ -2,6 +2,7 @@
 from django.shortcuts import get_object_or_404, get_list_or_404
 
 ## REST_API
+from rest_framework.views import APIView
 from rest_framework.response import Response
 from rest_framework.decorators import api_view
 from rest_framework import status
@@ -14,24 +15,24 @@ from .serializers import ArticleListSerializer, ArticleSerializer, CommentSerial
 from .models import Article, Comment
 
 ## article
-
-@api_view(['GET', 'POST'])
-@permission_classes([IsAuthenticated])
+@api_view(['GET'])
 def article_list(request):
-    if request.method == 'GET':
-        articles = get_list_or_404(Article)
-        serializer = ArticleListSerializer(articles, many=True)
-        return Response(serializer.data)
+  articles = get_list_or_404(Article)
+  serializer = ArticleListSerializer(articles, many=True)
+  return Response(serializer.data)
 
-    elif request.method == 'POST':
-        serializer = ArticleSerializer(data=request.data)
-        if serializer.is_valid(raise_exception=True):
-            serializer.save(user=request.user)
-            return Response(serializer.data, status=status.HTTP_201_CREATED)
+# create할 때만 로그인이 필요하도록 나눔
+@api_view(['POST'])
+@permission_classes([IsAuthenticated])
+def article_create(request):
+  serializer = ArticleSerializer(data=request.data)
+  if serializer.is_valid(raise_exception=True):
+      serializer.save(user=request.user)
+      return Response(serializer.data, status=status.HTTP_201_CREATED)
 
 ## 커뮤니티 글 분류
 @api_view(['GET'])
-@permission_classes([IsAuthenticated])
+# @permission_classes([IsAuthenticated])
 def article_filtering(request, category_name):
   articles = Article.objects.filter(category = category_name)
   serializer = ArticleListSerializer(articles, many = True)
@@ -39,7 +40,7 @@ def article_filtering(request, category_name):
   return Response(serializer.data)
 
 @api_view(['GET', 'DELETE', 'PUT'])
-@permission_classes([IsAuthenticated])
+# @permission_classes([IsAuthenticated])
 def article_detail(request, article_pk):
     article = get_object_or_404(Article, pk=article_pk)
     if request.method == 'GET':

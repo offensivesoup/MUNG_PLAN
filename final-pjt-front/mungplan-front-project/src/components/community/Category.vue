@@ -28,8 +28,8 @@
 
 <script setup>
 import { RouterLink } from 'vue-router'
-import { useArticleStore } from '@/stores/article';
-const store = useArticleStore()
+import { useCommunityStore } from '@/stores/community'
+const store = useCommunityStore()
 </script>
 
 <style scoped></style>

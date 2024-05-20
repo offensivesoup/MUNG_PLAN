@@ -26,6 +26,7 @@
 import { ref } from 'vue'
 import axios from 'axios'
 import { useDepositStore } from '@/stores/deposit'
+import { useAccountStore } from '@/stores/account'
 
 // Vue 3의 컴파일러가 defineProps를 통해 정의된 prop을 자동으로 스코프에 포함시키지만, 이 스코프가 함수 내부로 확장되지 않는 거 같아서 함수 따로 만듦
 const props = defineProps({
@@ -33,6 +34,7 @@ const props = defineProps({
 })
 
 const store = useDepositStore()
+const token = useAccountStore().token 
 const liked = ref(false)
 
 // 로그인 하고 테스트 해보기
@@ -43,7 +45,15 @@ const toggleLike = async () => {
   }
 
   try {
-    await axios.post(`${store.API_URL}finance/deposit/${props.deposit.id}/likes/`)
+    await axios.post(
+        `${store.API_URL}finance/deposit/${props.deposit.id}/likes/`,
+        {},
+        {
+          headers: {
+            Authorization: `Token ${token}`
+          }
+        }
+      )
     liked.value = !liked.value
   } catch (error) {
     console.error(error)
