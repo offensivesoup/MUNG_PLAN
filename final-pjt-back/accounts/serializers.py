@@ -104,7 +104,9 @@ class DogSerializer(serializers.ModelSerializer):
         read_only_fields = ('user',)
 
 class UserDetailSerializer(serializers.ModelSerializer):
+    dogs = DogSerializer(many=True, read_only=True, source='dog_set')
+
     class Meta:
-      model = get_user_model()
-      fields = '__all__'
+        model = get_user_model()
+        fields = '__all__'
     

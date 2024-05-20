@@ -32,12 +32,13 @@
             </ul>
           </div>
 
-          <!-- 여기. 사이즈가 안 맞아.. 이상해.. 반응형도 더 넣어야할 듯 ㅜㅜ -->
           <div class="d-flex nav-item dropdown d-none d-lg-block">
             <button class="image-button" href="#" id="userDropDown" role="button" data-bs-toggle="dropdown"
               aria-expanded="false">
-              <img src="/landing/userIcon.png" id="user-icon" class="user" alt="user icon" />
-              {{ username }}
+              <img v-if="store.state && store.state.profileImg && store.state.profileImg !== ''" v-bind:src="`${store.API_URL.slice(0,-1)}${store.state.profileImg}`" id="user-icon" class="user" alt="user icon" />
+              <img v-else src="/landing/userIcon.png" id="user-icon" class="user" alt="user icon" />
+              <span v-if="store.state && store.state.nickname">{{ store.state.nickname }}</span>
+              <span v-else>로그인이 필요합니다</span>
             </button>
             <ul class="dropdown-menu" aria-labelledby="userDropDown">
               <li v-if="store.state.isAuthenticated">

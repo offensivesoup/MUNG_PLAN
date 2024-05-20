@@ -68,4 +68,5 @@ class Dog(models.Model):
     gender = models.CharField(max_length = 1, choices = GENDERS)
     birth_date = models.DateField()
     Type = models.CharField(max_length = 10, choices = TYPES)
+    dog_img = models.ImageField(upload_to='dog_images/', blank=True, null=True)
     

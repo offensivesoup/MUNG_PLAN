@@ -63,4 +63,11 @@ def user_detail(request, username):
     user = get_user_model().objects.get(username = username)
     serializer = UserDetailSerializer(user)
     return Response(serializer.data, status=status.HTTP_200_OK)
+
+@api_view(['GET'])
+@permission_classes([IsAuthenticated])
+def get_user_info(request):
+    user = request.user
+    serializer = UserDetailSerializer(user)
+    return Response(serializer.data, status=status.HTTP_200_OK)
     
