@@ -63,6 +63,24 @@
       <RouterView />
     </main>
   </div>
+  <footer>
+    <div class="inner">
+      <div class="footer-message">모두의 아름다운 선택을 위해서</div>
+      <div class="footer-message">SSAFY 11기 관통 프로젝트</div>
+      <div class="footer-contact">
+        김동환 : 깃허브 주소
+        이승지 : 깃허브 주소
+      </div>
+      <div class="footer-copyright">Copyright 2020 All ⓒ rights reserved</div>
+      <div class="footer-links">
+        <RouterLink :to="{ name: 'AdoptView' }" class="footer-link">Adopt</RouterLink>
+        <RouterLink :to="{ name: 'MapView' }" class="footer-link">Map</RouterLink>
+        <RouterLink :to="{ name: 'ArticleView' }" class="footer-link">Community</RouterLink>
+        <RouterLink :to="{ name: 'MarketView' }" class="footer-link">Market</RouterLink>
+        <RouterLink :to="{ name: 'DepositView' }" class="footer-link">Finance</RouterLink>
+      </div>
+    </div>
+  </footer>
 </template>
 
 <script setup>
@@ -105,7 +123,7 @@ const handleScroll = () => {
 <style scoped>
 .navbar {
   padding: 0 15px;
-  max-width: 1700px;
+  max-width: 1800px;
   margin: 0 auto;
 }
 
@@ -162,6 +180,46 @@ const handleScroll = () => {
 .dropdown-menu {
   position: absolute;
   background-color: white;
-  right: 100px;
+  left: 20px;
+}
+
+/* footer 관련 */
+
+footer{
+    position: relative;
+    text-align: center;
+    border-top : #bababa 1px solid;
+    transform : translateY(-100%);
+    background-color:#FFF4E0;
+    padding:1rem 0;
+}
+
+.footer-message{
+    font-weight: bold;
+    font-size:0.9rem;
+    color:#545e6f;
+    margin-bottom:0.3rem;
+    margin:0 0 0 0.6rem;
+}
+.footer-contact{
+    font-size:0.9rem;
+    color:#545e6f;
+    margin:0.6rem;
+}
+.footer-copyright{
+    font-size:0.9rem;
+    color:#545e6f;
+    margin:0.6rem;
+}
+.footer-links {
+  display: flex;
+  justify-content: center;
+  gap: 10px; /* 링크들 사이의 간격을 설정 */
+}
+
+.footer-link {
+  text-decoration: none;
+  color: #000; /* 기본 링크 색상 */
+  padding: 5px 10px; /* 링크에 여백을 추가 */
 }
 </style>
