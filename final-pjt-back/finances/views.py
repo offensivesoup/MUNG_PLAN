@@ -67,6 +67,7 @@ def deposit_detail(request, deposit_pk):
     return Response(serializer.data, status = status.HTTP_200_OK)
 
 @api_view(['POST'])
+@permission_classes([IsAuthenticated])
 def deposit_likes(request, deposit_pk):
     deposit = get_object_or_404(Deposit, pk=deposit_pk)
     if request.user in deposit.like_users.all():

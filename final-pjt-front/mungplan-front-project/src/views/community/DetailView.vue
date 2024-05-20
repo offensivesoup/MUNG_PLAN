@@ -14,10 +14,10 @@
 <script setup>
 import axios from 'axios'
 import { onMounted, ref } from 'vue'
-import { useArticleStore } from '@/stores/article'
+import { useCommunityStore } from '@/stores/community'
 import { useRoute } from 'vue-router'
 
-const store = useArticleStore()
+const store = useCommunityStore()
 const route = useRoute()
 const article = ref(null)
 
@@ -30,7 +30,7 @@ onMounted(() => {
       article.value = response.data
     })
     .catch((error) => {
-      console.log(error)
+      console.log(error, error.data)
     })
 })
 

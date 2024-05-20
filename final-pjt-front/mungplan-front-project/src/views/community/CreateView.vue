@@ -10,6 +10,15 @@
         <label for="content">내용 : </label>
         <textarea v-model.trim="content" id="content"></textarea>
       </div>
+      <div>
+        <label for="category">카테고리 : </label>
+        <select v-model="category" id="category">
+          <option disabled value="">카테고리를 선택하세요</option>
+          <option>고민나누기</option>
+          <option>중고장터</option>
+          <option>동네사람들</option>
+        </select>
+      </div>
       <input type="submit">
     </form>
   </div>
@@ -18,21 +27,28 @@
 <script setup>
 import axios from 'axios'
 import { ref } from 'vue'
-import { useArticleStore } from '@/stores/article'
+import { useCommunityStore } from '@/stores/community'
+import { useAccountStore } from '@/stores/account'
 import { useRouter } from 'vue-router'
 
-const store = useArticleStore()
+const store = useCommunityStore()
+const token = useAccountStore().token
 const title = ref(null)
 const content = ref(null)
+const category = ref(null)
 const router = useRouter()
 
 const createArticle = function () {
   axios({
     method: 'post',
-    // url: `${store.API_URL}`,
+    url: `${store.API_URL}community/articles/create/`,
+    headers: {
+      'Authorization': `Token ${token}`
+    },
     data: {
       title: title.value,
-      content: content.value
+      content: content.value,
+      category: category.value
     }
   })
     .then((response) => {

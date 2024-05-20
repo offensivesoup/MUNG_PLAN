@@ -8,10 +8,10 @@
 
 <script setup>
 import { onMounted } from 'vue';
-import { useArticleStore } from '@/stores/article'
+import { useCommunityStore } from '@/stores/community'
 import ArticleListItem from '@/components/community/ArticleListItem.vue'
 import Cateogry from '@/components/community/Category.vue'
-const store = useArticleStore()
+const store = useCommunityStore()
 
 onMounted(() => {
   store.getArticles()
