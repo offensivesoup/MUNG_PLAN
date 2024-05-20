@@ -1,11 +1,6 @@
 <template>
   <div class="adopt adopt-list card-group row">
-    <AdoptListItem
-      v-for="dog in displayedPosts"
-      :key="dog.id"
-      :dog="dog"
-      class="col-lg-4 col-md-6"
-    />
+    <AdoptListItem v-for="dog in displayedPosts" :key="dog.id" :dog="dog" class="col-lg-4 col-md-6" />
   </div>
   <div class="adopt adopt-page">
     <button @click="prevPage">이전 페이지</button>

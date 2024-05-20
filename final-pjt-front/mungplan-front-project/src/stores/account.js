@@ -66,6 +66,7 @@ export const useAccountStore = defineStore('account', () => {
         token.value = response.data.key;
         state.isAuthenticated = true;
         state.username = username;
+        console.log(state)
         router.push({ name: 'HomeView' })
       })
       // 사용자 정보를 가져오는 비동기 함수 호출

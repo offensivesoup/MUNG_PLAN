@@ -6,10 +6,12 @@
           <RouterLink :to="{ name: 'HomeView' }" class="navbar-brand">
             <img src="/landing/logo.png" alt="logo" class="logo" />
           </RouterLink>
+
           <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent"
             aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
             <span class="navbar-toggler-icon"></span>
           </button>
+
           <div class="collapse navbar-collapse" id="navbarSupportedContent">
             <ul class="navbar-nav en me-auto mb-2 mb-lg-0">
               <li class="nav-item">
@@ -29,12 +31,13 @@
               </li>
             </ul>
           </div>
+
           <!-- 여기. 사이즈가 안 맞아.. 이상해.. 반응형도 더 넣어야할 듯 ㅜㅜ -->
           <div class="d-flex nav-item dropdown d-none d-lg-block">
             <button class="image-button" href="#" id="userDropDown" role="button" data-bs-toggle="dropdown"
               aria-expanded="false">
               <img src="/landing/userIcon.png" id="user-icon" class="user" alt="user icon" />
-              {{ userNickname }}
+              {{ username }}
             </button>
             <ul class="dropdown-menu" aria-labelledby="userDropDown">
               <li v-if="store.state.isAuthenticated">
@@ -52,21 +55,29 @@
               </li>
             </ul>
           </div>
+
         </div>
       </nav>
     </header>
+
     <RouterView />
   </div>
 </template>
 
 <script setup>
+
 import { useAccountStore } from './stores/account';
 import { ref, computed } from 'vue'
-import { onMounted } from 'vue';
 import { RouterLink, RouterView } from 'vue-router'
-import { onMounted, onBeforeUnmount, ref } from 'vue'
+import { onMounted, onBeforeUnmount } from 'vue'
 
-// navbar 스크롤 이벤트 - 지금은 border-bottom 추가
+const store = useAccountStore()
+
+const username = computed(() => {
+  return store.state.isAuthenticated ? store.state.username : '로그인이 필요합니다'
+})
+
+// navbar 스크롤 이벤트 - 지금은 border-bottom 추가\
 const navbar = ref(null)
 
 onMounted(() => {
@@ -87,11 +98,6 @@ const handleScroll = () => {
   }
 }
 
-const store = useAccountStore()
-const userNickname = computed(() => {
-  return store.state.isAuthenticated ? store.state.username : '로그인이 필요합니다'
-
-}) 
 </script>
 
 <style scoped>
@@ -105,25 +111,13 @@ const userNickname = computed(() => {
   border-bottom: 1px solid #ccc;
 }
 
-.navbar {
-  padding: 0;
-}
-
-/* .container-fluid{
-  padding: 0 15%;
-} */
-/* .navbar-brand{
-  margin: 0 4% 0 0;
-} */
 .bg-light {
   background-color: #FFF4E0 !important;
 }
 
 .logo {
   height: 100%;
-  /* 로고 이미지의 높이를 조정합니다. */
   width: 150px;
-  /* 너비는 자동으로 설정하여 비율을 유지합니다. */
 }
 
 .nav-item {
@@ -132,13 +126,9 @@ const userNickname = computed(() => {
 }
 
 .nav-item a:hover {
-  text-shadow: 0 0 1px black;
+  text-shadow: true;
 }
 
-/* 커서가 위에 있을 때 가상의 굵은 텍스트 생성 */
-.nav-item {
-  font-size: 1.3rem;
-}
 
 #user-icon {
   width: 20%;
@@ -163,13 +153,13 @@ const userNickname = computed(() => {
   background-color: transparent;
   outline: none;
   /* 이렇게 하면 버튼사이즈랑 안에 컨텐츠 내용이랑 딱 맞긴 하는데 글자수 제한을 둬야할 듯 아오 */
-  width: 150px;
+  width: 200px;
   height: auto;
 }
 
 .dropdown-menu {
   position: absolute;
   background-color: white;
-  right: 0px;
+  right: 100px;
 }
 </style>

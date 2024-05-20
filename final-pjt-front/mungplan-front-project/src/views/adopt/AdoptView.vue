@@ -32,10 +32,12 @@ onMounted(() => {
 <style scoped>
 .adopt-count-info {
   display: flex;
-  justify-content: flex-start !important; /* 카드 시작점이랑 수직정렬하기 */
+  justify-content: flex-start !important;
+  /* 카드 시작점이랑 수직정렬하기 */
   align-items: center;
   margin: 20px 0;
 }
+
 .adopt {
   display: flex;
   justify-content: center;
