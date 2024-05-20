@@ -4,7 +4,7 @@ from dj_rest_auth.serializers import UserDetailsSerializer
 from django.contrib.auth import get_user_model
 from dj_rest_auth.serializers import LoginSerializer
 from django.contrib.auth import authenticate
-from .models import Dog
+from .models import Dog, User
 
 UserModel = get_user_model()
 
@@ -102,3 +102,9 @@ class DogSerializer(serializers.ModelSerializer):
         model = Dog
         fields = '__all__'
         read_only_fields = ('user',)
+
+class UserDetailSerializer(serializers.ModelSerializer):
+    class Meta:
+      model = get_user_model()
+      fields = '__all__'
+    

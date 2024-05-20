@@ -7,19 +7,22 @@ from rest_framework.decorators import api_view, renderer_classes
 from rest_framework.renderers import JSONRenderer, TemplateHTMLRenderer
 from rest_framework.response import Response
 from rest_framework import status
+from rest_framework.decorators import permission_classes
+from rest_framework.permissions import IsAuthenticated
 
 ## from pjt
 from .models import Map
 from .serializer import MapListSerializer
+
 ## library
 import os
 import requests
 from datetime import datetime
 import html
 
-
 # Create your views here.
 @api_view(['GET'])
+# @permission_classes([IsAuthenticated])
 def maps_api(request, category_name, latitude, longitude):
     lat = float(latitude)
     lng = float(longitude)

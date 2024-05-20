@@ -7,10 +7,11 @@ from django.conf import settings
 from rest_framework.response import Response
 from rest_framework.decorators import api_view
 from rest_framework import status
-
+from rest_framework.authtoken.views import ObtainAuthToken
+from rest_framework.authtoken.models import Token
 ## from pjt
 from .models import Dog
-from .serializers import DogListSerializer, DogSerializer
+from .serializers import DogListSerializer, DogSerializer, UserDetailSerializer
 
 # permission Decorators
 from rest_framework.decorators import permission_classes
@@ -56,3 +57,10 @@ def dog_detail(request, user_pk, dog_pk):
                 serializer.save()
                 return Response(serializer.data,status = status.HTTP_200_OK)
         return Response(serializer.erros, status = status.HTTP_400_BAD_REQUEST)
+    
+@api_view(['GET'])
+def user_detail(request, username):
+    user = get_user_model().objects.get(username = username)
+    serializer = UserDetailSerializer(user)
+    return Response(serializer.data, status=status.HTTP_200_OK)
+    
