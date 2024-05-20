@@ -194,8 +194,8 @@ const selectMarker = (place) => {
 
 .header {
   position: fixed;
-  top: 100px;
-  left: 17%;
+  top: 130px;
+  left: 25%;
   transform: translateX(-50%);
   display: flex;
   gap: 10px;

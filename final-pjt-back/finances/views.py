@@ -77,6 +77,7 @@ def deposit_likes(request, deposit_pk):
 
 # Create your views here.
 @api_view(['GET'])
+@permission_classes([IsAuthenticated])
 def deposit_recommend(request, user_id):
     users = get_user_model().objects.all()
     user = get_object_or_404(get_user_model(), id=user_id)

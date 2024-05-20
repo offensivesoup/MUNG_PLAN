@@ -6,7 +6,8 @@
           <RouterLink :to="{ name: 'HomeView' }" class="navbar-brand">
             <img src="/landing/logo.png" alt="logo" class="logo" />
           </RouterLink>
-          <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+          <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent"
+            aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
             <span class="navbar-toggler-icon"></span>
           </button>
           <div class="collapse navbar-collapse" id="navbarSupportedContent">
@@ -30,13 +31,25 @@
           </div>
           <!-- 여기. 사이즈가 안 맞아.. 이상해.. 반응형도 더 넣어야할 듯 ㅜㅜ -->
           <div class="d-flex nav-item dropdown d-none d-lg-block">
-            <button class="image-button" href="#" id="userDropDown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+            <button class="image-button" href="#" id="userDropDown" role="button" data-bs-toggle="dropdown"
+              aria-expanded="false">
               <img src="/landing/userIcon.png" id="user-icon" class="user" alt="user icon" />
-              김동환과 이승지!
+              {{ userNickname }}
             </button>
             <ul class="dropdown-menu" aria-labelledby="userDropDown">
-              <li><RouterLink :to="{ name: 'LogInView' }" class="dropdown-item">Login</RouterLink></li>
-              <li><RouterLink :to="{ name: 'SignUpView' }" class="dropdown-item">Signup</RouterLink></li>
+              <li v-if="store.state.isAuthenticated">
+                <button @click="store.logOut" class="dropdown-item">Logout</button>
+              </li>
+              <li v-else>
+                <RouterLink :to="{ name: 'LogInView' }" class="dropdown-item">Login</RouterLink>
+              </li>
+              <li v-if="store.state.isAuthenticated">
+                <RouterLink :to="{ name: 'ProfileView', params: { 'username': store.state.username } }"
+                  class="dropdown-item">Profile</RouterLink>
+              </li>
+              <li v-else>
+                <RouterLink :to="{ name: 'SignUpView' }" class="dropdown-item">Signup</RouterLink>
+              </li>
             </ul>
           </div>
         </div>
@@ -48,6 +61,7 @@
 
 <script setup>
 import { RouterLink, RouterView } from 'vue-router'
+<<<<<<< HEAD
 import { onMounted, onBeforeUnmount, ref } from 'vue'
 
 // navbar 스크롤 이벤트 - 지금은 border-bottom 추가
@@ -80,7 +94,26 @@ const handleScroll = () => {
 }
 .navbar.border-bottom {
   border-bottom: 1px solid #ccc;
+=======
+import { useAccountStore } from './stores/account';
+import { ref, computed } from 'vue'
+import { onMounted } from 'vue';
+
+const store = useAccountStore()
+
+const userNickname = computed(() => {
+  return store.state.isAuthenticated ? store.state.username : '로그인이 필요합니다'
+})
+
+
+</script>
+
+<style scoped>
+.navbar {
+  padding: 0;
+>>>>>>> 69d27c6edb597680fbb9d82c6bf167d3cd21efdc
 }
+
 /* .container-fluid{
   padding: 0 15%;
 } */
@@ -91,28 +124,46 @@ const handleScroll = () => {
   background-color: #FFF4E0 !important;
 }
 .logo {
-  height: 100%; /* 로고 이미지의 높이를 조정합니다. */
-  width: 150px; /* 너비는 자동으로 설정하여 비율을 유지합니다. */
+  height: 100%;
+  /* 로고 이미지의 높이를 조정합니다. */
+  width: 150px;
+  /* 너비는 자동으로 설정하여 비율을 유지합니다. */
 }
+<<<<<<< HEAD
 .nav-item{
   font-size: 1.1rem;
   padding-top: 25px;
 }
 .nav-item a:hover {
   text-shadow: 0 0 1px black; /* 커서가 위에 있을 때 가상의 굵은 텍스트 생성 */
+=======
+
+.nav-item {
+  font-size: 1.3rem;
+>>>>>>> 69d27c6edb597680fbb9d82c6bf167d3cd21efdc
 }
-#user-icon{
+
+#user-icon {
   width: 20%;
   height: 70%;
   object-fit: contain;
 }
+<<<<<<< HEAD
 .navbar-nav > li{
   padding-left:30px;
   padding-right:30px;
+=======
+
+.navbar-nav>li {
+  padding-left: 10px;
+  padding-right: 10px;
+>>>>>>> 69d27c6edb597680fbb9d82c6bf167d3cd21efdc
 }
-.navbar-collapse{
-  flex-grow : 0;
+
+.navbar-collapse {
+  flex-grow: 0;
 }
+
 .image-button {
   box-sizing: content-box;
   padding: 0px;
@@ -124,9 +175,10 @@ const handleScroll = () => {
   width: 150px;
   height: auto;
 }
+
 .dropdown-menu {
-  position:absolute;
+  position: absolute;
   background-color: white;
-  right:0px;
+  right: 0px;
 }
 </style>
