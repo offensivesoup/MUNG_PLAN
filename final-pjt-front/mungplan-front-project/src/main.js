@@ -5,6 +5,8 @@ import { createPinia } from 'pinia'
 import './styles/global.css'
 import App from './App.vue'
 import router from './router'
+import '@fortawesome/fontawesome-free/css/all.css'
+
 const app = createApp(App)
 const pinia = createPinia()
 
@@ -13,10 +15,10 @@ pinia.use(piniaPluginPersistedstate)
 app.use(pinia)
 app.use(router)
 app
-    .use(createNaverMap, {
-        clientId : import.meta.env.VITE_APP_CLIENT_ID,
-        category: "ncp", // Optional
-        subModules: [], // Optional, "panorama" | "geocoder" | "drawing" | "visualization"
-      })
+  .use(createNaverMap, {
+    clientId: import.meta.env.VITE_APP_CLIENT_ID,
+    category: "ncp", // Optional
+    subModules: [], // Optional, "panorama" | "geocoder" | "drawing" | "visualization"
+  })
 
 app.mount('#app')

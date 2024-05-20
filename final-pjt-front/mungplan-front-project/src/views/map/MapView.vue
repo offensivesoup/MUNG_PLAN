@@ -205,11 +205,20 @@ const selectMarker = (place) => {
 }
 
 #select-btn {
-  background-color: white;
-  color: black;
+  background-color: rgb(224, 216, 176, 0.3);
+  color: rgba(0, 0, 0, 1);
+  box-shadow: 0 4px;
   border-color: whitesmoke;
-  border-radius: 35%;
+  border-radius: 40%;
   padding: 5px 10px;
+  font-size: 15px;
+  width: 80px;
+  height: 50px;
+  transition: 0.4s;
+}
+
+#select-btn:hover {
+  background-color: rgb(224, 216, 176, 1);
 }
 
 #info-place {

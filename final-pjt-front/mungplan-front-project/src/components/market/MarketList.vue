@@ -1,16 +1,13 @@
 <template>
   <div class="market market-list row">
-    <MarketListItem
-      v-for="product in displayedPosts"
-      :key="product.id"
-      :product="product"
-      class="col-4"
-    />
+    <MarketListItem v-for="product in displayedPosts" :key="product.id" :product="product" class="col-4" />
   </div>
   <div class="market market-page">
-    <button @click="prevPage">이전 페이지</button>
-    <span>{{ currentPage }} / {{ totalPages }}</span>
-    <button @click="nextPage">다음 페이지</button>
+    <button @click="prevPage" class="page-button">
+      << </button>
+        <span>{{ currentPage }} / {{ totalPages }}</span>
+        <button @click="nextPage" class="page-button">
+          >> </button>
   </div>
 </template>
 
@@ -58,5 +55,19 @@ const prevPage = () => {
   display: flex;
   justify-content: center;
   align-items: center;
+}
+
+.page-button {
+  background-color: transparent;
+  border: none;
+  margin: 30px;
+  font-size: 20px;
+  transition: color 0.3s ease;
+  /* 색 변화에 대한 transition 효과를 추가합니다. */
+}
+
+.page-button:hover {
+  color: darkgray;
+  /* 마우스를 올렸을 때의 색상을 지정합니다. */
 }
 </style>

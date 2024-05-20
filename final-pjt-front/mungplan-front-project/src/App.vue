@@ -59,8 +59,9 @@
         </div>
       </nav>
     </header>
-
-    <RouterView />
+    <main>
+      <RouterView />
+    </main>
   </div>
 </template>
 
@@ -70,6 +71,7 @@ import { useAccountStore } from './stores/account';
 import { ref, computed } from 'vue'
 import { RouterLink, RouterView } from 'vue-router'
 import { onMounted, onBeforeUnmount } from 'vue'
+import HomeView from './views/HomeView.vue';
 
 const store = useAccountStore()
 

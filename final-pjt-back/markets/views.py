@@ -79,6 +79,7 @@ def market_api(request):
 def market_list(request):
   markets = get_list_or_404(Market)
   serializer = MarketListSerializer(markets, many=True)
+  print(serializer.data)
   return Response(serializer.data)
 
 

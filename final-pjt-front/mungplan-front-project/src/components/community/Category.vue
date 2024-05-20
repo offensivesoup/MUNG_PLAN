@@ -10,20 +10,6 @@
     <button @click="store.articleFiltering('중고장터')" type="button" class="btn btn-secondary">중고장터</button>
     <button @click="store.articleFiltering('동네사람들')" type="button" class="btn btn-secondary">동네사람들</button>
   </div>
-  <!-- <nav>
-    <RouterLink :to="{ name: 'ArticleView' }">
-      전체
-    </RouterLink>
-    <RouterLink :to="{ name: 'ArticleShareView' }">
-      고민나누기
-    </RouterLink>
-    <RouterLink :to="{ name: 'ArticleUsedView' }">
-      중고장터
-    </RouterLink>
-    <RouterLink :to="{ name: 'ArticleTownView' }">
-      동네사람들
-    </RouterLink>
-  </nav> -->
 </template>
 
 <script setup>
