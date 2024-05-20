@@ -10,3 +10,28 @@
 html {
   overflow-y: scroll;
 }
+
+body {
+  background-color: #FFF4E0;
+  padding-top: 120px; /* navbar의 높이에 따라 컨텐츠 잘리는 현상 조정 */
+  font-family: 'SUITE-Regular', 'Noto Sans KR', 'Lexend', sans-serif; 
+}
+h1 {
+  font-family: 'KOTRAHOPE', 'Noto Sans KR', 'Lexend', sans-serif;
+}
+.en {
+  font-family: 'Lexend', sans-serif;
+}
+
+@font-face {
+  font-family: 'KOTRAHOPE';
+  src: url('https://fastly.jsdelivr.net/gh/projectnoonnu/noonfonts_2110@1.0/KOTRAHOPE.woff2') format('woff2');
+  font-weight: normal;
+  font-style: normal;
+}
+@font-face {
+  font-family: 'SUITE-Regular';
+  src: url('https://fastly.jsdelivr.net/gh/projectnoonnu/noonfonts_2304-2@1.0/SUITE-Regular.woff2') format('woff2');
+  font-weight: 400;
+  font-style: normal;
+}

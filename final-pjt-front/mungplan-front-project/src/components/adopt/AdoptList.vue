@@ -1,10 +1,10 @@
 <template>
-  <div class="adopt adopt-list row">
+  <div class="adopt adopt-list card-group row">
     <AdoptListItem
       v-for="dog in displayedPosts"
       :key="dog.id"
       :dog="dog"
-      class="col-4"
+      class="col-lg-4 col-md-6"
     />
   </div>
   <div class="adopt adopt-page">
