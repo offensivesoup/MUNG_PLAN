@@ -6,6 +6,7 @@ from dj_rest_auth.serializers import LoginSerializer
 from django.contrib.auth import authenticate
 from .models import Dog, User
 from community.serializers import ArticleSerializer, CommentSerializer
+from finances.serializers import DepositSerializer
 
 UserModel = get_user_model()
 
@@ -107,13 +108,15 @@ class DogSerializer(serializers.ModelSerializer):
 class UserDetailSerializer(serializers.ModelSerializer):
     dogs = DogSerializer(many=True, read_only=True, source='dog_set')
     articles = ArticleSerializer(many=True, read_only=True, source='article_set')
-    comments = CommentSerializer(many=True, read_only=True, source='comment_set')
+    # comments = CommentSerializer(many=True, read_only=True, source='comment_set')
     following_count = serializers.SerializerMethodField()
     followers_count = serializers.SerializerMethodField()
+    like_deposit = DepositSerializer(many=True, read_only=True, source='like_deposit.all')
 
     class Meta:
         model = User
-        fields = ['username', 'nickname', 'phone_number', 'address', 'profile_img', 'birth_date', 'followings', 'dogs', 'articles', 'comments', 'following_count', 'followers_count']
+        fields = ['username', 'nickname', 'phone_number', 'address', 'profile_img', 'birth_date', 'followings', 'dogs', 'articles', 'following_count', 'followers_count', 'like_deposit']
+
 
     def get_following_count(self, obj):
         return obj.followings.count()

@@ -14,7 +14,7 @@ from rest_framework.permissions import IsAuthenticated
 ## from pjt
 from .models import Deposit
 from accounts.models import Dog
-from .serializer import DepositListSerializer, DepositSerializer
+from .serializers import DepositListSerializer, DepositSerializer
 ## library
 import os
 import requests
