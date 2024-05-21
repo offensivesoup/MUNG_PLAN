@@ -82,22 +82,23 @@ export const useAccountStore = defineStore('account', () => {
             'Authorization': `Token ${token.value}`
           }
         })
-        .then((response) => {
-          state.id = response.data.id
-          state.username = response.data.username
-          state.nickname = response.data.nickname
-          state.profileImg = response.data.profile_img
-          state.dogs = response.data.dogs
-          state.articles = response.data.articles
+          .then((response) => {
+            console.log(response)
+            state.id = response.data.id
+            state.username = response.data.username
+            state.nickname = response.data.nickname
+            state.profileImg = response.data.profile_img
+            state.dogs = response.data.dogs
+            state.articles = response.data.articles
 
-          // 사용자 정보가 state 객체에 성공적으로 저장된 후에 홈 뷰로 이동
-          router.push({ name: 'HomeView' })
-        })
-        .catch((error) => {
-          console.error('사용자 정보 가져오기 실패:', error.response ? error.response.data : error.message);
-        })
+            // 사용자 정보가 state 객체에 성공적으로 저장된 후에 홈 뷰로 이동
+            router.push({ name: 'HomeView' })
+          })
+          .catch((error) => {
+            console.error('사용자 정보 가져오기 실패:', error.response ? error.response.data : error.message);
+          })
       })
-    }
+  }
 
   const logOut = () => {
     state.id = null

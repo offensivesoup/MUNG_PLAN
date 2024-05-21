@@ -54,7 +54,7 @@ onMounted(() => {
   background-image: url('/deposit/happyDog04.jpg');
   background-size: auto;
   display: flex;
-  justify-content: flex-end;
+  justify-content: center;
   padding-right: 8%;
   color: white;
   height: 530px;
@@ -76,6 +76,7 @@ onMounted(() => {
   display: flex;
   flex-direction: column;
   align-items: center;
+  justify-content: center;
   position: relative;
   /* 오버레이 위에 요소들이 위치하도록 position을 relative로 설정합니다. */
 }
