@@ -19,6 +19,7 @@ export const useDepositStore = defineStore('deposit', () => {
     })
       .then(res => {
         deposits.value = res.data.deposits  // deposits 데이터 설정
+        console.log(deposits.value)
         staticUrl.value = res.data.static_url.substring(1)  // staticUrl 데이터 설정
       })
       .catch(err => console.log(err))

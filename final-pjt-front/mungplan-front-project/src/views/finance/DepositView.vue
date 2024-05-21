@@ -4,7 +4,7 @@
       <h1><b>UserName</b>님과 <b>dogName</b>을 위한</h1>
       <h1><b>맞춤 예적금</b>이 있다면~?</h1>
       <p>멍플팬만의 스페셜 알고리즘 추천 받으러 가기 !</p>
-      <RouterLink :to="{ name: 'RecommendDepositView'}" type="button" class="recommend-button btn btn-light">
+      <RouterLink :to="{ name: 'RecommendDepositView' }" type="button" class="recommend-button btn btn-light">
         추천 받기
       </RouterLink>
     </div>
@@ -34,6 +34,7 @@ const store = useDepositStore()
 onMounted(() => {
   store.getDeposits()
 })
+
 </script>
 
 <style scoped>
@@ -42,13 +43,15 @@ onMounted(() => {
   align-items: center;
   margin: 20px 0;
 }
+
 .deposit {
   display: flex;
   justify-content: center;
   align-items: center;
 }
-.recommendDeposit-banner{
-  background-image: url('/deposit/happyDog.jpg');
+
+.recommendDeposit-banner {
+  background-image: url('/deposit/happyDog04.jpg');
   background-size: auto;
   display: flex;
   justify-content: flex-end;
@@ -58,21 +61,25 @@ onMounted(() => {
   position: relative;
   margin-bottom: 30px;
 }
-.recommendDeposit-banner::before { 
+
+.recommendDeposit-banner::before {
   position: absolute;
-    content: "";
-    top:0px;
-    left:0px;
-    width: 100%;
-    height: 100%;
-    background-color:rgb(36 29 14 / 22%)
+  content: "";
+  top: 0px;
+  left: 0px;
+  width: 100%;
+  height: 100%;
+  background-color: rgb(36 29 14 / 22%)
 }
+
 .banner-content {
   display: flex;
   flex-direction: column;
   align-items: center;
-  position: relative;  /* 오버레이 위에 요소들이 위치하도록 position을 relative로 설정합니다. */
+  position: relative;
+  /* 오버레이 위에 요소들이 위치하도록 position을 relative로 설정합니다. */
 }
+
 .recommend-button {
   color: rgb(36, 166, 69);
   padding: 10px 20px;

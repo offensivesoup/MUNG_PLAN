@@ -11,8 +11,8 @@ from rest_framework.decorators import permission_classes
 from rest_framework.permissions import IsAuthenticated
 
 ## from pjt
-from .models import Map
-from .serializer import MapListSerializer
+from .models import Map, Location
+from .serializer import MapListSerializer, LocationSerializer
 
 ## library
 import os
@@ -66,3 +66,10 @@ def maps_api(request, category_name, latitude, longitude):
     #             map.save()
     #         print(f'{i}번 가져옴')
     # return JsonResponse(response_data)
+
+@api_view(['GET'])
+def maps_search(request, region):
+    location = Location.objects.get(do = region)
+    serializer = LocationSerializer(location)
+    print(serializer.data)
+    return Response(serializer.data)

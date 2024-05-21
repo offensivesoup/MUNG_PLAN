@@ -1,22 +1,57 @@
 <template>
   <div class="deposit-list-item">
-    <div class="card" style="width: 18rem;">
+    <div class="card">
       <div class="card-body">
         <div class="card-logo-and-title">
-          <img class="company-image" :src="`${store.API_URL}${store.staticUrl}${deposit.company_image}`" alt="company logo">
+          <img class="company-image" :src="`${store.API_URL}${store.staticUrl}${deposit.company_image}`"
+            alt="company logo">
           <div class="card-titles">
             <h5 class="card-title">{{ deposit.product_name }}</h5>
             <h6 class="card-subtitle mb-2 text-muted">{{ deposit.company_name }}</h6>
           </div>
+        </div>
+        <p class="card-text"> 최고 금리: {{ deposit.maxi_interate_rate }}%</p>
+        <p class="card-text"> 기본 금리: {{ deposit.interate_rate }}%</p>
+        <div class="card-actions">
+          <button type="button" class="btn btn-primary" :data-bs-toggle="'modal'"
+            :data-bs-target="'#modal-' + deposit.id">
+            알아보기
+          </button>
           <button @click="toggleLike" class="btn btn-primary">
             {{ liked ? 'Unlike' : 'Like' }}
           </button>
         </div>
-        <p class="card-text"> 최고 금리: {{ deposit.maxi_interate_rate }}%</p>
-        <p class="card-text"> 기본 금리: {{ deposit.interate_rate }}%</p>
-        <RouterLink :to="{ name: 'DepositDetailView', params: { id: deposit.id }}" class="btn btn-primary">
-          Detail
-        </RouterLink>
+      </div>
+    </div>
+    <!-- Modal -->
+    <div class="modal fade" :id="'modal-' + deposit.id" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1"
+      :aria-labelledby="'modalLabel-' + deposit.id" aria-hidden="true">
+      <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content">
+          <div class="modal-header">
+            <img class="bank-modal-image card-img-top" :src="`${store.API_URL}${store.staticUrl}${deposit.company_image}`"
+              alt="없음">
+          </div>
+          <div class="modal-body">
+            <p>회사명: {{ deposit.company_name }}</p>
+            <p>상품명: {{ deposit.product_name }}</p>
+            <p>카테고리 : {{ deposit.category }}</p>
+            <p>가입조건 : {{ deposit.join_member }}</p>
+            <div v-if="deposit.limit">
+              <p>가입상한액 : {{ deposit.limit }}</p>
+            </div>
+            <div v-else>
+              <p>가입상한액: 없음</p>
+            </div>
+            <p>부가 조건 : {{ deposit.special_explain }}</p>
+            <p>관심 수: {{ deposit.like_users.length }}개</p>
+
+          </div>
+          <div class="modal-footer">
+            <button type="button" class="btn" data-bs-dismiss="modal">돌아가기</button>
+            <a :href="deposit.link" target="_blank"><button type="button" class="btn">은행 보기</button></a>
+          </div>
+        </div>
       </div>
     </div>
   </div>
@@ -28,16 +63,14 @@ import axios from 'axios'
 import { useDepositStore } from '@/stores/deposit'
 import { useAccountStore } from '@/stores/account'
 
-// Vue 3의 컴파일러가 defineProps를 통해 정의된 prop을 자동으로 스코프에 포함시키지만, 이 스코프가 함수 내부로 확장되지 않는 거 같아서 함수 따로 만듦
 const props = defineProps({
   deposit: Object
 })
 
 const store = useDepositStore()
-const token = useAccountStore().token 
+const token = useAccountStore().token
 const liked = ref(false)
 
-// 로그인 하고 테스트 해보기
 const toggleLike = async () => {
   if (!props.deposit) {
     console.error('deposit is undefined');
@@ -46,56 +79,108 @@ const toggleLike = async () => {
 
   try {
     await axios.post(
-        `${store.API_URL}finance/deposit/${props.deposit.id}/likes/`,
-        {},
-        {
-          headers: {
-            Authorization: `Token ${token}`
-          }
+      `${store.API_URL}finance/deposit/${props.deposit.id}/likes/`,
+      {},
+      {
+        headers: {
+          Authorization: `Token ${token}`
         }
-      )
+      }
+    )
     liked.value = !liked.value
   } catch (error) {
     console.error(error)
   }
 }
+
 </script>
 
 <style scoped>
 .deposit-list-item {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    margin-bottom: 20px;
-  }
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin-bottom: 20px;
+}
 
-  .card {
-    width: 100%;
-  }
+.card {
+  width: 18rem;
+  border-radius: 25px;
+  overflow: hidden;
+  border: 0;
+  margin-bottom: 30px;
+  background-color: rgb(253, 251, 237);
+  box-shadow: 0 2px 6px;
+  transition: transform 0.8s ease, box-shadow 0.8s ease;
+}
 
-  .card-logo-and-title {
+.card:hover {
+  transform: translateY(-30px);
+  box-shadow: 0 4px 12px;
+  z-index: 1;
+}
+
+.card-body {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  align-items: center;
+  height: 100%;
+  padding: 1rem;
+}
+
+.card-logo-and-title {
   display: flex;
   align-items: center;
-  }
+}
 
-  .company-image {
-    width: 50px;  /* 이미지의 너비를 50px로 설정 */
-    height: 50px; /* 이미지의 높이를 50px로 설정 */
-    object-fit: cover; /* 이미지의 비율을 유지하면서 이미지를 채움 */
-  }
+.company-image {
+  width: 50px;
+  height: 50px;
+  object-fit: cover;
+}
 
-  .card-body {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    padding: 1rem;
-  }
+.card-titles {
+  margin-left: 10px;
+}
 
-  .card-text {
-    margin-bottom: 0.5rem;
-  }
+.card-text {
+  margin-bottom: 0.5rem;
+}
 
-  .btn-primary {
-    margin-top: 1rem;
-  }
+.card-actions {
+  width: 100%;
+  display: flex;
+  justify-content: space-between;
+  margin-top: auto;
+}
+
+.btn-primary {
+  margin-top: 1rem;
+  background-color: rgb(252, 226, 194, 0.3);
+  border: none;
+  color: black;
+  font-weight: bold;
+}
+
+.btn-primary:focus {
+  outline: 0;
+}
+
+.btn-primary:hover {
+  background-color: rgb(252, 226, 194, 0.9);
+  cursor: pointer;
+}
+
+.modal-content {
+  z-index: 1050 !important;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 10%;
+}
+
+.bank-modal-image {
+  width: 150px;
+}
 </style>

@@ -18,6 +18,7 @@ class Deposit(models.Model):
     maxi_interate_rate = models.FloatField(blank = True, null = True)
     like_users = models.ManyToManyField(settings.AUTH_USER_MODEL, related_name='like_deposit')
     company_image = models.CharField(max_length=100, blank=True, null=True)
+    link = models.CharField(max_length=225, blank=True, null=True)
 
 class Insurance(models.Model):
     product_name = models.CharField(max_length = 225)
