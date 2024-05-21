@@ -7,16 +7,20 @@ class ArticleListSerializer(serializers.ModelSerializer):
     class Meta:
         model = Article
         fields = ('id', 'title', 'content', 'user')
-
+        
     def get_user_nickname(self, obj):
-        return obj.user.nickname
+        try:
+            return obj.user.nickname
+        except Exception as e:
+            print(f"Error in get_user_nickname: {e}")
+            return None
 
 class ArticleSerializer(serializers.ModelSerializer):
   class CommentDetailSerializer(serializers.ModelSerializer):
     class Meta:
       model = Comment
-      fields = ('id', 'content', 'user')  
-  
+      fields = ('id', 'content', 'user')
+
   comment_set = CommentDetailSerializer(many = True, read_only = True)
   comment_count = serializers.IntegerField(source='comment_set.count', read_only = True)
   

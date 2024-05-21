@@ -36,7 +36,7 @@ class Command(BaseCommand):
         faker.add_provider(DogProvider)
         User = get_user_model()
 
-        for _ in range(300):  # 300개의 Article을 생성.
+        for _ in range(1000):  # 300개의 Article을 생성.
             user = User.objects.order_by('?').first()  # 랜덤한 User를 선택.
             category = faker.random_element(elements=('고민나누기', '중고장터', '동네사람들'))
 

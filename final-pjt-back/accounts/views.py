@@ -21,13 +21,14 @@ from rest_framework.permissions import IsAuthenticated
 @api_view(['POST'])
 @permission_classes([IsAuthenticated])
 def follow(request, user_pk):
-    me = request.user.pk
+    me = request.user
     you = get_user_model().objects.get(pk = user_pk)
     if you != me:
         if me in you.followers.all():
             you.followers.remove(me)
         else:
             you.followers.add(me)
+        you.save()
     return Response(status = status.HTTP_200_OK)
 
 @api_view(['GET','POST'])

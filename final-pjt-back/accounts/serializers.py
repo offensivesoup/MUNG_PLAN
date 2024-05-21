@@ -28,6 +28,7 @@ class CustomRegisterSerializer(RegisterSerializer):
     )
     profile_img = serializers.ImageField(
       required=True,
+      max_length=100
     )
     birth_date = serializers.DateField(
       required=True,
@@ -109,16 +110,13 @@ class UserDetailSerializer(serializers.ModelSerializer):
     dogs = DogSerializer(many=True, read_only=True, source='dog_set')
     articles = ArticleSerializer(many=True, read_only=True, source='article_set')
     # comments = CommentSerializer(many=True, read_only=True, source='comment_set')
-    following_count = serializers.SerializerMethodField()
-    followers_count = serializers.SerializerMethodField()
+    followers = serializers.SerializerMethodField()
     like_deposit = DepositSerializer(many=True, read_only=True, source='like_deposit.all')
 
     class Meta:
         model = User
-        fields = [ 'id' ,'username', 'nickname', 'phone_number', 'address', 'profile_img', 'birth_date', 'followings', 'dogs', 'articles', 'following_count', 'followers_count', 'like_deposit' ]
+        fields = [ 'id' ,'username', 'nickname', 'phone_number', 'address', 'profile_img', 'birth_date', 'followings', 'followers', 'dogs', 'articles', 'like_deposit' ]
 
-    def get_following_count(self, obj):
-        return obj.followings.count()
-
-    def get_followers_count(self, obj):
-        return obj.followers.count()
+    def get_followers(self, obj):
+        followers = obj.followers.all()
+        return [follower.id for follower in followers]
