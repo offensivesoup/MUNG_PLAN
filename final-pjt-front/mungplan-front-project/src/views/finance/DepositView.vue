@@ -1,26 +1,29 @@
 <template>
-  <div class="deposit recommendDeposit-banner">
-    <div class="banner-content">
-      <h1><b>UserName</b>님과 <b>dogName</b>을 위한</h1>
-      <h1><b>맞춤 예적금</b>이 있다면~?</h1>
-      <p>멍플팬만의 스페셜 알고리즘 추천 받으러 가기 !</p>
-      <RouterLink :to="{ name: 'RecommendDepositView' }" type="button" class="recommend-button btn btn-light">
-        추천 받기
-      </RouterLink>
+  <article class="bank-content">
+    <!-- 은행 작성 -->
+    <div class="deposit recommendDeposit-banner">
+      <div class="banner-content">
+        <h1><b>UserName</b>님과 <b>dogName</b>을 위한</h1>
+        <h1><b>맞춤 예적금</b>이 있다면~?</h1>
+        <p>멍플팬만의 스페셜 알고리즘 추천 받으러 가기 !</p>
+        <RouterLink :to="{ name: 'RecommendDepositView' }" type="button" class="recommend-button btn btn-light">
+          추천 받기
+        </RouterLink>
+      </div>
     </div>
-  </div>
 
-  <div class="deposit deposit-header">
-    <h1>내 아이를 위한 비상금</h1>
-  </div>
-  <div class="deposit deposit-main">
-    <!-- + : 필터 - 나이, 성별, 중성화, 지역, 품종? 너무 많은가 -->
-  </div>
-  <div class="deposit deposit-count-info">
-    <img src="/deposit/passbook.png" alt="passbook icon" style="width: 40px; height: 40px;">
-    <h5 style="margin: 0; font-size: 18px;">{{ store.deposits.length }}개의 상품으로 미리 대비해보세요.</h5>
-  </div>
-  <DepositList />
+    <div class="deposit deposit-header">
+      <h1>내 아이를 위한 비상금</h1>
+    </div>
+    <div class="deposit deposit-main">
+      <!-- + : 필터 - 나이, 성별, 중성화, 지역, 품종? 너무 많은가 -->
+    </div>
+    <div class="deposit deposit-count-info">
+      <img src="/deposit/passbook.png" alt="passbook icon" style="width: 40px; height: 40px;">
+      <h5 style="margin: 0; font-size: 18px;">{{ store.deposits.length }}개의 상품으로 미리 대비해보세요.</h5>
+    </div>
+    <DepositList />
+  </article>
 </template>
 
 <script setup>
@@ -38,6 +41,10 @@ onMounted(() => {
 </script>
 
 <style scoped>
+.intro {
+  display: flex;
+  flex-direction: row;
+}
 .deposit-count-info {
   display: flex;
   align-items: center;

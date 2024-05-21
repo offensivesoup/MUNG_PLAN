@@ -7,6 +7,7 @@ export const useDepositStore = defineStore('deposit', () => {
 
   // state
   const deposits = ref([])
+  const insurances = ref([])
   const staticUrl = ref('')  // staticUrl 선언
 
   // getters
@@ -25,5 +26,17 @@ export const useDepositStore = defineStore('deposit', () => {
       .catch(err => console.log(err))
   }
 
-  return { API_URL, deposits, staticUrl, getDeposits }
+  const getInsurance = function () { 
+    axios({
+      method : 'GET',
+      url: `${API_URL}finance/insurances/`
+    })
+     .then(response => {
+        insurances.value = response.data
+        console.log(insurances.value)
+      })
+      .catch(err => console.log(err))
+  }
+
+  return { API_URL, deposits, insurances, staticUrl, getDeposits, getInsurance }
 }, { persist: true })

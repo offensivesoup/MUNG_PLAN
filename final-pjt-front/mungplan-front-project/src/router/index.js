@@ -21,8 +21,10 @@ import MarketView from '@/views/market/MarketView.vue'
 
 // finance
 import DepositView from '@/views/finance/DepositView.vue'
-import DepositDetailView from '@/views/finance/DetailView.vue'
+import InsuranceView from '@/views/finance/InsuranceView.vue'
 import RecommendDepositView from '@/views/finance/RecommendDepositView.vue'
+import FinanceSelectView from '@/views/finance/FinanceSelectView.vue'
+
 
 // account
 import SignUpView from '@/views/account/SignUpView.vue'
@@ -96,14 +98,19 @@ const router = createRouter({
 
     // for finance
     {
+      path: '/finance/select',
+      name: 'FinanceSelectView',
+      component: FinanceSelectView
+    },
+    {
       path: '/finance/deposits',
       name: 'DepositView',
       component: DepositView
     },
     {
-      path: '/finance/deposit/:id',
-      name: 'DepositDetailView',
-      component: DepositDetailView
+      path: '/finance/insurances',
+      name: 'InsuranceView',
+      component: InsuranceView
     },
     {
       path: '/finance/recommend-deposit',

@@ -7,4 +7,5 @@ urlpatterns = [
   path('deposit/<int:deposit_pk>/', views.deposit_detail),
   path('deposit/<int:deposit_pk>/likes/', views.deposit_likes),
   path('deposits/recommend/<int:user_id>/', views.deposit_recommend),
+  path('insurances/', views.insurance_list),
 ]

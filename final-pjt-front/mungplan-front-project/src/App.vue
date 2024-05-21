@@ -27,7 +27,7 @@
                 <RouterLink :to="{ name: 'MarketView' }" class="nav-link">Market</RouterLink>
               </li>
               <li class="nav-item">
-                <RouterLink :to="{ name: 'DepositView' }" class="nav-link">Finance</RouterLink>
+                <RouterLink :to="{ name: 'FinanceSelectView' }" class="nav-link">Finance</RouterLink>
               </li>
             </ul>
           </div>

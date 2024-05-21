@@ -1,5 +1,5 @@
 from rest_framework import serializers
-from .models import Deposit
+from .models import Deposit, Insurance
 
 class DepositListSerializer(serializers.ModelSerializer):
   class Meta:
@@ -11,3 +11,8 @@ class DepositSerializer(serializers.ModelSerializer):
   class Meta:
     model = Deposit
     fields = '__all__'
+
+class InsuranceListSerializer(serializers.ModelSerializer):
+   class Meta:
+      model = Insurance
+      fields = '__all__'

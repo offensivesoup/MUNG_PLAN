@@ -95,6 +95,7 @@ const onLocationSelected = (latitude, longitude) => {
 const searchMap = (searchLat, searchLng) => {
   map.value = mapData.value
   const coord = { lat: searchLat, lng: searchLng }
+  console.log(coord)
   map.value.morph(coord, 12)
 }
 
