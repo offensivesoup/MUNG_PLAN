@@ -76,61 +76,66 @@ def deposit_likes(request, deposit_pk):
         deposit.like_users.add(request.user)
     return Response(status = status.HTTP_200_OK)
 
-# Create your views here.
 @api_view(['GET'])
-@permission_classes([IsAuthenticated])
+# @permission_classes([IsAuthenticated])
 def deposit_recommend(request, user_id):
     users = get_user_model().objects.all()
     user = get_object_or_404(get_user_model(), id=user_id)
-    # 사용자가 좋아하는 예적금 조회 (최적화를 위해 select_related 사용)
     liked_deposits = user.like_deposit.select_related('category').all()
-    # 모든 예적금 조회
     deposits = Deposit.objects.all()
-    # 각 사용자의 강아지 조회 (최적화를 위해 prefetch_related 사용)
-    dogs = Dog.objects.filter(user=user).prefetch_related('breed').all()
-    dogs = Dog.objects.all()
-
+    user_dogs = Dog.objects.filter(user=user).prefetch_related('breed').all()
+    
+    # Create mappings for user IDs and deposit IDs
     user_ids = {user.id: idx for idx, user in enumerate(users)}
     deposit_ids = {deposit.id: idx for idx, deposit in enumerate(deposits)}
-
+    
+    # Initialize user-likes-deposit matrix
     user_likes_matrix = np.zeros((len(users), len(deposits)))
-
     for deposit in deposits:
         for user in deposit.like_users.all():
             user_idx = user_ids.get(user.id)
             deposit_idx = deposit_ids.get(deposit.id)
             if user_idx is not None and deposit_idx is not None:
                 user_likes_matrix[user_idx, deposit_idx] = 1
-
-    user_dog_matrix = np.zeros((len(users), len(dogs)))
-
-    for dog in dogs:
-        user_idx = user_ids.get(dog.user.id)
-        if user_idx is not None:
-            user_dog_matrix[user_idx] += 1
-
+    
+    # Initialize user-dog matrix if user has dogs, otherwise an empty matrix
+    if user_dogs.exists():
+        user_dog_matrix = np.zeros((len(users), 1))
+        for dog in user_dogs:
+            user_idx = user_ids.get(dog.user.id)
+            if user_idx is not None:
+                user_dog_matrix[user_idx, 0] = 1
+    else:
+        user_dog_matrix = np.zeros((len(users), 1))
+    
+    # Combine the matrices
     combined_matrix = np.hstack((user_likes_matrix, user_dog_matrix))
+    
+    # Calculate the cosine similarity matrix
     similarity_matrix = cosine_similarity(combined_matrix)
     target_user_index = user_ids[user_id]
-
-    user_similarites = similarity_matrix[target_user_index]
-
+    
+    # Calculate similarities of the target user to all other users
+    user_similarities = similarity_matrix[target_user_index]
+    
+    # Generate recommendations based on similar users
     recommended_deposits = []
     deposit_list = list(deposits)
-    for user_idx, similarity in enumerate(user_similarites):
+    for user_idx, similarity in enumerate(user_similarities):
         if user_idx != target_user_index and similarity > 0:
-            liked_deposits = list(np.where(user_likes_matrix[user_idx] == 1))[0]
-            for deposit_idx in liked_deposits:
+            liked_deposits_indices = np.where(user_likes_matrix[user_idx] == 1)[0]
+            for deposit_idx in liked_deposits_indices:
                 if user_likes_matrix[target_user_index, deposit_idx] == 0:
                     recommended_deposits.append((deposit_list[deposit_idx], similarity))
-    # 유사도 점수로 정렬하고 상위 10개 선택
+    
+    # Sort the recommendations by similarity and select top 10
     recommended_deposits.sort(key=lambda x: x[1], reverse=True)
     top_recommended_deposits = [deposit for deposit, similarity in recommended_deposits[:10]]
-
-    # 직렬화된 데이터 생성
+    
+    # Serialize the recommended deposits
     response_data = [{
         'id': deposit.id,
-        'category': deposit.category,
+        'category': deposit.category.name if deposit.category else None,
         'company_name': deposit.company_name,
         'product_num': deposit.product_num,
         'product_name': deposit.product_name,
@@ -144,5 +149,5 @@ def deposit_recommend(request, user_id):
         'interate_rate': deposit.interate_rate,
         'maxi_interate_rate': deposit.maxi_interate_rate,
     } for deposit in top_recommended_deposits]
-
+    
     return Response(response_data)

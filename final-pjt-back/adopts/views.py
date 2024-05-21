@@ -60,3 +60,27 @@ def adopt_detail(request, adopt_pk):
         serializer = AdoptSerializer(adopt)
         print(serializer.data)
         return Response(serializer.data)
+      
+@api_view(['GET'])
+@renderer_classes((TemplateHTMLRenderer, JSONRenderer))
+def adopt_filtering(request, category):
+    if category == 'stateEnd':
+        adopts = Adopt.objects.filter(state='종료(반환)')
+        serializer = AdoptListSerializer(adopts, many=True)
+        return Response(serializer.data)
+    elif category == 'state':
+        adopts = Adopt.objects.filter(state='보호중')
+        serializer = AdoptListSerializer(adopts, many=True)
+        return Response(serializer.data)
+    elif category == 'femail':
+        adopts = Adopt.objects.filter(gender='F')
+        serializer = AdoptListSerializer(adopts, many=True)
+        return Response(serializer.data)
+    elif category == 'mail':
+        adopts = Adopt.objects.filter(gender='M')
+        serializer = AdoptListSerializer(adopts, many=True)
+        return Response(serializer.data)
+    elif category == 'finall':
+        adopts = Adopt.objects.filter(gender='Q')
+        serializer = AdoptListSerializer(adopts, many=True)
+        return Response(serializer.data)
