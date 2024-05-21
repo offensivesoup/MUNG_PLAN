@@ -29,7 +29,7 @@
         </div>
       </div>
       <div class="row-second-dogs col-md-6 overflow-auto">
-        <h3 style="margin-left:25px;">DOGS INFO</h3>
+        <h3 style="margin-left:25px;">DOG INFO</h3>
         <div v-if="dogs.length > 0" class="dogs-details" >
           <div class="row-second-image col-md-6">
             <img :src="`${store.API_URL.slice(0,-1)}${dog_img}`" alt="강아지 프로필 이미지">
@@ -41,27 +41,39 @@
             <h5> GENDER: {{ dogs[0].gender }}</h5>
           </div>
         </div>
+        <!-- 여기 별로.. 좀 바꿔야 할 듯 -->
         <div v-else class="dogs-details row-second-no-dog">
-          <!-- 그 랜딩페이지에 넣은 입양 페이지 캡쳐본 넣고 싶당 -->
-          <RouterLink :to="{ name: 'AdoptView' }" class="btn btn-primary">지금 보러 가기!</RouterLink>
+          <div class="adopt-page">
+            <img src="/profile/adopt_page.png" alt="adopt page" style="width: 90%;">
+          </div>
+          <RouterLink :to="{ name: 'AdoptView' }" class="btn adopt-btn btn-primary">지금 만나러 가기!</RouterLink>
         </div>
       </div>
     </div>
 
     <!-- 세번째 줄 -->
-    <div class="row">
-      <div class="col-md-6">
-        <!-- 유저가 쓴 글 -->
-        <div v-for="article in articles" :key="article.id">
-          <h3>{{ article.title }}</h3>
-          <p>{{ article.date }}</p>
-        </div>
-      </div>
-      <div class="col-md-6">
-        <!-- 유저가 남긴 댓글 -->
-        <div v-for="comment in comments" :key="comment.id">
-          <p>{{ comment.content }}</p>
-          <p>{{ comment.date }}</p>
+    <div class="row row-third">
+      <div class="row-third-article col-md-6">
+        <h3 style="margin-left: 5px;">USER'S COMMUNITY</h3>
+        <div class="article-table">
+          <table class="table">
+            <thead>
+              <tr>
+                <th scope="col">#</th>
+                <th scope="col">Title</th>
+                <th scope="col">Category</th>
+                <th scope="col">Post date</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr v-for="(article, index) in articles.slice(0, 3)" :key="article.id">
+                <th scope="row">{{ index + 1 }}</th>
+                <td>{{ article.title }}</td>
+                <td>{{ article.category }}</td>
+                <td>{{ new Date(article.created_at).toLocaleDateString() }}</td>
+              </tr>
+            </tbody>
+          </table>
         </div>
       </div>
     </div>
@@ -91,7 +103,7 @@ const followingsCount = ref(0)
 
 const dogs = ref([])
 const articles = ref([])
-const comments = ref([])
+const likeDeposits = ref([])
 
 onMounted(async () => {
   await fetchUserDetail()
@@ -118,7 +130,7 @@ async function fetchUserDetail() {
 
     dogs.value = userData.dogs
     articles.value = userData.articles
-    comments.value = userData.comments
+    likeDeposits.value = userData.like_deposits
   } catch (error) {
     console.log(error)
   } finally {
@@ -169,6 +181,7 @@ async function fetchUserDetail() {
   display: flex;
   align-items: center;
   height: 350px;
+  margin-bottom: 80px;
 }
 .info-details, .dogs-details {
   display: flex;
@@ -216,8 +229,44 @@ h5 > img {
   width: auto; /* 이미지의 가로 크기를 조절합니다. */
   height: 200px; /* 이미지의 세로 크기를 원본 비율에 맞게 조절합니다. */
 }
+.row-second-no-dog{
+  display: flex;
+  flex-direction: column;
+}
+.adopt-page {
+  display: flex; /* 이 부분을 추가하세요. */
+  justify-content: center; /* 가로 방향으로 중앙에 위치하도록 합니다. */
+  align-items: center; /* 세로 방향으로 중앙에 위치하도록 합니다. */
+  margin-top: 20px;
+  margin-bottom: 10px;
+}
 .adopt-btn {
-  width: 100px;
+  width: 140px;
   height: 40px;
 }
+
+.row-third {
+  display: flex;
+  align-items: center;
+  height: 350px;
+  margin-bottom: 80px;
+}
+.article-table{
+  margin-right: 20px; /* 오른쪽에 20px의 공백을 추가합니다. */
+}
+.article-table, .dogs-details {
+  display: flex;
+  justify-content: center; /* 가로 방향으로 중앙에 위치하도록 합니다. */
+  align-items: center;
+  background-color: #F7CCAC;
+  border-radius: 20px;
+  height: 350px;
+  flex: 1; /* info-details와 row-third-dogs 요소가 row-third의 너비를 균등하게 차지하도록 합니다. */
+}
+.table{
+  width: 80%;
+  --bs-table-bg: #F7CCAC;
+  --bs-table-border-color: black;
+}
+
 </style>
