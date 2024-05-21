@@ -18,9 +18,10 @@ export const useCommunityStore = defineStore('community', () => {
     axios({
       method: 'get',
       url: `${API_URL}community/articles/`
+      // url: `${API_URL}community/articles/?_=${Date.now()}`
     })
       .then(response => {
-        // console.log(response.data)
+        console.log(response.data)
         articles.value = response.data
       })
       .catch(error => {
@@ -42,5 +43,5 @@ export const useCommunityStore = defineStore('community', () => {
         getArticles()
       })
   }
-  return { API_URL, articles, getArticles, articleFiltering }
+  return { API_URL, articles, comments, getArticles, articleFiltering }
 }, { persist: true })

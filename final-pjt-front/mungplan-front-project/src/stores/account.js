@@ -106,8 +106,15 @@ export const useAccountStore = defineStore('account', () => {
     state.nickname = null
     state.profileImg = null
     state.isAuthenticated = false
-    // token.value = null
+    token.value = null
 
+    // Clear browser storage
+    localStorage.clear()
+    sessionStorage.clear()
+
+    // Clear axios cache
+    axios.defaults.headers = {}
+    
     axios({
       method: 'POST',
       url: `${API_URL}auth/logout/`

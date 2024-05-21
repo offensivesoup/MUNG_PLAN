@@ -9,13 +9,12 @@ class User(AbstractUser):
     nickname = models.CharField(max_length=30, unique=True)
     phone_number = models.CharField(max_length=15, unique=True)
     address = models.TextField(blank=True, null=True)
-    profile_img = models.ImageField(upload_to='profile_images/', blank=True, null=True)
+    profile_img = models.CharField(max_length=100, blank=True, null=True)
     birth_date = models.DateField(null=True, blank=True)
     followings = models.ManyToManyField('self', symmetrical=False, related_name='followers')
 
     def __str__(self):
-        return self.username
-    
+        return self.username  
 
 class CustomAccountAdapter(DefaultAccountAdapter):
     def save_user(self, request, user, form, commit=True):
@@ -68,5 +67,5 @@ class Dog(models.Model):
     gender = models.CharField(max_length = 1, choices = GENDERS)
     birth_date = models.DateField()
     Type = models.CharField(max_length = 10, choices = TYPES)
-    dog_img = models.ImageField(upload_to='dog_images/', blank=True, null=True)
+    dog_img = models.CharField(max_length=100, blank=True, null=True)
     
