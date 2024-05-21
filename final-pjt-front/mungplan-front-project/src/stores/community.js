@@ -20,6 +20,7 @@ export const useCommunityStore = defineStore('community', () => {
       url: `${API_URL}community/articles/`
     })
       .then(response => {
+        // console.log(response.data)
         articles.value = response.data
       })
       .catch(error => {

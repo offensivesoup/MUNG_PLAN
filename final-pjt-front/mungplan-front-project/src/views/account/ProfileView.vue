@@ -1,24 +1,79 @@
 <template>
   <div>
-    <template v-if="loading">
-      <p>Loading...</p>
-    </template>
-    <template v-else>
-      <p> 생년월일 : {{ birthDate }}</p>
-      <p> 이름 : {{ firstName }}</p>
-      <p> 닉네임 : {{ nickName }}</p>
-      <p> 전화번호 : {{ phone_number }}</p>
-      <p> 주소 : {{ address }}</p>
-      <p> 프로필 : <img :src="`${store.API_URL}${profile}`" alt="프로필이미지"></p>
-      <p> 팔로잉 : {{ followings }}</p>
-    </template>
+    <!-- 첫번째 줄 -->
+    <div class="row row-first text-white">
+      <div class="row-first-image col-md-6">
+        <img :src="`${store.API_URL}${profile}`" alt="프로필이미지">
+      </div>
+      <div class="row-first-info col-md-6">
+        <h1 style="font-size: 3em; letter-spacing: 0.2em;">Welcome to '{{ nickName }}'</h1>
+        <span>
+          <p style="display: inline;">Followers: {{ followersCount }}</p>
+          &nbsp; / &nbsp;
+          <p style="display: inline-block;">Following: {{ followingsCount }}</p>
+        </span>
+        <button class="btn follow-btn btn-primary">Follow</button>
+      </div>
+    </div>
+
+    <!-- 두번째 줄 -->
+    <div class="row row-second">
+      <div class="row-second-info col-md-6">
+        <h3 style="margin-left: 5px;">USER INFO</h3>
+        <div class="info-details">
+          <div>
+            <h5> <img src="/profile/star.png" alt="star emoji"> &nbsp; NAME: {{ nickName }}</h5>
+            <h5> <img src="/profile/happy.png" alt="happy emoji">  &nbsp; BIRTHDATE: {{ birthDate }}</h5>
+            <h5> <img src="/profile/location.png" alt="location emoji">  &nbsp; ADDRESS: {{ address }}</h5>
+          </div>
+        </div>
+      </div>
+      <div class="row-second-dogs col-md-6 overflow-auto">
+        <h3 style="margin-left:25px;">DOGS INFO</h3>
+        <div v-if="dogs.length > 0" class="dogs-details" >
+          <div class="row-second-image col-md-6">
+            <img :src="`${store.API_URL.slice(0,-1)}${dog_img}`" alt="강아지 프로필 이미지">
+          </div>
+          <div class="row-second-info col-md-6">
+            <h5> NAME: {{ dogs[0].name }}</h5>
+            <h5> BREED: {{ dogs[0].breed }}</h5>
+            <h5> AGE: {{ dogs[0].age }}</h5>
+            <h5> GENDER: {{ dogs[0].gender }}</h5>
+          </div>
+        </div>
+        <div v-else class="dogs-details row-second-no-dog">
+          <!-- 그 랜딩페이지에 넣은 입양 페이지 캡쳐본 넣고 싶당 -->
+          <RouterLink :to="{ name: 'AdoptView' }" class="btn btn-primary">지금 보러 가기!</RouterLink>
+        </div>
+      </div>
+    </div>
+
+    <!-- 세번째 줄 -->
+    <div class="row">
+      <div class="col-md-6">
+        <!-- 유저가 쓴 글 -->
+        <div v-for="article in articles" :key="article.id">
+          <h3>{{ article.title }}</h3>
+          <p>{{ article.date }}</p>
+        </div>
+      </div>
+      <div class="col-md-6">
+        <!-- 유저가 남긴 댓글 -->
+        <div v-for="comment in comments" :key="comment.id">
+          <p>{{ comment.content }}</p>
+          <p>{{ comment.date }}</p>
+        </div>
+      </div>
+    </div>
   </div>
 </template>
 
 <script setup>
-import { useAccountStore } from '@/stores/account';
+import { useAccountStore } from '@/stores/account'
 import { useRoute } from 'vue-router'
 import { ref, onMounted } from 'vue'
+import { RouterLink } from 'vue-router'
+import { watch } from 'vue'
 
 const $route = useRoute()
 const store = useAccountStore()
@@ -26,32 +81,143 @@ const store = useAccountStore()
 const loading = ref(false)
 const username = ref('')
 const birthDate = ref('')
-const firstName = ref('')
 const nickName = ref('')
 const phone_number = ref('')
 const address = ref('')
 const profile = ref('')
-const followings = ref('')
+
+const followersCount = ref(0)
+const followingsCount = ref(0)
+
+const dogs = ref([])
+const articles = ref([])
+const comments = ref([])
 
 onMounted(async () => {
+  await fetchUserDetail()
+})
+
+watch(() => $route.params.username, async () => {
+  await fetchUserDetail()
+})
+
+async function fetchUserDetail() {
   try {
     loading.value = true
     const userData = await store.userDetail($route.params.username)
     console.log(userData)
     username.value = userData.username
     birthDate.value = userData.birth_date
-    firstName.value = userData.first_name
     nickName.value = userData.nickname
-    phone_number.value = userData.birth_date
+    phone_number.value = userData.phone_number
     address.value = userData.address
     profile.value = userData.profile_img.substring(1)
-    followings.value = userData.followings
+
+    followersCount.value = userData.followers_count
+    followingsCount.value = userData.following_count
+
+    dogs.value = userData.dogs
+    articles.value = userData.articles
+    comments.value = userData.comments
   } catch (error) {
     console.log(error)
   } finally {
     loading.value = false
   }
-})
+}
 </script>
 
-<style scoped></style>
+<style scoped>
+.row {
+  margin-bottom: 50px; /* row 클래스 간의 간격을 20px로 설정합니다. */
+}
+.row-first {
+  display: flex;
+  align-items: center;
+  background-color: #4d4d4dfd;
+  border-radius: 20px;
+  height: 250px;
+}
+.row-first-info, .row-first-image {
+  flex: 1; /* flex 속성을 사용하여 요소의 크기를 조절합니다. */
+  margin: 0 10px; /* margin을 조절하여 요소의 위치를 조절합니다. */
+  display: flex; /* flexbox 모델을 사용합니다. */
+}
+.row-first-info {
+  flex: 6; /* row-first-first 요소가 row-first의 70%를 차지하도록 합니다. */
+  flex-direction: column;
+  justify-content: left;
+}
+
+.row-first-image {
+  flex: 5; /* row-first-imagea 요소가 row-first의 30%를 차지하도록 합니다. */
+  display: flex; /* flexbox 모델을 사용합니다. */
+  justify-content: center; /* 가로 방향으로 중앙에 위치하도록 합니다. */
+  align-items: center; /* 세로 방향으로 중앙에 위치하도록 합니다. */
+
+}
+.row-first-image img {
+  width: auto; /* 이미지의 가로 크기를 조절합니다. */
+  height: 200px; /* 이미지의 세로 크기를 원본 비율에 맞게 조절합니다. */
+}
+.follow-btn {
+  width: 100px;
+  height: 40px;
+}
+
+.row-second {
+  display: flex;
+  align-items: center;
+  height: 350px;
+}
+.info-details, .dogs-details {
+  display: flex;
+  align-items: center;
+  background-color: #F7CCAC;
+  border-radius: 20px;
+  height: 350px;
+  flex: 1; /* info-details와 row-second-dogs 요소가 row-second의 너비를 균등하게 차지하도록 합니다. */
+}
+
+.info-details {
+  margin-right: 20px; /* 오른쪽에 20px의 공백을 추가합니다. */
+  flex-direction: column;
+  justify-content: center; /* 가로 방향으로 중앙에 위치하도록 합니다. */
+}
+
+h5 > img {
+  width: 50px;
+  height: auto;
+  margin: 10px;
+}
+.dogs-details {
+  margin-left: 20px;
+  flex: 1; /* flex 속성을 사용하여 요소의 크기를 조절합니다. */
+  margin: 0 10px; /* margin을 조절하여 요소의 위치를 조절합니다. */
+  display: flex; /* flexbox 모델을 사용합니다. */
+}
+.row-second-info {
+  flex: 5; /* row-first-first 요소가 row-first의 70%를 차지하도록 합니다. */
+  flex-direction: column;
+  justify-content: left;
+}
+
+.row-second-image {
+  flex: 5; /* row-first-imagea 요소가 row-first의 30%를 차지하도록 합니다. */
+  display: flex; /* flexbox 모델을 사용합니다. */
+  justify-content: center; /* 가로 방향으로 중앙에 위치하도록 합니다. */
+  align-items: center; /* 세로 방향으로 중앙에 위치하도록 합니다. */
+
+}
+.row-second-info > h5 {
+  margin: 20px;
+}
+.row-second-image img {
+  width: auto; /* 이미지의 가로 크기를 조절합니다. */
+  height: 200px; /* 이미지의 세로 크기를 원본 비율에 맞게 조절합니다. */
+}
+.adopt-btn {
+  width: 100px;
+  height: 40px;
+}
+</style>

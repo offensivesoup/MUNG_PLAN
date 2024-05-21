@@ -47,7 +47,7 @@
               <li v-else>
                 <RouterLink :to="{ name: 'LogInView' }" class="dropdown-item">Login</RouterLink>
               </li>
-              <li v-if="store.state.isAuthenticated">
+              <li v-if="store.state.isAuthenticated && store.state.username">
                 <RouterLink :to="{ name: 'ProfileView', params: { 'username': store.state.username } }"
                   class="dropdown-item">Profile</RouterLink>
               </li>

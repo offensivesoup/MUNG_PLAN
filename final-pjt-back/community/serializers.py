@@ -2,9 +2,14 @@ from rest_framework import serializers
 from .models import Article, Comment
 
 class ArticleListSerializer(serializers.ModelSerializer):
-  class Meta:
-      model = Article
-      fields = ('id', 'title', 'content')
+    user = serializers.SerializerMethodField('get_user_nickname')
+
+    class Meta:
+        model = Article
+        fields = ('id', 'title', 'content', 'user')
+
+    def get_user_nickname(self, obj):
+        return obj.user.nickname
 
 class ArticleSerializer(serializers.ModelSerializer):
   class CommentDetailSerializer(serializers.ModelSerializer):

@@ -5,6 +5,7 @@ from django.contrib.auth import get_user_model
 from dj_rest_auth.serializers import LoginSerializer
 from django.contrib.auth import authenticate
 from .models import Dog, User
+from community.serializers import ArticleSerializer, CommentSerializer
 
 UserModel = get_user_model()
 
@@ -105,8 +106,17 @@ class DogSerializer(serializers.ModelSerializer):
 
 class UserDetailSerializer(serializers.ModelSerializer):
     dogs = DogSerializer(many=True, read_only=True, source='dog_set')
+    articles = ArticleSerializer(many=True, read_only=True, source='article_set')
+    comments = CommentSerializer(many=True, read_only=True, source='comment_set')
+    following_count = serializers.SerializerMethodField()
+    followers_count = serializers.SerializerMethodField()
 
     class Meta:
-        model = get_user_model()
-        fields = '__all__'
-    
+        model = User
+        fields = ['username', 'nickname', 'phone_number', 'address', 'profile_img', 'birth_date', 'followings', 'dogs', 'articles', 'comments', 'following_count', 'followers_count']
+
+    def get_following_count(self, obj):
+        return obj.followings.count()
+
+    def get_followers_count(self, obj):
+        return obj.followers.count()

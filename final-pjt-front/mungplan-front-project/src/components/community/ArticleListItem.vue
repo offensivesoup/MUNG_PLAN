@@ -1,6 +1,13 @@
 <template>
   <div>
     <h5>{{ article.id }}</h5>
+    <p>
+      <RouterLink 
+        :to="{ name: 'ProfileView', params: { username: article.user }}"
+      >
+        {{ article.user }}
+      </RouterLink>
+    </p>
     <p>{{ article.title }}</p>
     <p>{{ article.content }}</p>
     <RouterLink 

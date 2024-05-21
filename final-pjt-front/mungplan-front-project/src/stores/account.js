@@ -12,6 +12,8 @@ export const useAccountStore = defineStore('account', () => {
     username: null,
     nickname: null,
     profileImg: null,
+    dogs: [],
+    articles: [],
     isAuthenticated: false
   })
 
@@ -85,13 +87,15 @@ export const useAccountStore = defineStore('account', () => {
           state.username = response.data.username
           state.nickname = response.data.nickname
           state.profileImg = response.data.profile_img
+          state.dogs = response.data.dogs
+          state.articles = response.data.articles
 
           // 사용자 정보가 state 객체에 성공적으로 저장된 후에 홈 뷰로 이동
           router.push({ name: 'HomeView' })
         })
         .catch((error) => {
           console.error('사용자 정보 가져오기 실패:', error.response ? error.response.data : error.message);
-        });
+        })
       })
     }
 
@@ -123,12 +127,13 @@ export const useAccountStore = defineStore('account', () => {
         url: `${API_URL}accounts/detail/${username}/`
       })
         .then(response => {
-          resolve(response.data);
+          // console.log(response.data)
+          resolve(response.data)
         })
         .catch(error => {
-          reject(error);
-        });
-    });
+          reject(error)
+        })
+    })
   }
 
   return { API_URL, signUp, logIn, logOut, token, state, userDetail }
