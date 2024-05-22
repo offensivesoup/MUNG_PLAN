@@ -37,8 +37,8 @@
               aria-expanded="false">
               <img v-if="store.state && store.state.profileImg && store.state.profileImg !== ''" :src="`${store.API_URL}${store.state.profileImg}`" id="user-icon" class="user" alt="user icon" />
               <img v-else src="/landing/userIcon.png" id="user-icon" class="user" alt="user icon" />
-              <span v-if="store.state && store.state.nickname">{{ store.state.nickname }}</span>
-              <span v-else>로그인이 필요합니다</span>
+              <span v-if="store.state && store.state.nickname" style="margin-left:8px;">{{ store.state.nickname }}</span>
+              <span v-else  style="margin-left:8px;">안녕하세요!</span>
             </button>
             <ul class="dropdown-menu" aria-labelledby="userDropDown">
               <li v-if="store.state.isAuthenticated">

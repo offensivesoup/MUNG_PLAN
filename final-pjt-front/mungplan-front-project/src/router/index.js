@@ -31,6 +31,11 @@ import SignUpView from '@/views/account/SignUpView.vue'
 import LogInView from '@/views/account/LogInView.vue'
 import ProfileView from '@/views/account/ProfileView.vue'
 import Swal from 'sweetalert2'
+
+import EditProfileView from '@/views/account/EditProfileView.vue'
+import DogListView from '@/views/account/DogListView.vue'
+import DogCreateView from '@/views/account/DogCreateView.vue'
+// import LikedDepositView from '@/views/account/LikedDepositView.vue'
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
   routes: [
@@ -141,6 +146,27 @@ const router = createRouter({
       name: 'ProfileView',
       component: ProfileView,
     }
+    ,
+    {
+      path: '/profile/:username/edit',
+      name: 'EditProfileView',
+      component: EditProfileView,
+    },
+    {
+      path: '/profile/:username/:profile/dogs',
+      name: 'DogListView',
+      component: DogListView,
+    },
+    {
+      path: '/profile/:username/dogs/create',
+      name: 'DogCreateView',
+      component: DogCreateView,
+    },
+    //   {
+    //     path: '/profile/:username/liked-deposits',
+    //     name: 'LikedDepositView',
+    //     component: LikedDepositView,
+    //   }
   ],
   scrollBehavior() {
     return { top: 0 }

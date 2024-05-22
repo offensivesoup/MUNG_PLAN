@@ -26,11 +26,7 @@ class CustomRegisterSerializer(RegisterSerializer):
       allow_blank=False,
       max_length=255
     )
-    profile_img = serializers.ImageField(
-      required=True,
-      max_length=100
-    )
-    birth_date = serializers.DateField(
+    birth_date = serializers.CharField(
       required=True,
     )
     first_name = serializers.CharField(
@@ -44,7 +40,7 @@ class CustomRegisterSerializer(RegisterSerializer):
       max_length=10
     )
     
-    read_only_fields = ('followings', )
+    read_only_fields = ('followings',)
         
     def get_cleaned_data(self):
         return {
@@ -106,6 +102,10 @@ class DogSerializer(serializers.ModelSerializer):
         fields = '__all__'
         read_only_fields = ('user',)
 
+class UserSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = User
+        fields = ['nickname', 'phone_number', 'address', 'password']
 class UserDetailSerializer(serializers.ModelSerializer):
     dogs = DogSerializer(many=True, read_only=True, source='dog_set')
     articles = ArticleSerializer(many=True, read_only=True, source='article_set')

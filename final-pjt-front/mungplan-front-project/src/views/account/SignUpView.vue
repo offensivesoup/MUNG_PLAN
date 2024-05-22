@@ -26,10 +26,10 @@
         <label for="address" class="label">주소</label>
         <input type="text" v-model.trim="address" id="address" class="input-field">
       </div>
-      <div class="input-group">
+      <!-- <div class="input-group">
         <label for="profileImg" class="label">프로필 이미지</label>
         <input type="file" accept="image/png, image/jpeg" @change="onFileChange" id="profileImg" class="input-field">
-      </div>
+      </div> -->
       <div class="input-group">
         <label for="birthDate" class="label">생년월일</label>
         <input type="date" v-model.trim="birthDate" id="birthDate" class="input-field">
@@ -57,19 +57,19 @@ const password2 = ref(null)
 const nickname = ref(null)
 const phoneNumber = ref(null)
 const address = ref(null)
-const profileImg = ref(null)
+// const profileImg = ref(null)
 const birthDate = ref(null)
 const firstName = ref(null)
 const lastName = ref(null)
 
 const store = useAccountStore()
 
-const onFileChange = (event) => {
-  const file = event.target.files[0]
-  if (file) {
-    profileImg.value = file;
-  }
-}
+// const onFileChange = (event) => {
+//   const file = event.target.files[0]
+//   if (file) {
+//     profileImg.value = file;
+//   }
+// }
 
 const signUp = function () {
   const payload = {
@@ -79,7 +79,7 @@ const signUp = function () {
     nickname: nickname.value,
     phoneNumber: phoneNumber.value,
     address: address.value,
-    profileImg: profileImg.value,
+    // profileImg: profileImg.value,
     birthDate: birthDate.value,
     firstName: firstName.value,
     lastName: lastName.value

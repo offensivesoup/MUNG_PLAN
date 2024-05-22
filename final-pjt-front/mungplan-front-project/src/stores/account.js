@@ -12,7 +12,7 @@ export const useAccountStore = defineStore('account', () => {
     id: null,
     username: null,
     nickname: null,
-    profileImg: null,
+    // profileImg: null,
     dogs: [],
     articles: [],
     isAuthenticated: false
@@ -21,7 +21,7 @@ export const useAccountStore = defineStore('account', () => {
   const router = useRouter()
 
   const signUp = async (payload) => {
-    const { username, password1, password2, nickname, phoneNumber, address, profileImg, birthDate, firstName, lastName } = payload;
+    const { username, password1, password2, nickname, phoneNumber, address, birthDate, firstName, lastName } = payload;
 
     try {
       const formData = new FormData();
@@ -31,9 +31,6 @@ export const useAccountStore = defineStore('account', () => {
       formData.append('nickname', nickname);
       formData.append('phone_number', phoneNumber);
       formData.append('address', address);
-      if (profileImg) {
-        formData.append('profile_img', profileImg);
-      }
       formData.append('birth_date', birthDate);
       formData.append('first_name', firstName);
       formData.append('last_name', lastName);
@@ -42,9 +39,6 @@ export const useAccountStore = defineStore('account', () => {
         method: 'post',
         url: `${API_URL}auth/registration/`,
         data: formData,
-        headers: {
-          'Content-Type': 'multipart/form-data',
-        },
       });
 
       console.log('회원가입 성공!', response.data);

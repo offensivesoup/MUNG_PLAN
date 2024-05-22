@@ -85,6 +85,7 @@ REST_AUTH = {
 ## for dj-rest-auth login
 ## just use username, password for login
 
+# ACCOUNT_SIGNUP_FORM_CLASS = 'accounts.forms.CustomSignupForm'
 ACCOUNT_ADAPTER = 'accounts.models.CustomAccountAdapter'
 
 SITE_ID = 1
