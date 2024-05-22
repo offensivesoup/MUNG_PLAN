@@ -2,7 +2,7 @@ import requests
 from bs4 import BeautifulSoup
 from django.core.management.base import BaseCommand
 from finances.models import Deposit
-
+import certifi
 class Command(BaseCommand):
   def handle(self, *args, **options):
       # finances/static/finances 디렉토리에서 모든 PNG 파일을 검색.
@@ -10,7 +10,7 @@ class Command(BaseCommand):
     url = 'https://www.bok.or.kr/portal/main/contents.do?menuNo=200580'
 
     # Send a GET request to the URL
-    response = requests.get(url)
+    response = requests.get(url, verify=False)
     url_list = []
     # Check if the request was successful
     if response.status_code == 200:
