@@ -65,7 +65,7 @@ onMounted(() => {
 
   setTimeout(() => {
     visible.value = true;
-  }, 1000)
+  }, 200)
 })
 
 </script>
@@ -73,7 +73,7 @@ onMounted(() => {
 <style scoped>
 .landing-title {
   opacity: 0;
-  transition: opacity 2s ease-in-out;
+  transition: opacity 1s ease-in-out;
 }
 
 .landing-title.fade-in {
@@ -82,19 +82,19 @@ onMounted(() => {
 
 .landing-semi-title {
   opacity: 0;
-  transition: opacity 2s ease-in-out;
+  transition: opacity 0.8s ease-in-out;
 }
 .landing-service01 {
   opacity: 0;
-  transition: opacity 2s ease-in-out;
+  transition: opacity 0.8s ease-in-out;
 }
 .landing-service02 {
   opacity: 0;
-  transition: opacity 2s ease-in-out;
+  transition: opacity 0.8s ease-in-out;
 }
 .landing-service03 {
   opacity: 0;
-  transition: opacity 2s ease-in-out;
+  transition: opacity 0.8s ease-in-out;
 }
 
 .inMonitor {

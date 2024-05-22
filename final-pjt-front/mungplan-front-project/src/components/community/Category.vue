@@ -18,4 +18,49 @@ import { useCommunityStore } from '@/stores/community'
 const store = useCommunityStore()
 </script>
 
-<style scoped></style>
+<style scoped>
+.btn-group {
+  display: flex;
+  gap: 80px;
+  
+}
+.btn-group > .btn {
+  position:relative;
+  border:none;
+  background-color:transparent;
+  color: black;
+  text-transform: uppercase;
+  height: 50px;
+  margin: 50px 0px;
+  font-size:25px;
+  opacity: 1;
+  transition: all 0.5s ease-in-out;
+  overflow: hidden;
+}
+
+.btn-group > .btn:focus {
+  outline:none;
+}
+
+.btn-group > .btn::before {
+  content:"";
+  height: 100%;
+  width: 100%;
+  position: absolute;
+  background-color:#FFBF9B;
+  /* color:white; */
+  top:100%;
+  left:0;
+  transition: all 0.4s;
+  z-index: -1;
+}
+
+.btn-group > .btn:hover::before {
+  transform : translateY(-100%);
+}
+
+.btn-group > .btn:hover {
+  color:#B46060;
+}
+
+</style>

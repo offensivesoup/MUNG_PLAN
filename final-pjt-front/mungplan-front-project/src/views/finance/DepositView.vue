@@ -12,7 +12,7 @@
       <div class="banner-content">
         <h1><b>UserName</b>님과 <b>dogName</b>을 위한</h1>
         <h1><b>맞춤 예적금</b>이 있다면~?</h1>
-        <p>멍플팬만의 스페셜 알고리즘 추천 받으러 가기 !</p>
+        <p>멍플랜만의 스페셜 알고리즘 추천 받으러 가기 !</p>
         <RouterLink :to="{ name: 'RecommendDepositView' }" type="button" class="recommend-button btn btn-light">
           추천 받기
         </RouterLink>

@@ -5,10 +5,7 @@
 
   <article :class="['content', { 'fade-in': visible }]">
     <div>
-      <h1>Article Page</h1>
-      <RouterLink :to="{ name: 'ArticleCreateView' }">
-        [CREATE]
-      </RouterLink>
+      <h1 class="title">멍플랜</h1>
       <ArticleList />
     </div>
   </article>
@@ -46,14 +43,19 @@ onMounted(() => {
 .fade-out {
   opacity: 0;
   transition: opacity 2s ease-in-out;
+  z-index:-1;
 }
 
 .content {
   opacity: 0;
+  text-align: center;
 }
 
 .fade-in {
   opacity: 1;
   transition: opacity 2s ease-in-out;
+}
+.title {
+  font-size: 100px;
 }
 </style>
