@@ -59,8 +59,8 @@ def article_detail(request, article_pk):
 ## comment
 
 @api_view(['GET'])
-def comment_list(request):
-    comments = get_list_or_404(Comment)
+def comment_list(request, article_pk):
+    comments = get_list_or_404(Comment.objects.filter(article_id = article_pk))
     serializer = CommentSerializer(comments, many = True)
     return Response(serializer.data)
 
@@ -97,3 +97,11 @@ def likes(request, article_pk):
     else:
       article.like_users.add(request.user)
     return Response(status = status.HTTP_200_OK)
+
+@api_view(['GET'])
+def isliked(request, article_pk):
+   article = Article.objects.get(pk=article_pk)
+   if request.user in article.like_users.all():
+      return Response(status=status.HTTP_200_OK)
+   else:
+      return Response(status=status.HTTP_400_BAD_REQUEST)

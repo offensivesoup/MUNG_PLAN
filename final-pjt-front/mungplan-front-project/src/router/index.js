@@ -15,7 +15,7 @@ import MapView from '@/views/map/MapView.vue'
 import ArticleView from '@/views/community/ArticleView.vue'
 import ArticleDetailView from '@/views/community/DetailView.vue'
 import ArticleCreateView from '@/views/community/CreateView.vue'
-
+import ArticleUpdateView from '@/views/community/ArticleUpdateView.vue'
 // market
 import MarketView from '@/views/market/MarketView.vue'
 
@@ -92,6 +92,11 @@ const router = createRouter({
       path: '/community/article/create',
       name: 'ArticleCreateView',
       component: ArticleCreateView
+    },
+    {
+      path: '/community/article/:id/update',
+      name: 'ArticleUpdateView',
+      component: ArticleUpdateView
     },
 
     // for market

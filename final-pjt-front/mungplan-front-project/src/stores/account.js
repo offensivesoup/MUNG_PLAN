@@ -15,6 +15,7 @@ export const useAccountStore = defineStore('account', () => {
     // profileImg: null,
     dogs: [],
     articles: [],
+    token : null,
     isAuthenticated: false
   })
 
@@ -83,6 +84,7 @@ export const useAccountStore = defineStore('account', () => {
         // console.log(response)
         // 3. 로그인 성공 후 응답 받은 토큰을 저장
         token.value = response.data.key
+        state.token = response.data.key
         state.isAuthenticated = true
         // state.username = username
         // console.log(state)

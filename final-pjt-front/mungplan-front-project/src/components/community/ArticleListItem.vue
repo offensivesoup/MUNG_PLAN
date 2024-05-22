@@ -3,15 +3,21 @@
     <main>
         <article class="content">
           <h5>{{ article.id }}</h5>
+          <div class="user">
             <RouterLink 
               :to="{ name: 'ProfileView', params: { username: article.user }}"
             >
               <span>{{ article.user }}</span>
             </RouterLink>
+          </div>
+          <div class="title">
           <RouterLink :to="{ name: 'ArticleDetailView', params: { id: article.id }}">
             <span>{{ article.title }}</span>
           </RouterLink>
+          </div>
+          <div class="writing">
           <span class="article-content"> 내용 : {{ article.content }}</span>
+        </div>
         </article>
         <hr>
       </main>
@@ -39,6 +45,10 @@ article {
 article > h5 { 
   font-size: 20px;
   font-weight: bold;
+}
+
+article > div {
+  text-align: left;
 }
 
 a {
