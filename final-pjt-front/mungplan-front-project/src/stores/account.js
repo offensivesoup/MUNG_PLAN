@@ -2,6 +2,7 @@ import { ref, computed, reactive } from 'vue'
 import { defineStore } from 'pinia'
 import axios from 'axios'
 import { useRouter } from 'vue-router'
+import Swal from 'sweetalert2'
 
 export const useAccountStore = defineStore('account', () => {
   const API_URL = 'http://127.0.0.1:8000/'
@@ -47,11 +48,29 @@ export const useAccountStore = defineStore('account', () => {
       });
 
       console.log('회원가입 성공!', response.data);
+      Swal.fire({
+        title: '회원가입 성공',
+        icon: 'success',
+        confirmButtonText: 'YES'
+      })
       const password = password1;
       logIn({ username, password });
 
     } catch (error) {
       console.error('회원가입 실패:', error.response ? error.response.data : error.message);
+      let message = ''
+      if (error.response.data.password1) {
+        message = error.response.data.password1
+        console.log(message)
+      } else if (error.response.data.non_field_errors) {
+        message = error.response.data.non_field_errors
+      }
+      Swal.fire({
+        title: '회원가입 불가',
+        text: `${message}`,
+        icon: 'error',
+        confirmButtonText: 'YES'
+      })
       console.log(payload);
     }
   };
@@ -98,6 +117,14 @@ export const useAccountStore = defineStore('account', () => {
             console.error('사용자 정보 가져오기 실패:', error.response ? error.response.data : error.message);
           })
       })
+      .catch(error => {
+        Swal.fire({
+          title: '정보 확인 불가',
+          text: `사용자 정보가 정확한지 한번 더 확인해주세요`,
+          icon: 'error',
+          confirmButtonText: 'YES'
+        })
+      })
   }
 
   const logOut = () => {
@@ -114,7 +141,7 @@ export const useAccountStore = defineStore('account', () => {
 
     // Clear axios cache
     axios.defaults.headers = {}
-    
+
     axios({
       method: 'POST',
       url: `${API_URL}auth/logout/`

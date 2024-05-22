@@ -30,7 +30,7 @@ import FinanceSelectView from '@/views/finance/FinanceSelectView.vue'
 import SignUpView from '@/views/account/SignUpView.vue'
 import LogInView from '@/views/account/LogInView.vue'
 import ProfileView from '@/views/account/ProfileView.vue'
-
+import Swal from 'sweetalert2'
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
   routes: [
@@ -141,7 +141,10 @@ const router = createRouter({
       name: 'ProfileView',
       component: ProfileView,
     }
-  ]
+  ],
+  scrollBehavior() {
+    return { top: 0 }
+  }
 })
 
 import { useAccountStore } from '@/stores/account'
@@ -149,14 +152,22 @@ import { useAccountStore } from '@/stores/account'
 router.beforeEach((to, from) => {
   const store = useAccountStore()
   // 인증되지 않은 사용자는 create에 접근 할 수 없음
-  if (to.name === 'ArticleCreateView' && store.state.isAuthenticated === false) {
-    window.alert('로그인이 필요해요!!')
+  if ((to.name === 'ArticleCreateView' || to.name === 'RecommendDepositView') && store.state.isAuthenticated === false) {
+    Swal.fire({
+      title: '로그인이 필요해요',
+      icon: 'warning',
+      confirmButtonText: 'YES'
+    })
     return { name: 'LogInView' }
   }
 
   // 인증된 사용자는 회원가입과 로그인 페이지에 접근 할 수 없음
   if ((to.name === 'SignUpView' || to.name === 'LogInView') && (store.state.isAuthenticated === true)) {
-    window.alert('이미 로그인 했습니다.')
+    Swal.fire({
+      title: '이미 로그인 했습니다!',
+      icon: 'warning',
+      confirmButtonText: 'YES'
+    })
     return { name: 'ArticleView' }
   }
 })

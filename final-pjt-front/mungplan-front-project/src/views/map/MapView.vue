@@ -268,7 +268,7 @@ const selectMarker = (place) => {
 
 .header {
   position: absolute;
-  top: 25%;
+  top: 35%;
   left: 50%;
   transform: translateX(-50%);
   display: flex;
@@ -277,11 +277,11 @@ const selectMarker = (place) => {
 }
 
 #select-btn {
-  background-color: rgb(224, 216, 176, 0.3);
+  background-color: rgba(255, 196, 0, 0.5);
   color: rgba(0, 0, 0, 1);
-  box-shadow: 0 4px;
+  box-shadow: 0 2px;
   border-color: whitesmoke;
-  border-radius: 40%;
+  border-radius: 60%;
   padding: 5px 10px;
   font-size: 30px;
   width: 200px;

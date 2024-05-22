@@ -9,7 +9,7 @@ export const useDepositStore = defineStore('deposit', () => {
   const deposits = ref([])
   const insurances = ref([])
   const staticUrl = ref('')  // staticUrl 선언
-
+  const isLoading = ref(true)
   // getters
 
   // actions
@@ -22,18 +22,20 @@ export const useDepositStore = defineStore('deposit', () => {
         deposits.value = res.data.deposits  // deposits 데이터 설정
         console.log(deposits.value)
         staticUrl.value = res.data.static_url.substring(1)  // staticUrl 데이터 설정
+        isLoading.value = false
       })
       .catch(err => console.log(err))
   }
 
-  const getInsurance = function () { 
+  const getInsurance = function () {
     axios({
-      method : 'GET',
+      method: 'GET',
       url: `${API_URL}finance/insurances/`
     })
-     .then(response => {
+      .then(response => {
         insurances.value = response.data
         console.log(insurances.value)
+        isLoading.value = false
       })
       .catch(err => console.log(err))
   }

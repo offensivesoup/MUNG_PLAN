@@ -1,5 +1,12 @@
 <template>
-  <article class="bank-content">
+  <div class="loading" v-if="store.isLoading">
+    <h2>멍플랜이 상품을 준비하고 있습니다.</h2>
+    <div class="spinner-grow" role="status">
+      <span class="sr-only">Loading...</span>
+    </div>
+  </div>
+
+  <article v-if="!store.isLoading" class="bank-content">
     <!-- 은행 작성 -->
     <div class="deposit recommendDeposit-banner">
       <div class="banner-content">
@@ -28,10 +35,9 @@
 
 <script setup>
 import { RouterLink } from 'vue-router'
-import { onMounted } from 'vue'
+import { ref, onMounted } from 'vue'
 import { useDepositStore } from '@/stores/deposit'
 import DepositList from '@/components/finance/DepositList.vue'
-
 const store = useDepositStore()
 
 onMounted(() => {
@@ -45,6 +51,7 @@ onMounted(() => {
   display: flex;
   flex-direction: row;
 }
+
 .deposit-count-info {
   display: flex;
   align-items: center;

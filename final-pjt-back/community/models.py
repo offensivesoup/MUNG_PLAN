@@ -14,7 +14,7 @@ class Article(models.Model):
   like_users = models.ManyToManyField(settings.AUTH_USER_MODEL, related_name='like_article')
   category = models.CharField(max_length = 5, choices = article_category)
   title = models.CharField(max_length=15)
-  content = models.TextField()
+  content = models.TextField(max_length = 250)
   content_img = models.ImageField(upload_to='community_images/', blank=True, null=True)
   created_at = models.DateTimeField(auto_now_add=True)
   updated_at = models.DateTimeField(auto_now=True)

@@ -1,12 +1,11 @@
 <template>
   <div class="form-container">
-    <label for="province-select">이동하실 지역을 선택해주세요</label>
+    <h3 for="province-select">이동하실 지역을 선택해주세요</h3>
     <select id="province-select" v-model="selectedRegion" @change="onRegionChange">
       <option value="" disabled>선택하세요</option>
       <option v-for="region in regions" :key="region" :value="region">{{ region }}</option>
     </select>
-    <p>선택된 지역: {{ selectedRegion }}</p>
-    <button @click="submitLocation(selectedRegion)">이동하기</button>
+    <button class="select-btn" @click="submitLocation(selectedRegion)">이동하기</button>
   </div>
 </template>
 
@@ -67,11 +66,12 @@ const submitLocation = function (region) {
 <style scoped>
 .form-container {
   display: flex;
-  flex-direction: row;
+  flex-direction: column;
   align-items: center;
-  gap: 50px;
+  justify-content: center;
+  gap: 10px;
   padding: 20px;
-  border: 1px solid #ccc;
+
   border-radius: 5px;
   max-width: 1700px;
 }
@@ -91,4 +91,21 @@ p {
   font-size: 16px;
   color: #333;
 }
+
+.select-btn {
+  background: none;
+  /* background-color -> background */
+  border: none;
+  outline: none;
+  cursor: pointer;
+  font-size: 1rem;
+  transition: font-size 0.3s ease-in-out;
+  padding: 10px 20px;
+  color: #020202;
+}
+
+.select-btn:hover {
+  font-size: 1.5rem;
+}
 </style>
+

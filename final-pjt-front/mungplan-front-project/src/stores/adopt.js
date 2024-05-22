@@ -18,6 +18,7 @@ export const useAdoptStore = defineStore('adopt', () => {
     })
       .then(response => {
         console.log(response)
+        console.log(response.data)
         shelterDogs.value = response.data
       })
       .catch(error => console.log(error))

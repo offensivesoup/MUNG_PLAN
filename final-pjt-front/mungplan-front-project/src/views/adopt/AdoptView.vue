@@ -1,84 +1,114 @@
-<!--
-  what : 입양 정보 제공 view
-  use : life nav 누르면 바로 여기로 오도록 (life의 메인 주제니까?)
- -->
-
 <template>
-  <article class="select-category">
+  <article :class="['intro', { 'fade-out': visible }]">
+    <img src="@/assets/adopt-intro.png" alt="">
+  </article>
 
-    <div>
-      <p>
-        <button class="btn btn-primary" type="button" data-bs-toggle="collapse" data-bs-target="#collapseWidthExample"
-          aria-expanded="false" aria-controls="collapseWidthExample">
-          필터
-        </button>
-      </p>
+  <article :class="['content', { 'fade-in': visible }]">
+    <div class="adopt adopt-header">
+      <h1>유기견 입양</h1>
+    </div>
+    <div class="adopt adopt-main">
+      <!-- + : 필터 - 나이, 성별, 중성화, 지역, 품종? 너무 많은가 -->
+    </div>
+    <div class="adopt adopt-count-info">
+      <img src="/adopt/brownDog1.png" alt="brown dog icon" style="width: 40px; height: 40px;">
+      <h5 style="margin: 0; font-size: 18px;">{{ store.shelterDogs.length }}마리의 아이들이 가족을 기다리고 있어요.</h5>
     </div>
 
-    <div style="min-height: 120px;">
-      <div class="collapse collapse-horizontal" id="collapseWidthExample">
-        <div class="btn-group">
+    <article class="select-category">
 
-          <div class="button1">
-            <button type="button" class="btn btn-primary dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false">
-              상태
-            </button>
-            <ul class="dropdown-menu">
-              <li><button class="btn-dropdown" @click="store.filteringDogs('stateEnd')">보호 종료</button></li>
-              <li><button class="btn-dropdown" @click="store.filteringDogs('state')">보호 중</button></li>
-            </ul>
-          </div>
+      <div>
+        <p>
+          <button class="btn btn-primary" type="button" data-bs-toggle="collapse" data-bs-target="#collapseWidthExample"
+            aria-expanded="false" aria-controls="collapseWidthExample">
+            필터
+          </button>
+        </p>
+      </div>
 
-          <div class="button2">
-            <button type="button" class="btn btn-primary dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false">
-              성별
-            </button>
-            <ul class="dropdown-menu">
-              <li><button class="btn-dropdown" @click="store.filteringDogs('femail')">여아</button></li>
-              <li><button class="btn-dropdown" @click="store.filteringDogs('mail')">남아</button></li>
-            </ul>
-          </div>
+      <div style="min-height: 120px;">
+        <div class="collapse collapse-horizontal" id="collapseWidthExample">
+          <div class="btn-group">
 
-          <div class="button3">
-            <button type="button" class="btn btn-primary dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false">
-              중성화
-            </button>
-            <ul class="dropdown-menu">
-              <li><button class="btn-dropdown" @click="store.filteringDogs('finall')">완료</button></li>
-            </ul>
+            <div class="button1">
+              <button type="button" class="btn btn-primary dropdown-toggle" data-bs-toggle="dropdown"
+                aria-expanded="false">
+                상태
+              </button>
+              <ul class="dropdown-menu">
+                <li><button class="btn-dropdown" @click="store.filteringDogs('stateEnd')">보호 종료</button></li>
+                <li><button class="btn-dropdown" @click="store.filteringDogs('state')">보호 중</button></li>
+              </ul>
+            </div>
+
+            <div class="button2">
+              <button type="button" class="btn btn-primary dropdown-toggle" data-bs-toggle="dropdown"
+                aria-expanded="false">
+                성별
+              </button>
+              <ul class="dropdown-menu">
+                <li><button class="btn-dropdown" @click="store.filteringDogs('femail')">여아</button></li>
+                <li><button class="btn-dropdown" @click="store.filteringDogs('mail')">남아</button></li>
+              </ul>
+            </div>
+
+            <div class="button3">
+              <button type="button" class="btn btn-primary dropdown-toggle" data-bs-toggle="dropdown"
+                aria-expanded="false">
+                중성화
+              </button>
+              <ul class="dropdown-menu">
+                <li><button class="btn-dropdown" @click="store.filteringDogs('finall')">완료</button></li>
+              </ul>
+            </div>
           </div>
         </div>
       </div>
-    </div>
+    </article>
+    <AdoptList />
   </article>
-
-  <div class="adopt adopt-header">
-    <h1>유기견 입양</h1>
-  </div>
-  <div class="adopt adopt-main">
-    <!-- + : 필터 - 나이, 성별, 중성화, 지역, 품종? 너무 많은가 -->
-  </div>
-  <div class="adopt adopt-count-info">
-    <img src="/adopt/brownDog1.png" alt="brown dog icon" style="width: 40px; height: 40px;">
-    <h5 style="margin: 0; font-size: 18px;">{{ store.shelterDogs.length }}마리의 아이들이 가족을 기다리고 있어요.</h5>
-  </div>
-
-  <AdoptList />
 </template>
 
 <script setup>
-import { onMounted } from 'vue'
+import { ref, onMounted } from 'vue'
 import { useAdoptStore } from '@/stores/adopt'
 import AdoptList from '@/components/adopt/AdoptList.vue'
 
+const visible = ref(false)
 const store = useAdoptStore()
 
 onMounted(() => {
   store.getShelterDogs()
+  setTimeout(() => {
+    visible.value = true
+  }, 500)
 })
 </script>
 
 <style scoped>
+.intro {
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  text-align: center;
+  opacity: 1;
+}
+
+.fade-out {
+  opacity: 0;
+  transition: opacity 2s ease-in-out;
+}
+
+.content {
+  opacity: 0;
+}
+
+.fade-in {
+  opacity: 1;
+  transition: opacity 2s ease-in-out;
+}
+
 .adopt-count-info {
   display: flex;
   /* justify-content: flex-start !important; */
@@ -111,6 +141,7 @@ onMounted(() => {
   display: flex;
   justify-content: left;
   align-items: center;
+  margin-left: 250px;
 }
 
 .btn-primary {

@@ -87,7 +87,7 @@ def deposit_recommend(request, user_id):
     user = get_object_or_404(User, id=user_id)
     liked_deposits = user.like_deposit.select_related('category').all()
     deposits = Deposit.objects.all()
-    user_dogs = Dog.objects.filter(user=user).prefetch_related('breed').all()
+    user_dogs = Dog.objects.filter(user=user).all()
     
     if not users.exists() or not deposits.exists():
         return Response({"error": "No users or deposits found"}, status=400)

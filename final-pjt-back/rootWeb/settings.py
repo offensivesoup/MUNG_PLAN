@@ -202,4 +202,5 @@ STATIC_ROOT = BASE_DIR / 'staticfiles'
 STATICFILES_DIRS = [
     BASE_DIR / 'finances' / 'static'/ 'finances',
     BASE_DIR / 'accounts' / 'static'/ 'accounts',
+    BASE_DIR / 'finances' / 'static'/ 'insurances',
 ]

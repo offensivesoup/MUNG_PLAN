@@ -1,12 +1,12 @@
 <template>
     <div class="intro">
-<!-- 인트로 작성 -->
-    <RouterLink :to="{name : 'DepositView'}">
-        <img src="@/assets/bank_intro.png" alt="" class="select-img">
-    </RouterLink>
-    <RouterLink :to="{name : 'InsuranceView'}">
-        <img src="@/assets/insurance_intro.png" alt="" class="select-img">
-    </RouterLink>
+        <!-- 인트로 작성 -->
+        <RouterLink :to="{ name: 'DepositView' }">
+            <img src="@/assets/bank_intro.png" alt="" class="select-img">
+        </RouterLink>
+        <RouterLink :to="{ name: 'InsuranceView' }">
+            <img src="@/assets/insurance_intro.png" alt="" class="select-img">
+        </RouterLink>
     </div>
 </template>
 
@@ -25,7 +25,7 @@ import { RouterLink } from 'vue-router'
     padding-top: 100px;
 }
 
-.select-img{
+.select-img {
     width: 1000px;
     margin: 0;
     opacity: 1;

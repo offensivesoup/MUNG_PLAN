@@ -38,4 +38,6 @@ class Insurance(models.Model):
     admission = models.CharField(max_length = 225)
     liability = models.CharField(max_length = 225)
     surgery = models.BooleanField()
+    company_image = models.CharField(max_length=100, blank=True, null=True)
+    link = models.CharField(max_length=225, blank=True, null=True)
 

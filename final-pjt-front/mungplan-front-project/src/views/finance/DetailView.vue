@@ -1,6 +1,3 @@
-<!-- 
-  what : 상세 페이지! 
- -->
 <template>
   <div class="deposit-detail">
     <h1>DetailView</h1>
@@ -41,6 +38,4 @@ onMounted(() => {
 })
 </script>
 
-<style scoped>
-
-</style>
+<style scoped></style>
