@@ -2,6 +2,7 @@
 from django.shortcuts import get_object_or_404, get_list_or_404
 from django.contrib.auth import get_user_model
 from django.conf import settings
+from django.contrib.auth.hashers import make_password
 
 ## REST_API
 from rest_framework.response import Response
@@ -9,13 +10,17 @@ from rest_framework.decorators import api_view
 from rest_framework import status
 from rest_framework.authtoken.views import ObtainAuthToken
 from rest_framework.authtoken.models import Token
+from rest_framework import generics, permissions
+from rest_framework import generics
+
 ## from pjt
 from .models import Dog
-from .serializers import DogListSerializer, DogSerializer, UserDetailSerializer
+from .serializers import DogListSerializer, DogSerializer, UserDetailSerializer, UserSerializer
 
 # permission Decorators
 from rest_framework.decorators import permission_classes
 from rest_framework.permissions import IsAuthenticated
+
 
 ## from local
 @api_view(['POST'])
@@ -71,4 +76,21 @@ def get_user_info(request):
     user = request.user
     serializer = UserDetailSerializer(user)
     return Response(serializer.data, status=status.HTTP_200_OK)
+
+class UserUpdateView(generics.RetrieveUpdateAPIView):
+    queryset = get_user_model().objects.all()
+    serializer_class = UserSerializer
+    permission_classes = [permissions.IsAuthenticated]
+
+    def get_object(self):
+        return self.request.user
     
+    def update(self, request, *args, **kwargs):
+        user = self.get_object()
+        serializer = self.get_serializer(user, data=request.data)
+        serializer.is_valid(raise_exception=True)
+        if 'password' in serializer.validated_data:
+            user.set_password(serializer.validated_data.pop('password'))
+            user.save()
+        serializer.save()
+        return Response(serializer.data)

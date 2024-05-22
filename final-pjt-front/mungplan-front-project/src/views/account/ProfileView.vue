@@ -12,8 +12,11 @@
           &nbsp; / &nbsp;
           <p style="display: inline-block;">Following: {{ followings.length ? followings.length : 0 }}</p>
         </span>
-        <button class="btn follow-btn btn-primary" @click="toggleFollow" v-if="store.state.id !== profileUserId">
+        <button class="btn follow-btn btn-primary" @click="toggleFollow" v-if="store.state.id && store.state.id !== profileUserId">
           {{ isFollowing ? 'Unfollow' : 'Follow' }}
+        </button>
+        <button class="btn edit-btn btn-primary" @click="goToEditProfile" v-else-if="store.state.id">
+          Edit Profile
         </button>
       </div>
     </div>
@@ -31,7 +34,10 @@
         </div>
       </div>
       <div class="row-second-dogs col-md-6 overflow-auto">
-        <h3 style="margin-left:25px;">DOG INFO</h3>
+        <div style="display: flex;">
+          <h3 style="margin-left: 25px;">DOG INFO</h3>
+          <img class="img-button" src="/profile/add-list (1).png" alt="Add Dog" style="width: 33px; height: 33px; margin-left: 10px; cursor: pointer;" @click="$router.push({ name: 'DogListView', params: { username: nickName.value, profile: profile.value } })">
+        </div>
         <div v-if="dogs.length > 0" class="dogs-details" >
           <div class="row-second-image col-md-6">
             <img :src="`${store.API_URL}${dogs[0].dog_img}`" alt="강아지 프로필 이미지">
@@ -40,7 +46,7 @@
             <h5> NAME: {{ dogs[0].name }}</h5>
             <h5> BREED: <span v-if="dogs[0].breed">{{ dogs[0].breed }}</span><span v-else>기타</span></h5>
             <h5> AGE: {{ dogs[0].age }}살</h5>
-            <h5> GENDER: <span v-if="dogs[0].gender === 'M'">남성</span><span v-else-if="dogs[0].gender === 'F'">여성</span><span v-else>중성화 완료</span></h5>
+            <h5> GENDER: <span v-if="dogs[0].gender === 'M'">남아</span><span v-else-if="dogs[0].gender === 'F'">여아</span><span v-else>중성화 완료</span></h5>
           </div>
         </div>
         <!-- 여기 별로.. 좀 바꿔야 할 듯 -->
@@ -79,7 +85,10 @@
         </div>
       </div>
       <div class="row-third-deposits col-md-6">
-        <h3 style="margin-left: 25px;">LIKED DEPOSIT</h3>
+        <div style="display: flex;">
+          <h3 style="margin-left: 25px;">LIKED DEPOSIT</h3>
+          <img class="img-button" src="/profile/checklist (1).png" alt="Add Dog" style="width: 37px; height: 33px; margin-left: 10px; cursor: pointer;" @click="$router.push({ name: 'LikedDepositListView', params: { nickName: nickName.value} })">
+        </div>
         <div class="article-table">
           <table class="table">
             <thead>
@@ -108,12 +117,13 @@
 <script setup>
 import axios from 'axios'
 import { useAccountStore } from '@/stores/account'
-import { useRoute } from 'vue-router'
+import { useRoute, useRouter } from 'vue-router'
 import { ref, onMounted } from 'vue'
 import { RouterLink } from 'vue-router'
 import { watch } from 'vue'
 
 const $route = useRoute()
+const router = useRouter()  
 const store = useAccountStore()
 
 const loading = ref(false)
@@ -194,6 +204,10 @@ const toggleFollow = async () => {
     console.error(error)
   }
 }
+
+const goToEditProfile = () => {
+  router.push({ name: 'EditProfileView', params: { username: $route.params.username }})
+}
 </script>
 
 <style scoped>
@@ -234,6 +248,11 @@ const toggleFollow = async () => {
   height: 40px;
 }
 
+.edit-btn{
+  width: 140px;
+  height: 40px;
+}
+
 .row-second {
   display: flex;
   align-items: center;
@@ -259,6 +278,12 @@ h5 > img {
   width: 50px;
   height: auto;
   margin: 10px;
+}
+.img-button {
+  transition: filter 0.3s ease;
+}
+.img-button:hover {
+  filter: brightness(60%);
 }
 .dogs-details {
   margin-left: 20px;
