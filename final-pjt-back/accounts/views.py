@@ -16,6 +16,9 @@ from rest_framework import generics
 ## from pjt
 from .models import Dog
 from .serializers import DogListSerializer, DogSerializer, UserDetailSerializer, UserSerializer
+from finances.models import Deposit
+from finances.serializers import DepositListSerializer
+
 
 # permission Decorators
 from rest_framework.decorators import permission_classes
@@ -36,19 +39,25 @@ def follow(request, user_pk):
         you.save()
     return Response(status = status.HTTP_200_OK)
 
-@api_view(['GET','POST'])
-def dogs_list(request, user_pk):
-    if request.method == 'GET':
-        dogs = Dog.objects.filter(user = user_pk)
-        serializer = DogListSerializer(dogs, many = True)
-        return Response(serializer.data)
-    elif request.method == 'POST':
-        if request.user.pk == user_pk:
-            serializer = DogSerializer(data = request.data)
-            if serializer.is_valid(raise_exception=True):
-                serializer.save(user=request.user)
-                return Response(serializer.data, status=status.HTTP_201_CREATED)
+@api_view(['GET'])
+def get_dogs_list(request, user_pk):
+    dogs = Dog.objects.filter(user=user_pk)
+    serializer = DogListSerializer(dogs, many=True)
+    return Response(serializer.data)
 
+@api_view(['POST'])
+@permission_classes([IsAuthenticated])
+def create_dog(request, user_pk):
+    if request.user.pk == user_pk:
+        serializer = DogSerializer(data=request.data)
+        if serializer.is_valid():
+            serializer.save(user=request.user)
+            return Response(serializer.data, status=status.HTTP_201_CREATED)
+        else:
+            return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+    else:
+        return Response({'error': 'Unauthorized'}, status=status.HTTP_403_FORBIDDEN)
+    
 @api_view(['DELETE', 'PUT'])
 def dog_detail(request, user_pk, dog_pk):
     dog = get_object_or_404(Dog, pk = dog_pk)
@@ -94,3 +103,9 @@ class UserUpdateView(generics.RetrieveUpdateAPIView):
             user.save()
         serializer.save()
         return Response(serializer.data)
+
+@api_view(['GET'])
+def get_liked_deposit(request, user_pk):
+    liked_deposits = Deposit.objects.filter(like_users__pk=user_pk)
+    serializer = DepositListSerializer(liked_deposits, many=True)
+    return Response(serializer.data, status=status.HTTP_200_OK)

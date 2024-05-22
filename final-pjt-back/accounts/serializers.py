@@ -106,6 +106,7 @@ class UserSerializer(serializers.ModelSerializer):
     class Meta:
         model = User
         fields = ['nickname', 'phone_number', 'address', 'password']
+        
 class UserDetailSerializer(serializers.ModelSerializer):
     dogs = DogSerializer(many=True, read_only=True, source='dog_set')
     articles = ArticleSerializer(many=True, read_only=True, source='article_set')

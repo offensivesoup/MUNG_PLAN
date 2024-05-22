@@ -3,7 +3,7 @@
     <div class="card">
       <div class="card-body">
         <div class="card-logo-and-title">
-          <img class="company-image" :src="`${store.API_URL}${store.staticUrl}${deposit.company_image}`"
+          <img class="company-image" :src="`${depositStore.API_URL}${depositStore.staticUrl}${deposit.company_image}`"
             alt="company logo">
           <div class="card-titles">
             <h5 class="card-title">{{ deposit.product_name }}</h5>
@@ -29,7 +29,7 @@
       <div class="modal-dialog modal-dialog-centered">
         <div class="modal-content">
           <div class="modal-header">
-            <img class="bank-modal-image card-img-top" :src="`${store.API_URL}${store.staticUrl}${deposit.company_image}`"
+            <img class="bank-modal-image card-img-top" :src="`${depositStore.API_URL}${depositStore.staticUrl}${deposit.company_image}`"
               alt="없음">
           </div>
           <div class="modal-body">
@@ -58,6 +58,7 @@
 </template>
 
 <script setup>
+import { onMounted } from 'vue'
 import { ref } from 'vue'
 import axios from 'axios'
 import { useDepositStore } from '@/stores/deposit'
@@ -67,9 +68,25 @@ const props = defineProps({
   deposit: Object
 })
 
-const store = useDepositStore()
-const token = useAccountStore().token
+const depositStore = useDepositStore()
+const accountStore = useAccountStore()
 const liked = ref(false)
+
+onMounted(async () => {
+  try {
+    const response = await axios.get(
+      `${depositStore.API_URL}accounts/${accountStore.state.id}/liked-deposit/`,
+      {
+        headers: {
+          Authorization: `Token ${accountStore.token}`
+        }
+      }
+    );
+    liked.value = response.data.some(deposit => deposit.id === props.deposit.id);
+  } catch (error) {
+    console.error(error);
+  }
+})
 
 const toggleLike = async () => {
   if (!props.deposit) {
@@ -79,11 +96,11 @@ const toggleLike = async () => {
 
   try {
     await axios.post(
-      `${store.API_URL}finance/deposit/${props.deposit.id}/likes/`,
+      `${depositStore.API_URL}finance/deposit/${props.deposit.id}/likes/`,
       {},
       {
         headers: {
-          Authorization: `Token ${token}`
+          Authorization: `Token ${accountStore.token}`
         }
       }
     )

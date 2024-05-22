@@ -53,38 +53,38 @@ onMounted(async () => {
 })
 
 const updateUser = async (userId, token, userData) => {
-    try {
-        const response = await axios.put(`${store.API_URL}accounts/api/users/${userId}/`, userData, {
-            headers: {
-                'Authorization': `Token ${token}`
-            }
-        });
-        console.log(response.data)
-
-        // 사용자 정보가 성공적으로 변경된 후에 다시 사용자 정보를 가져와서 상태를 업데이트
-        await axios.get(`${store.API_URL}accounts/userinfo/`, {
+  try {
+      const response = await axios.put(`${store.API_URL}accounts/api/users/${userId}/`, userData, {
           headers: {
-            'Authorization': `Token ${token}`
+              'Authorization': `Token ${token}`
           }
-        })
-          .then((response) => {
-            console.log(response)
-            store.state.id = response.data.id
-            store.state.username = response.data.username
-            store.state.nickname = response.data.nickname
-            store.state.profileImg = response.data.profile_img
-            store.state.dogs = response.data.dogs
-            store.state.articles = response.data.articles
+      });
+      console.log(response.data)
 
-            // 사용자 정보가 state 객체에 성공적으로 저장된 후에 홈 뷰로 이동
-            router.push({ name: 'HomeView' })
-          })
-          .catch((error) => {
-            console.error('사용자 정보 가져오기 실패:', error.response ? error.response.data : error.message);
-          })
-    } catch (error) {
-        console.error(error)
-    }
+      // 사용자 정보가 성공적으로 변경된 후에 다시 사용자 정보를 가져와서 상태를 업데이트
+      await axios.get(`${store.API_URL}accounts/userinfo/`, {
+        headers: {
+          'Authorization': `Token ${token}`
+        }
+      })
+        .then((response) => {
+          console.log(response)
+          store.state.id = response.data.id
+          store.state.username = response.data.username
+          store.state.nickname = response.data.nickname
+          store.state.profileImg = response.data.profile_img
+          store.state.dogs = response.data.dogs
+          store.state.articles = response.data.articles
+
+          // 사용자 정보가 state 객체에 성공적으로 저장된 후에 홈 뷰로 이동
+          router.push({ name: 'HomeView' })
+        })
+        .catch((error) => {
+          console.error('사용자 정보 가져오기 실패:', error.response ? error.response.data : error.message);
+        })
+  } catch (error) {
+      console.error(error)
+  }
 }
 </script>
   

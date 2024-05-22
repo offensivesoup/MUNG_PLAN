@@ -36,7 +36,7 @@
       <div class="row-second-dogs col-md-6 overflow-auto">
         <div style="display: flex;">
           <h3 style="margin-left: 25px;">DOG INFO</h3>
-          <img class="img-button" src="/profile/add-list (1).png" alt="Add Dog" style="width: 33px; height: 33px; margin-left: 10px; cursor: pointer;" @click="$router.push({ name: 'DogListView', params: { username: nickName.value, profile: profile.value } })">
+          <img class="img-button" src="/profile/add-list (1).png" alt="Add Dog" style="width: 33px; height: 33px; margin-left: 10px; cursor: pointer;" @click="$router.push({ name: 'DogView', params: { username: username.value}, query:{ id:profileUserId, nickname: nickName}})">
         </div>
         <div v-if="dogs.length > 0" class="dogs-details" >
           <div class="row-second-image col-md-6">
@@ -87,7 +87,7 @@
       <div class="row-third-deposits col-md-6">
         <div style="display: flex;">
           <h3 style="margin-left: 25px;">LIKED DEPOSIT</h3>
-          <img class="img-button" src="/profile/checklist (1).png" alt="Add Dog" style="width: 37px; height: 33px; margin-left: 10px; cursor: pointer;" @click="$router.push({ name: 'LikedDepositListView', params: { nickName: nickName.value} })">
+          <img class="img-button" src="/profile/checklist (1).png" alt="Add Dog" style="width: 37px; height: 33px; margin-left: 10px; cursor: pointer;" @click="$router.push({ name: 'LikedDepositView', params: { username: username.value}, query:{ id:profileUserId, nickname: nickName} })">
         </div>
         <div class="article-table">
           <table class="table">

@@ -86,9 +86,9 @@ class Dog(models.Model):
     dog_img = models.CharField(max_length=100, blank=True, null=True)
 
     def save(self, *args, **kwargs):
-        if not self.dog_img:
-            self.dog_img = self.get_random_dog_img()
-        super().save(*args, **kwargs)
+      if not self.dog_img:
+          self.dog_img = self.get_random_dog_img()
+      super().save(*args, **kwargs)
 
     @staticmethod
     def get_random_dog_img():
