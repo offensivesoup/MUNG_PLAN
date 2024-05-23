@@ -15,38 +15,43 @@
 
 <script setup>
 import { ref, computed, watch } from 'vue'
-import { useDepositStore } from '@/stores/deposit'
-import DepositListItem from './DepositListItem.vue'
 import { useRoute, useRouter } from 'vue-router'
+import DepositListItem from './DepositListItem.vue'
 
-const store = useDepositStore()
+const props = defineProps({
+  filteredAndSortedDeposits: Array
+})
+
 const route = useRoute()
 const router = useRouter()
 
-// 페이지네이션
 const currentPage = ref(parseInt(route.query.page) || 1)
-const postsPerPage = 15 // 한 페이지에 보여줄 개수
+const postsPerPage = 15
 
 watch(route, () => {
   currentPage.value = parseInt(route.query.page) || 1
 })
 
 const totalPages = computed(() => {
-  return Math.ceil(store.deposits.length / postsPerPage)
+  return Math.ceil(props.filteredAndSortedDeposits.length / postsPerPage)
 })
 
 const displayedPosts = computed(() => {
   const startIndex = (currentPage.value - 1) * postsPerPage
   const endIndex = startIndex + postsPerPage
-  return store.deposits.slice(startIndex, endIndex)
+  return props.filteredAndSortedDeposits.slice(startIndex, endIndex)
 })
 
 const nextPage = () => {
-  router.push({ query: { ...route.query, page: currentPage.value + 1 } })
+  if (currentPage.value < totalPages.value) {
+    router.push({ query: { ...route.query, page: currentPage.value + 1 } })
+  }
 }
 
 const prevPage = () => {
-  router.push({ query: { ...route.query, page: currentPage.value - 1 } })
+  if (currentPage.value > 1) {
+    router.push({ query: { ...route.query, page: currentPage.value - 1 } })
+  }
 }
 </script>
 
