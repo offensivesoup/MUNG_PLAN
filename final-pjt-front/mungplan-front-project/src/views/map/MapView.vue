@@ -41,11 +41,9 @@
           <hr>
           <p v-if="targetPlace.facility_link !== '정보없음'">
             링크 : <a :href=targetPlace.facility_link>바로가기</a>
-            <hr>
           </p>
           <p v-else>
             링크 : 정보 없음
-            <hr>
           </p>
         </div>
       </naver-info-window>
@@ -321,12 +319,16 @@ const selectMarker = (place) => {
   text-align: center;
   background-color: white;
   padding: 10px;
-  width: 100px;
-  height: 250px;
-  font-size: 10px;
+  width: 320px;
+  height: 310px;
+  font-size: 22px;
   border: black solid 2px;
   border-radius: 30px;
+  padding-top: 25px;
+  overflow: auto; /* 내용이 넘칠 경우 스크롤바 추가 */
+  word-wrap: break-word; /* 긴 단어를 줄 바꿈 처리 */
 }
+
 
 .marker {
   position: absolute;

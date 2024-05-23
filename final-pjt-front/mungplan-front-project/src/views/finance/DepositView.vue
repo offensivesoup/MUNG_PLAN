@@ -30,29 +30,25 @@
     <div class="deposit deposit-header">
       <h1 style="font-size: 3.2rem; padding-top: 20px;">내 아이를 위한 비상금</h1>
     </div>
-       <div class="deposit deposit-filters">
-      <label for="type-filter">종류</label>
-      <select id="type-filter" v-model="selectedFilters.type">
-        <option value="">전체</option>
-        <option value="예금">예금</option>
-        <option value="적금">적금</option>
-        <option value="펫상품">펫적금상품</option>
-      </select>
-
-      <label for="financial-type-filter">금융권 종류</label>
-      <select id="financial-type-filter" v-model="selectedFilters.financialType">
-        <option value="">전체</option>
-        <option value="1금융권">1금융권</option>
-        <option value="2금융권">2금융권</option>
-      </select>
-
-      <label for="period-filter">기간</label>
-      <select id="period-filter" v-model="selectedFilters.period">
-        <option value="">전체</option>
-        <option value="12">12개월</option>
-        <option value="24">24개월</option>
-        <option value="36">36개월</option>
-      </select>
+    <div class="deposit deposit-filters" style="padding: 0 270px; margin: 20px 0;">
+      <CustomDropdown
+        id="type-filter"
+        v-model="selectedFilters.type"
+        :options="typeOptions"
+        defaultLabel="상품 종류"
+      />
+      <CustomDropdown
+        id="financial-type-filter"
+        v-model="selectedFilters.financialType"
+        :options="financialTypeOptions"
+        defaultLabel="금융권 종류"
+      />
+      <CustomDropdown
+        id="period-filter"
+        v-model="selectedFilters.period"
+        :options="periodOptions"
+        defaultLabel="기간 선택"
+      />
     </div>
 
     <div class="selected-filters">
@@ -67,13 +63,13 @@
       </div>
     </div>
 
-    <div class="deposit deposit-count-info" style="display: flex; justify-content: space-between; padding:0 250.500px; margin: 20px 30px;">
+    <div class="deposit deposit-count-info" style="display: flex; justify-content: space-between; padding:0 250.500px; margin: 30px 30px;">
       <div>
         <img src="/deposit/passbook.png" alt="passbook icon" style="width: 30px; height: 30px;">
-        <h5 style="margin: 0; font-size: 15px; display: inline;">{{ productCount }}개의 상품으로 미리 대비해보세요.</h5>
+        <h5 style="margin: 0; font-size: 18px; display: inline;">{{ productCount }}개의 상품으로 미리 대비해보세요.</h5>
       </div>
       <div>
-        <select v-model="sortOrder">
+        <select v-model="sortOrder" class="styled-select">
           <option value="highest">최고금리순</option>
           <option value="basic">기본금리순</option>
         </select>
@@ -88,6 +84,7 @@ import { ref, computed, watch, onMounted } from 'vue'
 import { useDepositStore } from '@/stores/deposit'
 import { useAccountStore } from '@/stores/account'
 import DepositList from '@/components/finance/DepositList.vue'
+import CustomDropdown from '@/components/CustomDropdown.vue'
 
 const store = useDepositStore()
 const accountStore = useAccountStore()
@@ -104,6 +101,26 @@ const selectedFilters = ref({
   financialType: '', // 전체/1금융권
   period: '' // 12/24/36
 })
+
+const typeOptions = [
+  { value: '', label: '전체' },
+  { value: '예금', label: '예금' },
+  { value: '적금', label: '적금' },
+  { value: '펫상품', label: '펫적금상품' }
+]
+
+const financialTypeOptions = [
+  { value: '', label: '전체' },
+  { value: '1금융권', label: '1금융권' },
+  { value: '2금융권', label: '2금융권' }
+]
+
+const periodOptions = [
+  { value: '', label: '전체' },
+  { value: '12', label: '12개월' },
+  { value: '24', label: '24개월' },
+  { value: '36', label: '36개월' }
+]
 
 // 필터링된 목록 계산
 const filteredDeposits = computed(() => {
@@ -185,7 +202,6 @@ watch([filteredDeposits, sortOrder], ([filtered, order]) => {
   // 교집합을 저장
   filteredAndSortedDeposits.value = intersectedDeposits
 })
-
 </script>
 
 <style scoped>
@@ -252,5 +268,28 @@ watch([filteredDeposits, sortOrder], ([filtered, order]) => {
 .recommend-button:hover {
   border-color: #1d1101c7;
   background-color: rgba(247, 220, 185, 0.808);
+}
+.selected-filters {
+  display: flex;
+  justify-content: center;
+  gap: 10px;
+  margin: 20px 0;
+}
+
+.selected-filters span {
+  background-color: rgb(252, 226, 194, 0.9);
+  padding: 5px 10px;
+  border-radius: 5px;
+}
+.styled-select {
+  width: 100%;
+  padding: 10px;
+  font-size: 1rem;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  background-color: #f8f8f8;
+  color: #333;
+  outline: none;
+  transition: border-color 0.3s;
 }
 </style>

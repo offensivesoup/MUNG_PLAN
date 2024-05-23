@@ -1,6 +1,6 @@
 <template>
   <div class="create-dog">
-    <h1>Create Dog</h1>
+    <h1>강아지 정보 추가</h1>
     <form @submit.prevent="createDog" class="form">
       <div class="input-group">
         <label for="name" class="label">이름:</label>
@@ -39,7 +39,7 @@
           <option value="12">기타</option>
         </select>
       </div>
-      <button type="submit" class="submit-button">Create</button>
+      <button type="submit" class="submit-button">저장</button>
     </form>
   </div>
 </template>

@@ -5,7 +5,7 @@
 
   <article :class="['content', { 'fade-in': visible }]">
     <div class="adopt adopt-header">
-      <h1>유기견 입양</h1>
+      <h1 style="font-size: 3.2rem; padding-top: 12px;">유기견 입양</h1>
     </div>
     <div class="adopt adopt-main">
       <!-- + : 필터 - 나이, 성별, 중성화, 지역, 품종? 너무 많은가 -->

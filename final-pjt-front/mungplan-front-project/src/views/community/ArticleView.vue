@@ -5,7 +5,7 @@
 
   <article :class="['content', { 'fade-in': visible }]">
     <div>
-      <h1 class="title">멍플랜</h1>
+      <h1 style="font-size: 3.2rem; padding-top: 12px;">와글와글 멍글멍글!</h1>
       <ArticleList />
     </div>
   </article>
@@ -54,8 +54,5 @@ onMounted(() => {
 .fade-in {
   opacity: 1;
   transition: opacity 2s ease-in-out;
-}
-.title {
-  font-size: 100px;
 }
 </style>

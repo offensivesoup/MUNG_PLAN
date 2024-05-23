@@ -15,19 +15,19 @@
           <div class="collapse navbar-collapse" id="navbarSupportedContent">
             <ul class="navbar-nav en me-auto mb-2 mb-lg-0">
               <li class="nav-item">
-                <RouterLink :to="{ name: 'AdoptView' }" class="nav-link">Adopt</RouterLink>
+                <RouterLink :to="{ name: 'AdoptView' }" class="nav-link" :class="{ 'active': isActiveLink('/adopts') }">Adopt</RouterLink>
               </li>
               <li class="nav-item">
-                <RouterLink :to="{ name: 'MapView' }" class="nav-link">Map</RouterLink>
+                <RouterLink :to="{ name: 'MapView' }" class="nav-link" :class="{ 'active': isActiveLink('/map') }">Map</RouterLink>
               </li>
               <li class="nav-item">
-                <RouterLink :to="{ name: 'ArticleView' }" class="nav-link">Community</RouterLink>
+                <RouterLink :to="{ name: 'ArticleView' }" class="nav-link" :class="{ 'active': isActiveLink('/community/articles') }">Community</RouterLink>
               </li>
               <li class="nav-item">
-                <RouterLink :to="{ name: 'MarketView' }" class="nav-link">Market</RouterLink>
+                <RouterLink :to="{ name: 'MarketView' }" class="nav-link" :class="{ 'active': isActiveLink('/market') }">Market</RouterLink>
               </li>
               <li class="nav-item">
-                <RouterLink :to="{ name: 'FinanceSelectView' }" class="nav-link">Finance</RouterLink>
+                <RouterLink :to="{ name: 'FinanceSelectView' }" class="nav-link" :class="{ 'active': isActiveLink('/finance') }">Finance</RouterLink>
               </li>
             </ul>
           </div>
@@ -70,16 +70,16 @@
       <div class="footer-message">모두의 아름다운 선택을 위해서</div>
       <div class="footer-message">SSAFY 11기 관통 프로젝트</div>
       <div class="footer-contact">
-        김동환 : 깃허브 주소
-        이승지 : 깃허브 주소
+        <p style="margin:0;">김동환 : https://github.com/offensivesoup/</p>
+        <p>이승지 : https://github.com/Seungjida/</p>
       </div>
-      <div class="footer-copyright">Copyright 2020 All ⓒ rights reserved</div>
+      <div class="footer-copyright">Copyright 2024 All ⓒ rights reserved</div>
       <div class="footer-links">
         <RouterLink :to="{ name: 'AdoptView' }" class="footer-link">Adopt</RouterLink>
         <RouterLink :to="{ name: 'MapView' }" class="footer-link">Map</RouterLink>
         <RouterLink :to="{ name: 'ArticleView' }" class="footer-link">Community</RouterLink>
         <RouterLink :to="{ name: 'MarketView' }" class="footer-link">Market</RouterLink>
-        <RouterLink :to="{ name: 'DepositView' }" class="footer-link">Finance</RouterLink>
+        <RouterLink :to="{ name: 'DepositView' }" class="footer-link" >Finance</RouterLink>
       </div>
     </div>
   </footer>
@@ -91,7 +91,9 @@ import { useAccountStore } from './stores/account';
 import { ref, computed } from 'vue'
 import { RouterLink, RouterView } from 'vue-router'
 import { onMounted, onBeforeUnmount } from 'vue'
-import HomeView from '@/views/HomeView.vue';
+import HomeView from '@/views/HomeView.vue'
+import { isActiveLink } from './helpers/isActiveLink'
+
 const canSee = ref(false)
 const store = useAccountStore()
 
@@ -143,6 +145,7 @@ const handleScroll = () => {
 .logo {
   height: 100%;
   width: 150px;
+  margin-left:35px;
 }
 
 .nav-item {
@@ -155,7 +158,12 @@ const handleScroll = () => {
   color: #000;
   /* 더 진한 색상으로 변경 */
 }
-
+.router-link-active {
+  color: black;
+}
+.active{
+  color: black;
+}
 
 #user-icon {
   width: 20%;
@@ -245,4 +253,8 @@ footer {
   /* 기본 링크 색상 */
   padding: 5px 10px;
   /* 링크에 여백을 추가 */
-}</style>
+}
+.dropdown-menu{
+  --bs-dropdown-link-active-bg:#faddb0;
+}
+</style>

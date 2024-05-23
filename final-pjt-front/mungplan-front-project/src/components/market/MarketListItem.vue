@@ -3,8 +3,8 @@
     <div class="card" style="width: 18rem;">
       <img class="product-image card-img-top" :src="product.item_img" alt="product">
       <div class="card-body">
-        <p class="card-text" v-html="product.item_name"></p> <!-- v-html 디렉티브를 사용하여 HTML 문자열을 렌더링 -->
-        <p class="card-text">{{ product.item_low_price }}원</p>
+        <p class="card-text" v-html="product.item_name" style="font-size: large; padding-bottom: 10px;"></p> <!-- v-html 디렉티브를 사용하여 HTML 문자열을 렌더링 -->
+        <p class="card-text" style="font-size: large;">{{ product.item_low_price }}원</p>
         <a :href="generatedUrl" class="btn btn-primary" target="_blank"> 상세보기</a>
         <!-- target="_blank" 속성을 사용하여 새 창에서 링크 열기 -->
       </div>
@@ -61,6 +61,7 @@ const generatedUrl = computed(() => generateUrl(query.value))
   background-color: rgb(253, 251, 237);
   box-shadow: 0 2px 6px;
   transition: transform 0.8s ease, box-shadow 0.8s ease;
+  text-align: center;
 }
 
 .card:hover {

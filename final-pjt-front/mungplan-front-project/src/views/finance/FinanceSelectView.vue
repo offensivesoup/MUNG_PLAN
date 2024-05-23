@@ -1,7 +1,7 @@
 <template>
     <div class="intro">
         <!-- 인트로 작성 -->
-        <RouterLink :to="{ name: 'DepositView' }">
+        <RouterLink :to="{ name: 'DepositView' }" >
             <img src="@/assets/bank_intro.png" alt="" class="select-img">
         </RouterLink>
         <RouterLink :to="{ name: 'InsuranceView' }">
@@ -22,7 +22,7 @@ import { RouterLink } from 'vue-router'
     flex-direction: row;
     width: 100%;
     height: 100vh;
-    padding-top: 100px;
+    /* padding-top: 100px; */
 }
 
 .select-img {

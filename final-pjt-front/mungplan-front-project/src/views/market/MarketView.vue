@@ -5,7 +5,7 @@
 
   <article :class="['content', { 'fade-in': visible }]">
     <div class="market market-header">
-      <h1>멍마켓</h1>
+      <h1 style="font-size: 3.2rem;">멍마켓</h1>
     </div>
     <div class="maket market-main">
       <!-- + : 필터 - 나이, 성별, 중성화, 지역, 품종? 너무 많은가 -->

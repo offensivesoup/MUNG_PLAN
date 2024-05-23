@@ -7,7 +7,6 @@
     </RouterLink>
   </div>
   <article class="article">
-    <h3>글 목록</h3>
     <ArticleListItem v-for="article in displayedPosts" :key="article.id" :article="article" />
   </article>
   <div class="article-btn">

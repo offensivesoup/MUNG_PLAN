@@ -53,12 +53,12 @@
                 v-else-if="dogs[0].gender === 'F'">여아</span><span v-else>중성화 완료</span></h5>
           </div>
         </div>
-        <!-- 여기 별로.. 좀 바꿔야 할 듯 -->
-        <div v-else class="dogs-details row-second-no-dog">
+
+        <div v-else class="dogs-details row-second-no-dog" style="padding-top: 55px;">
           <div class="adopt-page">
-            <img src="/profile/adopt_page.png" alt="adopt page" style="width: 90%;">
+            <img src="/profile/free-icon-pet-care-14257512.png" alt="adopt page" style="width: 30%;">
           </div>
-          <RouterLink :to="{ name: 'AdoptView' }" class="btn adopt-btn btn-primary">지금 만나러 가기!</RouterLink>
+          <RouterLink :to="{ name: 'AdoptView' }" class="btn adopt-btn" style="--bs-btn-color: #f0ceb0; --bs-btn-bg: #4d4d4d; ">지금 만나러 가기!</RouterLink>
         </div>
       </div>
     </div>
@@ -371,7 +371,7 @@ h5>img {
 }
 
 .adopt-btn {
-  width: 140px;
+  width: 160px;
   height: 40px;
 }
 
