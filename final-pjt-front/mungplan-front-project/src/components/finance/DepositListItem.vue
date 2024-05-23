@@ -29,8 +29,8 @@
       <div class="modal-dialog modal-dialog-centered">
         <div class="modal-content">
           <div class="modal-header">
-            <img class="bank-modal-image card-img-top" :src="`${depositStore.API_URL}${depositStore.staticUrl}${deposit.company_image}`"
-              alt="없음">
+            <img class="bank-modal-image card-img-top"
+              :src="`${depositStore.API_URL}${depositStore.staticUrl}${deposit.company_image}`" alt="없음">
           </div>
           <div class="modal-body">
             <p>회사명: {{ deposit.company_name }}</p>

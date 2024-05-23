@@ -8,9 +8,9 @@ from django.db import models
 from allauth.account.adapter import DefaultAccountAdapter
 
 class User(AbstractUser):
-    nickname = models.CharField(max_length=30, unique=True)
+    nickname = models.CharField(max_length=8, unique=True)
     phone_number = models.CharField(max_length=15, unique=True)
-    address = models.TextField(blank=True, null=True)
+    address = models.TextField(max_length=25, blank=True, null=True)
     profile_img = models.CharField(max_length=100, blank=True, null=True)
     birth_date = models.DateField(null=True, blank=True)
     followings = models.ManyToManyField('self', symmetrical=False, related_name='followers')

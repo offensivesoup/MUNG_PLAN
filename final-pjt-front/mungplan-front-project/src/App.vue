@@ -35,10 +35,11 @@
           <div class="d-flex nav-item dropdown d-none d-lg-block">
             <button class="image-button" href="#" id="userDropDown" role="button" data-bs-toggle="dropdown"
               aria-expanded="false">
-              <img v-if="store.state && store.state.profileImg && store.state.profileImg !== ''" :src="`${store.API_URL}${store.state.profileImg}`" id="user-icon" class="user" alt="user icon" />
+              <img v-if="store.state && store.state.profileImg && store.state.profileImg !== ''"
+                :src="`${store.API_URL}${store.state.profileImg}`" id="user-icon" class="user" alt="user icon" />
               <img v-else src="/landing/userIcon.png" id="user-icon" class="user" alt="user icon" />
               <span v-if="store.state && store.state.nickname" style="margin-left:8px;">{{ store.state.nickname }}</span>
-              <span v-else  style="margin-left:8px;">안녕하세요!</span>
+              <span v-else style="margin-left:8px;">안녕하세요!</span>
             </button>
             <ul class="dropdown-menu" aria-labelledby="userDropDown">
               <li v-if="store.state.isAuthenticated">
@@ -64,7 +65,7 @@
       <RouterView />
     </main>
   </div>
-  <footer>
+  <footer :class="[{ 'fade-in': canSee }]">
     <div class="inner">
       <div class="footer-message">모두의 아름다운 선택을 위해서</div>
       <div class="footer-message">SSAFY 11기 관통 프로젝트</div>
@@ -91,7 +92,7 @@ import { ref, computed } from 'vue'
 import { RouterLink, RouterView } from 'vue-router'
 import { onMounted, onBeforeUnmount } from 'vue'
 import HomeView from './views/HomeView.vue';
-
+const canSee = ref(false)
 const store = useAccountStore()
 
 const username = computed(() => {
@@ -103,6 +104,9 @@ const navbar = ref(null)
 
 onMounted(() => {
   window.addEventListener('scroll', handleScroll)
+  setTimeout(() => {
+    canSee.value = true
+  }, 1500)
 })
 
 onBeforeUnmount(() => {
@@ -186,41 +190,54 @@ const handleScroll = () => {
 
 /* footer 관련 */
 
-footer{
-    position: relative;
-    text-align: center;
-    border-top : #bababa 1px solid;
-    transform : translateY(-100%);
-    background-color:#FFF4E0;
-    padding:1rem 0;
+footer {
+  position: relative;
+  text-align: center;
+  border-top: #bababa 1px solid;
+  transform: translateY(-100%);
+  background-color: #FFF4E0;
+  padding: 1rem 0;
+  opacity: 0;
+  transition: opacity 2s ease-in-out;
+  /* z-index: -1; */
 }
 
-.footer-message{
-    font-weight: bold;
-    font-size:0.9rem;
-    color:#545e6f;
-    margin-bottom:0.3rem;
-    margin:0 0 0 0.6rem;
+.fade-in {
+  opacity: 1;
 }
-.footer-contact{
-    font-size:0.9rem;
-    color:#545e6f;
-    margin:0.6rem;
+
+.footer-message {
+  font-weight: bold;
+  font-size: 0.9rem;
+  color: #545e6f;
+  margin-bottom: 0.3rem;
+  margin: 0 0 0 0.6rem;
 }
-.footer-copyright{
-    font-size:0.9rem;
-    color:#545e6f;
-    margin:0.6rem;
+
+.footer-contact {
+  font-size: 0.9rem;
+  color: #545e6f;
+  margin: 0.6rem;
 }
+
+.footer-copyright {
+  font-size: 0.9rem;
+  color: #545e6f;
+  margin: 0.6rem;
+}
+
 .footer-links {
   display: flex;
   justify-content: center;
-  gap: 10px; /* 링크들 사이의 간격을 설정 */
+  gap: 10px;
+  /* 링크들 사이의 간격을 설정 */
 }
 
 .footer-link {
   text-decoration: none;
-  color: #000; /* 기본 링크 색상 */
-  padding: 5px 10px; /* 링크에 여백을 추가 */
+  color: #000;
+  /* 기본 링크 색상 */
+  padding: 5px 10px;
+  /* 링크에 여백을 추가 */
 }
 </style>

@@ -14,17 +14,17 @@ class CustomRegisterSerializer(RegisterSerializer):
     nickname = serializers.CharField(
       required=True,
       allow_blank=False,
-      max_length=255
+      max_length=8
     )
     phone_number = serializers.CharField(
       required=True,
       allow_blank=False,
-      max_length=255
+      max_length=13
     )
     address = serializers.CharField(
       required=True,
       allow_blank=False,
-      max_length=255
+      max_length=25
     )
     birth_date = serializers.CharField(
       required=True,

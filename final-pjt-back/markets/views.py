@@ -79,7 +79,7 @@ def market_api(request):
 def market_list(request):
   markets = get_list_or_404(Market)
   serializer = MarketListSerializer(markets, many=True)
-  print(serializer.data)
+  print(serializer.data[0])
   return Response(serializer.data)
 
 
@@ -91,3 +91,20 @@ def market_list(request):
 #         serializer = MarketSerializer(market)
 #         # print(serializer.data)
 #         return Response(serializer.data)
+
+@api_view(['GET'])
+def product_filter(request, category_name):
+    print('')
+    print('')
+    print('')
+    print('')
+    print('카테고리', category_name)
+    print('')
+    print('')
+    print('')
+    print('')
+    products = Market.objects.filter(item_type__contains = category_name)
+    print(products)
+    serializer = MarketListSerializer(products, many = True)
+    print(serializer.data[0])
+    return Response(serializer.data)

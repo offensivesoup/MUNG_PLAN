@@ -17,6 +17,14 @@ const store = useMapStore()
 const lat = ref()
 const lng = ref()
 
+const scrollContainer = ref(null)
+const scrollDown = () => {
+  scrollContainer.value.scrollBy({
+    top: -200,
+    behavior: 'smooth'
+  })
+}
+
 const emits = defineEmits(['locationSelected'])
 
 // 8도 및 주요 광역시 리스트
@@ -55,6 +63,7 @@ const submitLocation = function (region) {
       lat.value = response.data.latitude
       lng.value = response.data.longitude
       emits('locationSelected', lat.value, lng.value)
+      scrollDown()
     })
     .catch(error => {
       console.log(error)

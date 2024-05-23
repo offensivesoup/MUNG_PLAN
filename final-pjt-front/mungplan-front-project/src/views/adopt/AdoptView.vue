@@ -19,7 +19,7 @@
 
       <div>
         <p>
-          <button class="btn btn-primary" type="button" data-bs-toggle="collapse" data-bs-target="#collapseWidthExample"
+          <button class="filter-btn" type="button" data-bs-toggle="collapse" data-bs-target="#collapseWidthExample"
             aria-expanded="false" aria-controls="collapseWidthExample">
             필터
           </button>
@@ -31,8 +31,7 @@
           <div class="btn-group">
 
             <div class="button1">
-              <button type="button" class="btn btn-primary dropdown-toggle" data-bs-toggle="dropdown"
-                aria-expanded="false">
+              <button type="button" class="filter-btn dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false">
                 상태
               </button>
               <ul class="dropdown-menu">
@@ -42,8 +41,7 @@
             </div>
 
             <div class="button2">
-              <button type="button" class="btn btn-primary dropdown-toggle" data-bs-toggle="dropdown"
-                aria-expanded="false">
+              <button type="button" class="filter-btn dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false">
                 성별
               </button>
               <ul class="dropdown-menu">
@@ -53,8 +51,7 @@
             </div>
 
             <div class="button3">
-              <button type="button" class="btn btn-primary dropdown-toggle" data-bs-toggle="dropdown"
-                aria-expanded="false">
+              <button type="button" class="filter-btn dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false">
                 중성화
               </button>
               <ul class="dropdown-menu">
@@ -98,6 +95,7 @@ onMounted(() => {
 .fade-out {
   opacity: 0;
   transition: opacity 2s ease-in-out;
+  z-index: -1;
 }
 
 .content {
@@ -127,15 +125,11 @@ onMounted(() => {
   display: flex;
   align-items: center;
   justify-content: center;
-  margin-top: 27px;
+  /* margin-top: 27px; */
+  margin-bottom: 16px;
+  gap: 20px;
 }
 
-/* .btn-group>button {
-  background-color: white;
-  border: none;
-  color: black;
-  text-align: center;
-} */
 
 .select-category {
   display: flex;
@@ -144,38 +138,69 @@ onMounted(() => {
   margin-left: 250px;
 }
 
-.btn-primary {
-  opacity: 1;
-  background-color: white;
-  color: black;
-  width: 120px;
-  height: 50px;
-  margin: 0px 20px;
-  border: none;
-  transition: opacity 0.2s ease-in;
-}
-
-.btn-primary:hover {
-  opacity: 0.3;
-}
-
 .btn-dropdown {
   opacity: 1;
-  background-color: white;
+  background-color: #FFBF9B;
   color: black;
-  width: 80px;
+  width: 70px;
   height: 50px;
   margin: 0px 20px;
   border: none;
-  transition: opacity 0.2s ease-in;
+  transition: color 0.2s ease-in;
 }
 
 .btn-dropdown:hover {
-  opacity: 0.3;
+  color: white;
 }
 
 .dropdown-menu {
+  background-color: #FFBF9B;
   min-width: 0;
+  width: 140px;
+  text-align: center;
   /* To adjust the width of the dropdown */
+}
+
+.filter-btn {
+  position: relative;
+  border: none;
+  background-color: transparent;
+  color: black;
+  text-transform: uppercase;
+  width: 140px;
+  height: 60px;
+  margin: 50px 0px;
+  font-size: 25px;
+  opacity: 1;
+  transition: all 0.5s ease-in-out;
+  overflow: hidden;
+  margin-right: 40px;
+  font-size: 25px;
+  border-radius: 10%;
+}
+
+.filter-btn:focus {
+  outline: none;
+}
+
+.filter-btn::before {
+  content: "";
+  height: 100%;
+  width: 100%;
+  position: absolute;
+  background-color: rgb(255, 191, 155);
+  /* color:white; */
+  top: 100%;
+  left: 0;
+  transition: all 0.4s;
+  z-index: -1;
+}
+
+.filter-btn:hover::before {
+  transform: translateY(-100%);
+}
+
+.filter-btn:hover {
+  color: #ffffff;
 }
 </style>

@@ -3,11 +3,13 @@
     <DepositListItem v-for="deposit in displayedPosts" :key="deposit.id" :deposit="deposit" class="col-4" />
   </div>
   <div class="deposit deposit-page">
-    <button @click="prevPage" class="page-button">
-      << </button>
-        <span>{{ currentPage }} / {{ totalPages }}</span>
-        <button @click="nextPage" class="page-button">
-          >> </button>
+    <div class="article-btn">
+      <button @click="prevPage" class="page-button">
+        <img src="@/assets/left-arrow.png" alt=""> </button>
+      <span>{{ currentPage }} / {{ totalPages }}</span>
+      <button @click="nextPage" class="page-button">
+        <img src="@/assets/right-arrow.png" alt=""> </button>
+    </div>
   </div>
 </template>
 
@@ -69,5 +71,24 @@ const prevPage = () => {
 .page-button:hover {
   color: darkgray;
   /* 마우스를 올렸을 때의 색상을 지정합니다. */
+}
+
+.page-button {
+  background-color: transparent;
+  border: none;
+  margin: 30px;
+  font-size: 20px;
+  transition: color 0.3s ease;
+  /* 색 변화에 대한 transition 효과를 추가합니다. */
+}
+
+.page-button>img {
+  width: 60px;
+  transition: width 1s ease-in;
+}
+
+.article-btn>span {
+  font-size: 20px;
+  margin: 40px;
 }
 </style>

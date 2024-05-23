@@ -2,13 +2,24 @@
   <div class="detail-view">
     <div v-if="article" class="article-card">
       <div class="article-header">
-        <h2>{{ article.title }}</h2>
-        <button @click="deleteArticle(article.id)" v-if="userStore.state.id === article.user">삭제하기</button>
-        <button @click="changeArticle(article.id)" v-if="userStore.state.id === article.user">수정하기</button>
-        <button @click="likeArticle(article.id)" v-if="userStore.state.id !== article.user">
-          {{ isLiked ? '좋아요 취소' : '좋아요' }}
-        </button>
-
+        <div>
+          <h2>{{ article.title }}</h2>
+          <span class="comment-date">작성 일자 : {{ formatDate(article.created_at) }}</span>
+        </div>
+        <div>
+          <button class="delete-btn" @click="deleteArticle(article.id)"
+            v-if="userStore.state.id === article.user">삭제하기</button>
+          <button class="edit-btn" @click="changeArticle(article.id)"
+            v-if="userStore.state.id === article.user">수정하기</button>
+          <button @click="likeArticle(article.id)" v-if="userStore.state.id !== article.user"
+            :class="{ 'like-button': true, 'liked': isLiked }">
+            <svg class="heart" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="24" height="24">
+              <path
+                d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z" />
+            </svg>
+          </button>
+          <p>좋아요 수 : {{ likeUsers }} 개</p>
+        </div>
       </div>
       <div class="article-content">
         <p>{{ article.content }}</p>
@@ -19,6 +30,7 @@
 
     <div v-if="comments && comments.length" class="comments-section">
       <h2>Comments</h2>
+      <p> 댓글 수 : {{ comments.length }} 개</p>
       <div class="comment" v-for="comment in comments" :key="comment.id">
         <div class="comment-header">
           <span class="comment-author">{{ comment.author }}</span>
@@ -53,6 +65,7 @@ const route = useRoute()
 const article = ref(null)
 const comments = ref(null)
 const newComment = ref(null)
+const likeUsers = ref(null)
 
 onMounted(() => {
   axios({
@@ -61,6 +74,7 @@ onMounted(() => {
   })
     .then((response) => {
       article.value = response.data
+      likeUsers.value = article.value.like_users.length
       console.log(response.data)
       checkLike()
       axios({
@@ -131,6 +145,11 @@ const likeArticle = (id) => {
     .then((response) => {
       console.log(response)
       isLiked.value = !isLiked.value
+      if (isLiked.value) {
+        likeUsers.value += 1
+      } else {
+        likeUsers.value -= 1
+      }
     })
     .catch((error) => {
       console.log(userStore.state)
@@ -265,5 +284,118 @@ const createComment = (id) => {
 .comment-content {
   font-size: 16px;
   color: #555;
+}
+
+.create-comment {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 20px;
+  background: #f0f0f0;
+  border-radius: 8px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  max-width: 600px;
+  margin: 20px auto;
+}
+
+.create-comment form {
+  display: flex;
+  flex-direction: row;
+  width: 100%;
+}
+
+.create-comment input[type="text"] {
+  flex-grow: 1;
+  padding: 10px;
+  border: 1px solid #ddd;
+  border-radius: 4px 0 0 4px;
+  font-size: 16px;
+  transition: border-color 0.3s;
+}
+
+.create-comment input[type="text"]:focus {
+  border-color: #5a67d8;
+  outline: none;
+}
+
+.create-comment button {
+  padding: 10px 20px;
+  background-color: #5a67d8;
+  color: white;
+  border: none;
+  border-radius: 0 4px 4px 0;
+  cursor: pointer;
+  font-size: 16px;
+  transition: background-color 0.3s;
+}
+
+.create-comment button:hover {
+  background-color: #434190;
+}
+
+.like-button {
+  background: none;
+  border: none;
+  cursor: pointer;
+  font-size: 24px;
+  transition: transform 0.2s;
+  color: #ff5a5f;
+  margin-left: 25px;
+}
+
+.like-button:hover {
+  transform: scale(1.1);
+}
+
+.like-button:active {
+  transform: scale(0.9);
+}
+
+.heart {
+  fill: none;
+  stroke: #ff5a5f;
+  stroke-width: 2px;
+  transition: fill 0.3s;
+}
+
+.liked .heart {
+  fill: #ff5a5f;
+  stroke: none;
+}
+
+button {
+  padding: 10px 15px;
+  font-size: 16px;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  transition: background-color 0.3s ease, transform 0.2s ease;
+}
+
+button:hover {
+  transform: scale(1.05);
+}
+
+button:active {
+  transform: scale(0.95);
+}
+
+.delete-btn {
+  background-color: #ff5a5f;
+  color: white;
+}
+
+.delete-btn:hover {
+  background-color: #e04848;
+}
+
+.edit-btn {
+  background-color: #5a67d8;
+  color: white;
+  margin-left: 30px;
+}
+
+.edit-btn:hover {
+  background-color: #434190;
 }
 </style>

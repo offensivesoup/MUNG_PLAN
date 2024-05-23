@@ -88,11 +88,12 @@ def deposit_recommend(request, user_id):
     liked_deposits = user.like_deposit.select_related('category').all()
     deposits = Deposit.objects.all()
     user_dogs = Dog.objects.filter(user=user).all()
+    ## 아무런 정보도 없으면 에러 리턴
     
     if not users.exists() or not deposits.exists():
         return Response({"error": "No users or deposits found"}, status=400)
 
-    # Create mappings for user IDs and deposit IDs
+    ## 유저들과 적금들을 딕셔너리 화
     user_ids = {user.id: idx for idx, user in enumerate(users)}
     deposit_ids = {deposit.id: idx for idx, deposit in enumerate(deposits)}
 
