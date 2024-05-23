@@ -168,11 +168,11 @@ const router = createRouter({
       name: 'DogCreateView',
       component: DogCreateView,
     },
-      {
-        path: '/profile/:username/liked-deposits',
-        name: 'LikedDepositView',
-        component: LikedDepositView,
-      }
+    {
+      path: '/profile/:username/liked-deposits',
+      name: 'LikedDepositView',
+      component: LikedDepositView,
+    }
   ],
   scrollBehavior() {
     return { top: 0 }
@@ -184,7 +184,7 @@ import { useAccountStore } from '@/stores/account'
 router.beforeEach((to, from) => {
   const store = useAccountStore()
   // 인증되지 않은 사용자는 create에 접근 할 수 없음
-  if ((to.name === 'ArticleCreateView' || to.name === 'RecommendDepositView') && store.state.isAuthenticated === false) {
+  if ((to.name === 'ArticleCreateView' || to.name === 'RecommendDepositView' || to.name === 'ProfileView' || to.name === 'MapView' || to.name === 'ArticleDetailView' || to.name === 'ArticleUpdateView' || to.name === 'ArticleCreateView') && store.state.isAuthenticated === false) {
     Swal.fire({
       title: '로그인이 필요해요',
       icon: 'warning',

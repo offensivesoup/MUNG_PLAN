@@ -55,7 +55,7 @@ const createArticle = function () {
   })
     .then((response) => {
       setTimeout(() => {
-        router.push({ name: 'ArticleDetailView', params: { 'id': store.articles.length + 1 } })
+        router.push({ name: 'ArticleDetailView', params: { 'id': response.data.id } })
       }, 1000)
     })
     .catch((error) => {

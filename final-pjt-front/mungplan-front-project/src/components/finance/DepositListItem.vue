@@ -17,11 +17,11 @@
         <div class="card mb-3" style="max-width: 540px; padding-top: 30px;">
           <div class="row g-0">
             <div class="col-md-4" style="padding: 20px 0px 0px 20px">
-              <img class="company-image img-fluid rounded-start" :src="`${depositStore.API_URL}${depositStore.staticUrl}${deposit.company_image}`"
-              alt="company logo">
+              <img class="company-image img-fluid rounded-start"
+                :src="`${depositStore.API_URL}${depositStore.staticUrl}${deposit.company_image}`" alt="company logo">
             </div>
             <div class="col-md-8">
-              <div class="card-body" style="height: 100px; padding-left: 3px;"> 
+              <div class="card-body" style="height: 100px; padding-left: 3px;">
                 <h5 class="card-title">{{ deposit.product_name }}</h5>
                 <h6 class="card-subtitle mb-2 text-muted">{{ deposit.company_name }}</h6>
                 <p class="card-text"> 최고 금리: {{ deposit.maxi_interate_rate }}%</p>
@@ -81,7 +81,11 @@ import { ref } from 'vue'
 import axios from 'axios'
 import { useDepositStore } from '@/stores/deposit'
 import { useAccountStore } from '@/stores/account'
+import Swal from 'sweetalert2'
+import { useRouter } from 'vue-router'
+// import router from '../../router'
 
+const router = useRouter()
 const props = defineProps({
   deposit: Object
 })
@@ -111,8 +115,16 @@ const toggleLike = async () => {
     console.error('deposit is undefined');
     return
   }
-
   try {
+    if (accountStore.state.isAuthenticated === false) {
+      Swal.fire({
+        title: '로그인이 필요해요',
+        icon: 'warning',
+        confirmButtonText: 'YES'
+      })
+      return router.push({ name: 'LogInView' })
+    }
+    console.log(accountStore.state)
     await axios.post(
       `${depositStore.API_URL}finance/deposit/${props.deposit.id}/likes/`,
       {},
@@ -147,10 +159,12 @@ const toggleLike = async () => {
   margin-bottom: 30px;
   background-color: rgb(253, 251, 237);
 }
-.card-parent{
+
+.card-parent {
   box-shadow: 0 2px 6px;
   transition: transform 0.8s ease, box-shadow 0.8s ease;
 }
+
 .card-parent:hover {
   transform: translateY(-30px);
   box-shadow: 0 4px 12px;
@@ -183,9 +197,12 @@ const toggleLike = async () => {
 .card-text {
   margin-bottom: 0.5rem;
 }
+
 .content {
-  margin-top: 20px; /* 상단 여백 추가 */
+  margin-top: 20px;
+  /* 상단 여백 추가 */
 }
+
 .card-actions {
   width: 100%;
   display: flex;
