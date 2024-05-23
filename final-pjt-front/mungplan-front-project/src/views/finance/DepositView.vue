@@ -28,30 +28,162 @@
     </div>
 
     <div class="deposit deposit-header">
-      <h1>내 아이를 위한 비상금</h1>
+      <h1 style="font-size: 3.2rem; padding-top: 20px;">내 아이를 위한 비상금</h1>
     </div>
-    <div class="deposit deposit-main">
-      <!-- + : 필터 - 나이, 성별, 중성화, 지역, 품종? 너무 많은가 -->
+       <div class="deposit deposit-filters">
+      <label for="type-filter">종류</label>
+      <select id="type-filter" v-model="selectedFilters.type">
+        <option value="">전체</option>
+        <option value="예금">예금</option>
+        <option value="적금">적금</option>
+        <option value="펫상품">펫적금상품</option>
+      </select>
+
+      <label for="financial-type-filter">금융권 종류</label>
+      <select id="financial-type-filter" v-model="selectedFilters.financialType">
+        <option value="">전체</option>
+        <option value="1금융권">1금융권</option>
+        <option value="2금융권">2금융권</option>
+      </select>
+
+      <label for="period-filter">기간</label>
+      <select id="period-filter" v-model="selectedFilters.period">
+        <option value="">전체</option>
+        <option value="12">12개월</option>
+        <option value="24">24개월</option>
+        <option value="36">36개월</option>
+      </select>
     </div>
-    <div class="deposit deposit-count-info">
-      <img src="/deposit/passbook.png" alt="passbook icon" style="width: 40px; height: 40px;">
-      <h5 style="margin: 0; font-size: 18px;">{{ store.deposits.length }}개의 상품으로 미리 대비해보세요.</h5>
+
+    <div class="selected-filters">
+      <div v-if="selectedFilters.type">
+        <span>{{ selectedFilters.type }} <button @click="selectedFilters.type = ''">X</button></span>
+      </div>
+      <div v-if="selectedFilters.financialType">
+        <span>{{ selectedFilters.financialType }} <button @click="selectedFilters.financialType = ''">X</button></span>
+      </div>
+      <div v-if="selectedFilters.period">
+        <span>{{ selectedFilters.period }}개월 <button @click="selectedFilters.period = ''">X</button></span>
+      </div>
     </div>
-    <DepositList />
+
+    <div class="deposit deposit-count-info" style="display: flex; justify-content: space-between; padding:0 250.500px; margin: 20px 30px;">
+      <div>
+        <img src="/deposit/passbook.png" alt="passbook icon" style="width: 30px; height: 30px;">
+        <h5 style="margin: 0; font-size: 15px; display: inline;">{{ productCount }}개의 상품으로 미리 대비해보세요.</h5>
+      </div>
+      <div>
+        <select v-model="sortOrder">
+          <option value="highest">최고금리순</option>
+          <option value="basic">기본금리순</option>
+        </select>
+      </div>
+    </div>
+    <DepositList :filteredAndSortedDeposits="filteredAndSortedDeposits"/>
   </article>
 </template>
 
 <script setup>
-import { RouterLink } from 'vue-router'
-import { ref, onMounted } from 'vue'
+import { ref, computed, watch, onMounted } from 'vue'
 import { useDepositStore } from '@/stores/deposit'
 import { useAccountStore } from '@/stores/account'
 import DepositList from '@/components/finance/DepositList.vue'
+
 const store = useDepositStore()
 const accountStore = useAccountStore()
 
 onMounted(() => {
   store.getDeposits()
+})
+
+const sortOrder = ref('highest')
+
+// 필터링 옵션
+const selectedFilters = ref({
+  type: '', // 적금/예금
+  financialType: '', // 전체/1금융권
+  period: '' // 12/24/36
+})
+
+// 필터링된 목록 계산
+const filteredDeposits = computed(() => {
+  return store.deposits.filter(deposit => {
+    console.log(deposit.category)
+    // 종류 필터링
+    let matchesType = true;
+    if (selectedFilters.value.type) {
+      if (selectedFilters.value.type === '적금') {
+        matchesType = deposit.category.includes('적금')
+      } else if (selectedFilters.value.type === '예금') {
+        matchesType = deposit.category.includes('예금')
+      } else if (selectedFilters.value.type === '펫상품') {
+        matchesType = deposit.product_name.includes('펫');
+      }
+    }
+
+    // 금융권 종류 필터링
+    let matchesFinancialType = true;
+    const financialKeywords = ['카카오', '케이뱅크', '토스', '국민', '신한', '우리', '하나', '한국스탠다드차타드', '한국씨티', '경남', '광주', '대구', '부산', '전북', '제주', '농협', '수협', '중소기업', '한국산업'];
+    if (selectedFilters.value.financialType) {
+      matchesFinancialType = financialKeywords.some(keyword => deposit.company_name.includes(keyword));
+    } else {
+      matchesFinancialType = !financialKeywords.some(keyword => deposit.company_name.includes(keyword));
+    }
+
+    // 기간 필터링
+    let matchesPeriod = true;
+    if (selectedFilters.value.period) {
+      matchesPeriod = deposit.save_term == parseInt(selectedFilters.value.period);
+    }
+
+    return matchesType && matchesFinancialType && matchesPeriod;
+  });
+});
+
+// 정렬된 목록 계산
+const sortedDeposits = computed(() => {
+  return [...store.deposits].sort((a, b) => {
+    if (sortOrder.value === 'highest') {
+      return b.maxi_interate_rate - a.maxi_interate_rate
+    } else {
+      return b.interate_rate - a.interate_rate
+    }
+  })
+})
+
+// 필터링 및 정렬된 목록 계산
+const filteredAndSortedDeposits = computed(() => {
+  const filtered = filteredDeposits.value
+  const sorted = sortedDeposits.value
+
+  return sorted.filter(deposit => filtered.includes(deposit))
+})
+
+// 상품 수 계산
+const productCount = computed(() => {
+  return filteredAndSortedDeposits.value.length
+})
+
+// 필터 값 변경 시 필터링 및 정렬된 목록 업데이트
+watch([filteredDeposits, sortOrder], ([filtered, order]) => {
+  // 필터링된 목록
+  let filteredList = filtered.slice()
+
+  // 정렬
+  if (order === 'highest') {
+    filteredList.sort((a, b) => b.maxi_interate_rate - a.maxi_interate_rate)
+  } else {
+    filteredList.sort((a, b) => a.interate_rate - b.interate_rate)
+  }
+
+  // 정렬된 목록 업데이트
+  sortedDeposits.value = filteredList
+
+  // 필터링된 목록과 정렬된 목록의 교집합을 찾음
+  const intersectedDeposits = filteredList.filter(deposit => sortedDeposits.value.includes(deposit))
+
+  // 교집합을 저장
+  filteredAndSortedDeposits.value = intersectedDeposits
 })
 
 </script>
@@ -60,12 +192,6 @@ onMounted(() => {
 .intro {
   display: flex;
   flex-direction: row;
-}
-
-.deposit-count-info {
-  display: flex;
-  align-items: center;
-  margin: 20px 0;
 }
 
 .deposit {

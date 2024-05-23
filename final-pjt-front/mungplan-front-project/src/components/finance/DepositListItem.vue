@@ -22,7 +22,7 @@
             </div>
             <div class="col-md-8">
               <div class="card-body" style="height: 100px; padding-left: 3px;">
-                <h5 class="card-title">{{ deposit.product_name }}</h5>
+                <h5 class="card-title">{{ deposit.product_name.split('(')[0].trim() }}</h5>
                 <h6 class="card-subtitle mb-2 text-muted">{{ deposit.company_name }}</h6>
                 <p class="card-text"> 최고 금리: {{ deposit.maxi_interate_rate }}%</p>
                 <p class="card-text"> 기본 금리: {{ deposit.interate_rate }}%</p>

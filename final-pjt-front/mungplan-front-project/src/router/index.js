@@ -58,11 +58,6 @@ const router = createRouter({
       component: AdoptDetailView
     },
     {
-      path: '/map',
-      name: 'MapView',
-      component: MapView
-    },
-    {
       path: '/community/articles',
       name: 'ArticleView',
       component: ArticleView
