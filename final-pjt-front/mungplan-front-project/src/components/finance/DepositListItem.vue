@@ -1,18 +1,36 @@
 <template>
   <div class="deposit-list-item">
-    <div class="card">
+    <div class="card card-parent">
       <div class="card-body">
-        <div class="card-logo-and-title">
-          <img class="company-image" :src="`${depositStore.API_URL}${depositStore.staticUrl}${deposit.company_image}`"
-            alt="company logo">
-          <div class="card-titles">
-            <h5 class="card-title">{{ deposit.product_name }}</h5>
-            <h6 class="card-subtitle mb-2 text-muted">{{ deposit.company_name }}</h6>
+        <!-- <div class="content" style="flex: 7;">
+          <div class="card-logo-and-title">
+            <img class="company-image" :src="`${depositStore.API_URL}${depositStore.staticUrl}${deposit.company_image}`"
+              alt="company logo">
+            <div class="card-titles">
+              <h5 class="card-title">{{ deposit.product_name }}</h5>
+              <h6 class="card-subtitle mb-2 text-muted">{{ deposit.company_name }}</h6>
+            </div>
+          </div>
+          <p class="card-text"> 최고 금리: {{ deposit.maxi_interate_rate }}%</p>
+          <p class="card-text"> 기본 금리: {{ deposit.interate_rate }}%</p>
+        </div> -->
+        <div class="card mb-3" style="max-width: 540px; padding-top: 30px;">
+          <div class="row g-0">
+            <div class="col-md-4" style="padding: 20px 0px 0px 20px">
+              <img class="company-image img-fluid rounded-start" :src="`${depositStore.API_URL}${depositStore.staticUrl}${deposit.company_image}`"
+              alt="company logo">
+            </div>
+            <div class="col-md-8">
+              <div class="card-body" style="height: 100px; padding-left: 3px;"> 
+                <h5 class="card-title">{{ deposit.product_name }}</h5>
+                <h6 class="card-subtitle mb-2 text-muted">{{ deposit.company_name }}</h6>
+                <p class="card-text"> 최고 금리: {{ deposit.maxi_interate_rate }}%</p>
+                <p class="card-text"> 기본 금리: {{ deposit.interate_rate }}%</p>
+              </div>
+            </div>
           </div>
         </div>
-        <p class="card-text"> 최고 금리: {{ deposit.maxi_interate_rate }}%</p>
-        <p class="card-text"> 기본 금리: {{ deposit.interate_rate }}%</p>
-        <div class="card-actions">
+        <div class="card-actions" style="flex: 3;">
           <button type="button" class="btn btn-primary" :data-bs-toggle="'modal'"
             :data-bs-target="'#modal-' + deposit.id">
             알아보기
@@ -121,17 +139,19 @@ const toggleLike = async () => {
 }
 
 .card {
-  width: 18rem;
+  width: 20rem;
+  height: 18rem;
   border-radius: 25px;
   overflow: hidden;
   border: 0;
   margin-bottom: 30px;
   background-color: rgb(253, 251, 237);
+}
+.card-parent{
   box-shadow: 0 2px 6px;
   transition: transform 0.8s ease, box-shadow 0.8s ease;
 }
-
-.card:hover {
+.card-parent:hover {
   transform: translateY(-30px);
   box-shadow: 0 4px 12px;
   z-index: 1;
@@ -152,9 +172,8 @@ const toggleLike = async () => {
 }
 
 .company-image {
-  width: 50px;
-  height: 50px;
-  object-fit: cover;
+  width: 70px;
+  height: 80px;
 }
 
 .card-titles {
@@ -164,7 +183,9 @@ const toggleLike = async () => {
 .card-text {
   margin-bottom: 0.5rem;
 }
-
+.content {
+  margin-top: 20px; /* 상단 여백 추가 */
+}
 .card-actions {
   width: 100%;
   display: flex;
