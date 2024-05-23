@@ -31,7 +31,7 @@ import SignUpView from '@/views/account/SignUpView.vue'
 import LogInView from '@/views/account/LogInView.vue'
 import ProfileView from '@/views/account/ProfileView.vue'
 import Swal from 'sweetalert2'
-
+import PasswordChangeView from '@/views/account/PasswordChangeView.vue'
 import EditProfileView from '@/views/account/EditProfileView.vue'
 import DogView from '@/views/account/DogView.vue'
 import DogCreateView from '@/views/account/DogCreateView.vue'
@@ -172,6 +172,11 @@ const router = createRouter({
       path: '/profile/:username/liked-deposits',
       name: 'LikedDepositView',
       component: LikedDepositView,
+    },
+    {
+      path: '/profile/:username/edit/passwordchange',
+      name: 'PasswordChangeView',
+      component: PasswordChangeView
     }
   ],
   scrollBehavior() {
@@ -180,6 +185,7 @@ const router = createRouter({
 })
 
 import { useAccountStore } from '@/stores/account'
+// import { vue } from '@vitejs/plugin-vue';
 
 router.beforeEach((to, from) => {
   const store = useAccountStore()

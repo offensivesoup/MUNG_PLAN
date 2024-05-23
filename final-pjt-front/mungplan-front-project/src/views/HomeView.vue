@@ -5,19 +5,23 @@
     </div>
 
     <div ref="target">
-      <img src="@/assets/landing002.png" alt="" :class="['landing-semi-title', { 'inMonitor' : targetIsVisible }]" style="margin-bottom:200px;">
+      <img src="@/assets/landing002.png" alt="" :class="['landing-semi-title', { 'inMonitor': targetIsVisible }]"
+        style="margin-bottom:200px;">
     </div>
-    
+
     <div ref="target2">
-      <img src="@/assets/landing003.png" alt="" :class="['landing-service01', {' inMonitor' : targetIsVisible2}]" style="margin-bottom:200px;">
+      <img src="@/assets/landing003.png" alt="" :class="['landing-service01', { ' inMonitor': targetIsVisible2 }]"
+        style="margin-bottom:200px;">
     </div>
 
     <div ref="target3">
-    <img src="@/assets/landing004.png" alt="" :class="['landing-service02', {' inMonitor' : targetIsVisible3}]" style="margin-bottom:200px;">
+      <img src="@/assets/landing004.png" alt="" :class="['landing-service02', { ' inMonitor': targetIsVisible3 }]"
+        style="margin-bottom:200px;">
     </div>
 
-    <div ref="target4">
-    <img src="@/assets/landing005.png" alt="" :class="['landing-service03', {' inMonitor' : targetIsVisible4}]" style="margin-bottom:200px;">
+    <div ref="target4" class="target4">
+      <img src="@/assets/landing005.png" alt="" :class="['landing-service03', { ' inMonitor': targetIsVisible4 }]"
+        style="margin-bottom:200px;">
     </div>
 
   </div>
@@ -25,7 +29,7 @@
 
 <script setup>
 import { ref, onMounted } from "vue";
-import { useIntersectionObserver } from  '@vueuse/core'
+import { useIntersectionObserver } from '@vueuse/core'
 
 const target = ref(null)
 const target2 = ref(null)
@@ -40,22 +44,22 @@ const targetIsVisible4 = ref(false)
 
 const visible = ref(false)
 
-useIntersectionObserver(target, ([{isIntersecting}]) => {
+useIntersectionObserver(target, ([{ isIntersecting }]) => {
   targetIsVisible.value = isIntersecting
 },
 )
 
-useIntersectionObserver(target2, ([{isIntersecting}]) => {
+useIntersectionObserver(target2, ([{ isIntersecting }]) => {
   targetIsVisible2.value = isIntersecting
 },
 )
 
-useIntersectionObserver(target3, ([{isIntersecting}]) => {
+useIntersectionObserver(target3, ([{ isIntersecting }]) => {
   targetIsVisible3.value = isIntersecting
 },
 )
 
-useIntersectionObserver(target4, ([{isIntersecting}]) => {
+useIntersectionObserver(target4, ([{ isIntersecting }]) => {
   targetIsVisible4.value = isIntersecting
 },
 )
@@ -84,20 +88,27 @@ onMounted(() => {
   opacity: 0;
   transition: opacity 0.8s ease-in-out;
 }
+
 .landing-service01 {
   opacity: 0;
   transition: opacity 0.8s ease-in-out;
 }
+
 .landing-service02 {
   opacity: 0;
   transition: opacity 0.8s ease-in-out;
 }
+
 .landing-service03 {
   opacity: 0;
   transition: opacity 0.8s ease-in-out;
 }
 
 .inMonitor {
-  opacity : 1;
+  opacity: 1;
+}
+
+.target4 {
+  margin-left: 80px;
 }
 </style>

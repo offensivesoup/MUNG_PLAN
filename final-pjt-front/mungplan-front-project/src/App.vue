@@ -91,7 +91,7 @@ import { useAccountStore } from './stores/account';
 import { ref, computed } from 'vue'
 import { RouterLink, RouterView } from 'vue-router'
 import { onMounted, onBeforeUnmount } from 'vue'
-import HomeView from './views/HomeView.vue';
+import HomeView from '@/views/HomeView.vue';
 const canSee = ref(false)
 const store = useAccountStore()
 
@@ -152,7 +152,8 @@ const handleScroll = () => {
 
 .nav-item a:hover {
   text-shadow: true;
-  color: #000; /* 더 진한 색상으로 변경 */
+  color: #000;
+  /* 더 진한 색상으로 변경 */
 }
 
 
@@ -161,9 +162,11 @@ const handleScroll = () => {
   height: 70%;
   object-fit: contain;
 }
-.navbar-nav{
+
+.navbar-nav {
   padding-left: 70px;
 }
+
 .navbar-nav>li {
   padding-left: 30px;
   padding-right: 30px;
@@ -242,5 +245,4 @@ footer {
   /* 기본 링크 색상 */
   padding: 5px 10px;
   /* 링크에 여백을 추가 */
-}
-</style>
+}</style>
