@@ -92,21 +92,21 @@ def deposit_recommend(request, user_id):
     if not users.exists() or not deposits.exists():
         return Response({"error": "No users or deposits found"}, status=400)
 
-    # Create mappings for user IDs and deposit IDs
     user_ids = {user.id: idx for idx, user in enumerate(users)}
     deposit_ids = {deposit.id: idx for idx, deposit in enumerate(deposits)}
 
-    # Extract user demographic information
-    # Assuming User model has fields: age, gender, and location
+    # 유저 정보에 대한 매트릭스 생성 ( 생년월일 필드를 이용한 나이 필드 사용 )
     user_info_matrix = np.array([
         [int(datetime.now().year-user.birth_date.year)]
         for user in users
     ])
 
-    # Normalize the user_info_matrix
+    # 해당 매트릭스의 정규화
+
     user_info_matrix = (user_info_matrix - user_info_matrix.mean(axis=0)) / user_info_matrix.std(axis=0)
     
-    # Initialize user_likes_matrix
+    # 유저가 좋아요한 예, 적금 상품에 대한 매트릭스 생성
+
     user_likes_matrix = np.zeros((len(users), len(deposits)))
     for deposit in deposits:
         for user in deposit.like_users.all():
@@ -115,10 +115,9 @@ def deposit_recommend(request, user_id):
             if user_idx is not None and deposit_idx is not None:
                 user_likes_matrix[user_idx, deposit_idx] = 1
 
-    print("User Likes Matrix:")
-    print(user_likes_matrix)
 
-    # Initialize user_dog_matrix
+    # 유저의 강아지에 대한 매트릭스 생성
+                
     user_dog_matrix = np.zeros((len(users), 1))
     for dog in user_dogs:
         user_idx = user_ids.get(dog.user.id)
