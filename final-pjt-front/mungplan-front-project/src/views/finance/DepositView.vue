@@ -10,11 +10,19 @@
     <!-- 은행 작성 -->
     <div class="deposit recommendDeposit-banner">
       <div class="banner-content">
-        <h1><b>UserName</b>님과 <b>dogName</b>을 위한</h1>
-        <h1><b>맞춤 예적금</b>이 있다면~?</h1>
-        <p>멍플랜만의 스페셜 알고리즘 추천 받으러 가기 !</p>
-        <RouterLink :to="{ name: 'RecommendDepositView' }" type="button" class="recommend-button btn btn-light">
-          추천 받기
+        <div class="content-header">
+          <div v-if="accountStore.state.isAuthenticated">
+            <h1><b style="text-shadow: 2px 2px 2px rgba(0, 0, 0, 0.5);">{{ accountStore.state.nickname}}</b>님을 위한</h1>
+            <h1><b style="text-shadow: 2px 2px 2px rgba(0, 0, 0, 0.5);">맞춤 예적금</b>이 준비되었습니다</h1>
+          </div>
+          <div v-else>
+            <h1><b>당신을 위한</b></h1>
+            <h1><b>맞춤 예적금</b>이 준비되었습니다</h1>
+          </div>
+        </div>
+        <p style="font-size: large;">개인과 강아지 모두를 분석하여 최적의 솔루션을 제공하는 멍플랜의 스페셜 알고리즘</p>
+        <RouterLink :to="{ name: 'RecommendDepositView' }" type="button" class="recommend-button btn">
+          <b>지금 추천 받으러 가기</b>
         </RouterLink>
       </div>
     </div>
@@ -37,8 +45,10 @@
 import { RouterLink } from 'vue-router'
 import { ref, onMounted } from 'vue'
 import { useDepositStore } from '@/stores/deposit'
+import { useAccountStore } from '@/stores/account'
 import DepositList from '@/components/finance/DepositList.vue'
 const store = useDepositStore()
+const accountStore = useAccountStore()
 
 onMounted(() => {
   store.getDeposits()
@@ -65,15 +75,15 @@ onMounted(() => {
 }
 
 .recommendDeposit-banner {
-  background-image: url('/deposit/happyDog04.jpg');
+  background-image: url('/deposit/강아지.jpg');
   background-size: auto;
   display: flex;
   justify-content: center;
-  padding-right: 8%;
   color: white;
-  height: 530px;
+  height: 600px;
   position: relative;
   margin-bottom: 30px;
+  background-position: 50% 50%;
 }
 
 .recommendDeposit-banner::before {
@@ -83,7 +93,7 @@ onMounted(() => {
   left: 0px;
   width: 100%;
   height: 100%;
-  background-color: rgb(36 29 14 / 22%)
+  background-color: rgb(36 29 14 / 35%)
 }
 
 .banner-content {
@@ -94,10 +104,27 @@ onMounted(() => {
   position: relative;
   /* 오버레이 위에 요소들이 위치하도록 position을 relative로 설정합니다. */
 }
-
+.content-header{
+  padding-bottom: 10px;
+  text-align: center;
+}
+.content-header h1{
+  font-size: 3rem;
+  font-family: 'Cafe24Ssurround';
+  color:#f0e6cd;
+  text-shadow: 2px 2px 2px rgba(0, 0, 0, 0.2); /* 그림자 추가 */
+  letter-spacing: 1px;
+}
 .recommend-button {
-  color: rgb(36, 166, 69);
+  color: #1d1101;
+  --bs-btn-border-color: #382206;
   padding: 10px 20px;
-  border: none;
+  border-color: #22150362;
+  background-color: rgba(247, 220, 185, 0.452);
+  font-size: 1.2rem;
+}
+.recommend-button:hover {
+  border-color: #1d1101c7;
+  background-color: rgba(247, 220, 185, 0.808);
 }
 </style>

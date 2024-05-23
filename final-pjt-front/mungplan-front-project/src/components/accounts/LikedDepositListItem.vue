@@ -5,10 +5,10 @@
         <img :src="`${depositStore.API_URL}${depositStore.staticUrl}${deposit.company_image}`" alt="은행 로고">
       </div>
       <div class="row-first-info col-md-6">
-        <h4> COMPANY NAME: {{ deposit.company_name }}</h4>
-        <h4> PRODUCT NAME: {{ deposit.product_name }}</h4>
-        <h4> MAX INTEREST RATE: {{ deposit.maxi_interate_rate }}%</h4>
-        <h4> INTEREST RATE: {{ deposit.interate_rate }}%</h4>
+        <h4> COMPANY: &nbsp; {{ deposit.company_name }}</h4>
+        <h4> PRODUCT: &nbsp; {{ deposit.product_name }}</h4>
+        <h4> MAX INTEREST: &nbsp; {{ deposit.maxi_interate_rate }}%</h4>
+        <h4> INTEREST: &nbsp; {{ deposit.interate_rate }}%</h4>
         <button v-if="props.id === accountStore.state.id" @click="toggleLike" class="btn btn-primary" style="width: 500px;">
             {{ liked ? 'Unlike' : 'Like' }}
         </button>
@@ -93,6 +93,6 @@ const toggleLike = async () => {
 }
 h4 {
   color: black;
-  padding: 2px;
+  padding: 3px;
 }
 </style>

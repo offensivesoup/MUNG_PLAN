@@ -152,6 +152,7 @@ const handleScroll = () => {
 
 .nav-item a:hover {
   text-shadow: true;
+  color: #000; /* 더 진한 색상으로 변경 */
 }
 
 
@@ -160,7 +161,9 @@ const handleScroll = () => {
   height: 70%;
   object-fit: contain;
 }
-
+.navbar-nav{
+  padding-left: 70px;
+}
 .navbar-nav>li {
   padding-left: 30px;
   padding-right: 30px;

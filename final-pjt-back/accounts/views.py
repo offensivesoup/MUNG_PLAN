@@ -102,7 +102,7 @@ class UserUpdateView(generics.RetrieveUpdateAPIView):
             user.set_password(serializer.validated_data.pop('password'))
             user.save()
         serializer.save()
-        return Response(serializer.data)
+        return Response(serializer.data) 
 
 @api_view(['GET'])
 def get_liked_deposit(request, user_pk):
