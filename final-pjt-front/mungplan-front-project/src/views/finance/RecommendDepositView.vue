@@ -1,16 +1,17 @@
 <template>
-  <div class="loading" v-if="isLoading">
-    <h2>멍플랜이 당신의 상품을 찾고 있습니다.</h2>
-    <div class="spinner-grow" role="status">
-      <span class="sr-only">Loading...</span>
+  <article class="loading-layout">
+    <div class="loading" v-if="isLoading">
+      <h2>멍플랜이 {{ userStore.state.nickname }}님의 상품을 찾고 있습니다.</h2>
+      <div class="spinner-grow" role="status">
+      </div>
     </div>
-  </div>
+  </article>
 
   <main v-if="!isLoading" class="main-content">
     <div class="deposit recommendDeposit-header">
 
       <h2>멍플랜 추천 예적금</h2>
-      <h4>멍플팬만의 스페셜 알고리즘이 추천하는 userName에게 딱 맞는 상품 Top 10 </h4>
+      <h4>멍플팬만의 스페셜 알고리즘이 추천하는 {{ userStore.state.nickname }}님 에게 딱 맞는 상품 Top 10 </h4>
 
     </div>
     <div class="content">
@@ -174,16 +175,23 @@ onMounted(() => {
   /* Viewport width */
 }
 
+.loading>h2 {
+  font-size: 50px;
+}
+
+.loading-layout {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-bottom: 50px;
+}
+
 .info-item {
   /* display: flex;
   flex-direction: column;
   justify-content: flex-start;
   margin-bottom: 10px; */
   text-align: left;
-}
-
-.loading>h2 {
-  font-size: 50px;
 }
 
 .carousel__item {

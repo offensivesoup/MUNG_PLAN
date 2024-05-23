@@ -31,11 +31,12 @@ import SignUpView from '@/views/account/SignUpView.vue'
 import LogInView from '@/views/account/LogInView.vue'
 import ProfileView from '@/views/account/ProfileView.vue'
 import Swal from 'sweetalert2'
-
+import PasswordChangeView from '@/views/account/PasswordChangeView.vue'
 import EditProfileView from '@/views/account/EditProfileView.vue'
-import DogListView from '@/views/account/DogListView.vue'
+import DogView from '@/views/account/DogView.vue'
 import DogCreateView from '@/views/account/DogCreateView.vue'
-// import LikedDepositView from '@/views/account/LikedDepositView.vue'
+import LikedDepositView from '@/views/account/LikedDepositView.vue'
+
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
   routes: [
@@ -55,11 +56,6 @@ const router = createRouter({
       path: '/adopt/:id',
       name: 'AdoptDetailView',
       component: AdoptDetailView
-    },
-    {
-      path: '/map',
-      name: 'MapView',
-      component: MapView
     },
     {
       path: '/community/articles',
@@ -158,20 +154,25 @@ const router = createRouter({
       component: EditProfileView,
     },
     {
-      path: '/profile/:username/:profile/dogs',
-      name: 'DogListView',
-      component: DogListView,
+      path: '/profile/:username/dogs',
+      name: 'DogView',
+      component: DogView,
     },
     {
       path: '/profile/:username/dogs/create',
       name: 'DogCreateView',
       component: DogCreateView,
     },
-    //   {
-    //     path: '/profile/:username/liked-deposits',
-    //     name: 'LikedDepositView',
-    //     component: LikedDepositView,
-    //   }
+    {
+      path: '/profile/:username/liked-deposits',
+      name: 'LikedDepositView',
+      component: LikedDepositView,
+    },
+    {
+      path: '/profile/:username/edit/passwordchange',
+      name: 'PasswordChangeView',
+      component: PasswordChangeView
+    }
   ],
   scrollBehavior() {
     return { top: 0 }
@@ -179,11 +180,12 @@ const router = createRouter({
 })
 
 import { useAccountStore } from '@/stores/account'
+// import { vue } from '@vitejs/plugin-vue';
 
 router.beforeEach((to, from) => {
   const store = useAccountStore()
   // 인증되지 않은 사용자는 create에 접근 할 수 없음
-  if ((to.name === 'ArticleCreateView' || to.name === 'RecommendDepositView') && store.state.isAuthenticated === false) {
+  if ((to.name === 'ArticleCreateView' || to.name === 'RecommendDepositView' || to.name === 'ProfileView' || to.name === 'MapView' || to.name === 'ArticleDetailView' || to.name === 'ArticleUpdateView' || to.name === 'ArticleCreateView') && store.state.isAuthenticated === false) {
     Swal.fire({
       title: '로그인이 필요해요',
       icon: 'warning',

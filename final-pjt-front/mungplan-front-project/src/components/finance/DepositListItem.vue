@@ -1,18 +1,36 @@
 <template>
   <div class="deposit-list-item">
-    <div class="card">
+    <div class="card card-parent">
       <div class="card-body">
-        <div class="card-logo-and-title">
-          <img class="company-image" :src="`${store.API_URL}${store.staticUrl}${deposit.company_image}`"
-            alt="company logo">
-          <div class="card-titles">
-            <h5 class="card-title">{{ deposit.product_name }}</h5>
-            <h6 class="card-subtitle mb-2 text-muted">{{ deposit.company_name }}</h6>
+        <!-- <div class="content" style="flex: 7;">
+          <div class="card-logo-and-title">
+            <img class="company-image" :src="`${depositStore.API_URL}${depositStore.staticUrl}${deposit.company_image}`"
+              alt="company logo">
+            <div class="card-titles">
+              <h5 class="card-title">{{ deposit.product_name }}</h5>
+              <h6 class="card-subtitle mb-2 text-muted">{{ deposit.company_name }}</h6>
+            </div>
+          </div>
+          <p class="card-text"> 최고 금리: {{ deposit.maxi_interate_rate }}%</p>
+          <p class="card-text"> 기본 금리: {{ deposit.interate_rate }}%</p>
+        </div> -->
+        <div class="card mb-3" style="max-width: 540px; padding-top: 30px;">
+          <div class="row g-0">
+            <div class="col-md-4" style="padding: 20px 0px 0px 20px">
+              <img class="company-image img-fluid rounded-start"
+                :src="`${depositStore.API_URL}${depositStore.staticUrl}${deposit.company_image}`" alt="company logo">
+            </div>
+            <div class="col-md-8">
+              <div class="card-body" style="height: 100px; padding-left: 3px;">
+                <h5 class="card-title">{{ deposit.product_name.split('(')[0].trim() }}</h5>
+                <h6 class="card-subtitle mb-2 text-muted">{{ deposit.company_name }}</h6>
+                <p class="card-text"> 최고 금리: {{ deposit.maxi_interate_rate }}%</p>
+                <p class="card-text"> 기본 금리: {{ deposit.interate_rate }}%</p>
+              </div>
+            </div>
           </div>
         </div>
-        <p class="card-text"> 최고 금리: {{ deposit.maxi_interate_rate }}%</p>
-        <p class="card-text"> 기본 금리: {{ deposit.interate_rate }}%</p>
-        <div class="card-actions">
+        <div class="card-actions" style="flex: 3;">
           <button type="button" class="btn btn-primary" :data-bs-toggle="'modal'"
             :data-bs-target="'#modal-' + deposit.id">
             알아보기
@@ -29,8 +47,8 @@
       <div class="modal-dialog modal-dialog-centered">
         <div class="modal-content">
           <div class="modal-header">
-            <img class="bank-modal-image card-img-top" :src="`${store.API_URL}${store.staticUrl}${deposit.company_image}`"
-              alt="없음">
+            <img class="bank-modal-image card-img-top"
+              :src="`${depositStore.API_URL}${depositStore.staticUrl}${deposit.company_image}`" alt="없음">
           </div>
           <div class="modal-body">
             <p>회사명: {{ deposit.company_name }}</p>
@@ -58,32 +76,61 @@
 </template>
 
 <script setup>
+import { onMounted } from 'vue'
 import { ref } from 'vue'
 import axios from 'axios'
 import { useDepositStore } from '@/stores/deposit'
 import { useAccountStore } from '@/stores/account'
+import Swal from 'sweetalert2'
+import { useRouter } from 'vue-router'
+// import router from '../../router'
 
+const router = useRouter()
 const props = defineProps({
   deposit: Object
 })
 
-const store = useDepositStore()
-const token = useAccountStore().token
+const depositStore = useDepositStore()
+const accountStore = useAccountStore()
 const liked = ref(false)
+
+onMounted(async () => {
+  try {
+    const response = await axios.get(
+      `${depositStore.API_URL}accounts/${accountStore.state.id}/liked-deposit/`,
+      {
+        headers: {
+          Authorization: `Token ${accountStore.token}`
+        }
+      }
+    );
+    liked.value = response.data.some(deposit => deposit.id === props.deposit.id);
+  } catch (error) {
+    console.error(error);
+  }
+})
 
 const toggleLike = async () => {
   if (!props.deposit) {
     console.error('deposit is undefined');
     return
   }
-
   try {
+    if (accountStore.state.isAuthenticated === false) {
+      Swal.fire({
+        title: '로그인이 필요해요',
+        icon: 'warning',
+        confirmButtonText: 'YES'
+      })
+      return router.push({ name: 'LogInView' })
+    }
+    console.log(accountStore.state)
     await axios.post(
-      `${store.API_URL}finance/deposit/${props.deposit.id}/likes/`,
+      `${depositStore.API_URL}finance/deposit/${props.deposit.id}/likes/`,
       {},
       {
         headers: {
-          Authorization: `Token ${token}`
+          Authorization: `Token ${accountStore.token}`
         }
       }
     )
@@ -104,17 +151,21 @@ const toggleLike = async () => {
 }
 
 .card {
-  width: 18rem;
+  width: 20rem;
+  height: 18rem;
   border-radius: 25px;
   overflow: hidden;
   border: 0;
   margin-bottom: 30px;
   background-color: rgb(253, 251, 237);
+}
+
+.card-parent {
   box-shadow: 0 2px 6px;
   transition: transform 0.8s ease, box-shadow 0.8s ease;
 }
 
-.card:hover {
+.card-parent:hover {
   transform: translateY(-30px);
   box-shadow: 0 4px 12px;
   z-index: 1;
@@ -135,9 +186,8 @@ const toggleLike = async () => {
 }
 
 .company-image {
-  width: 50px;
-  height: 50px;
-  object-fit: cover;
+  width: 70px;
+  height: 80px;
 }
 
 .card-titles {
@@ -146,6 +196,11 @@ const toggleLike = async () => {
 
 .card-text {
   margin-bottom: 0.5rem;
+}
+
+.content {
+  margin-top: 20px;
+  /* 상단 여백 추가 */
 }
 
 .card-actions {

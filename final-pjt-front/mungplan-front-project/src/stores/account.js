@@ -15,7 +15,7 @@ export const useAccountStore = defineStore('account', () => {
     // profileImg: null,
     dogs: [],
     articles: [],
-    token : null,
+    token: null,
     isAuthenticated: false
   })
 
@@ -88,6 +88,11 @@ export const useAccountStore = defineStore('account', () => {
         state.isAuthenticated = true
         // state.username = username
         // console.log(state)
+        Swal.fire({
+          title: '로그인 성공',
+          icon: 'success',
+          confirmButtonText: 'YES'
+        })
 
         // 4. 토큰을 사용하여 사용자 정보를 가져옴
         axios({

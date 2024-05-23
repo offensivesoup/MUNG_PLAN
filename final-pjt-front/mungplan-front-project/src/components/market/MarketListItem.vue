@@ -50,6 +50,7 @@ const generatedUrl = computed(() => generateUrl(query.value))
 .card {
   width: 80%;
   height: 26rem;
+  min-height: 30rem;
   /* 세로 길이를 조정합니다. */
   border-radius: 25px;
   /* 테두리를 둥글게 만듭니다. */

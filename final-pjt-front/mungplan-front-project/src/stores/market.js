@@ -7,8 +7,17 @@ export const useMarketStore = defineStore('market', () => {
 
   // state
   const products = ref([])
-
+  const searchText = ref(null)
   // getters
+  const searchProducts = computed(() => {
+    if (searchText.value) {
+      console.log('입력')
+      return products.filter((product) => {
+        return product.item_name.includes(searchText.value)
+      })
+    }
+    else { return products.value }
+  })
 
   // actions
   const getProducts = function () {
@@ -21,6 +30,21 @@ export const useMarketStore = defineStore('market', () => {
       })
       .catch(error => console.log(error))
   }
+  // markets/product/<str:category_name>/
+  const productFiltering = function (categoryName) {
+    axios({
+      method: 'get',
+      url: `${API_URL}markets/product/${categoryName}/`,
+    })
+      .then(response => {
+        products.value = response.data
+        console.log(products)
+      })
+      .catch(error => {
+        console.log(error)
+        getProducts()
+      })
+  }
 
-  return { API_URL, products, getProducts }
+  return { API_URL, products, getProducts, productFiltering, searchProducts }
 }, { persist: true })

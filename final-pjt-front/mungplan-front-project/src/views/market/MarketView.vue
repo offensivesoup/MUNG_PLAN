@@ -46,6 +46,7 @@ onMounted(() => {
 .fade-out {
   opacity: 0;
   transition: opacity 2s ease-in-out;
+  z-index: -1;
 }
 
 .content {

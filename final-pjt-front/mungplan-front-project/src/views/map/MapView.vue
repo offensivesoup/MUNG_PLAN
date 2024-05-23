@@ -81,8 +81,29 @@ const mapData = ref(null)
 const infoWindow = ref()
 const visible = ref(false)
 const now = ref()
-
+const easeInOutQuad = (t) => t < 0.5 ? 2 * t * t : -1 + (4 - 2 * t) * t;
 const emits = defineEmits(['locationSelected']);
+
+const slowScrollTo = (targetPosition, duration) => {
+  const startPosition = window.scrollY;
+  const distance = targetPosition - startPosition;
+  const startTime = performance.now();
+
+  const easeInOutQuad = (t) => t < 0.5 ? 2 * t * t : -1 + (4 - 2 * t) * t;
+
+  const scrollStep = (timestamp) => {
+    const currentTime = timestamp - startTime;
+    const progress = Math.min(currentTime / duration, 1);
+    const easedProgress = easeInOutQuad(progress);
+    window.scrollTo(0, startPosition + distance * easedProgress);
+
+    if (currentTime < duration) {
+      requestAnimationFrame(scrollStep);
+    }
+  };
+
+  requestAnimationFrame(scrollStep);
+};
 
 const onLocationSelected = (latitude, longitude) => {
   searchLat.value = latitude
@@ -90,6 +111,7 @@ const onLocationSelected = (latitude, longitude) => {
   searchMap(searchLat.value, searchLng.value)
   console.log(latitude)
   console.log(longitude)
+  slowScrollTo(250, 600)
 }
 
 const searchMap = (searchLat, searchLng) => {
@@ -98,7 +120,6 @@ const searchMap = (searchLat, searchLng) => {
   console.log(coord)
   map.value.morph(coord, 12)
 }
-
 const onLoadMap = (mapObject) => {
   map.value = mapObject
   mapData.value = mapObject
@@ -277,7 +298,7 @@ const selectMarker = (place) => {
 }
 
 #select-btn {
-  background-color: rgba(255, 196, 0, 0.5);
+  background-color: rgb(255, 191, 155);
   color: rgba(0, 0, 0, 1);
   box-shadow: 0 2px;
   border-color: whitesmoke;
@@ -290,7 +311,7 @@ const selectMarker = (place) => {
 }
 
 #select-btn:hover {
-  background-color: rgb(224, 216, 176, 1);
+  background-color: rgb(255, 191, 155, 0.5);
 }
 
 #info-place {

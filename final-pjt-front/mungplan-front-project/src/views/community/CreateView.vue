@@ -38,6 +38,8 @@ const content = ref(null)
 const category = ref(null)
 const router = useRouter()
 
+console.log(store.articles.length)
+
 const createArticle = function () {
   axios({
     method: 'post',
@@ -52,7 +54,9 @@ const createArticle = function () {
     }
   })
     .then((response) => {
-      router.push({ name: 'ArticleView' })
+      setTimeout(() => {
+        router.push({ name: 'ArticleDetailView', params: { 'id': response.data.id } })
+      }, 1000)
     })
     .catch((error) => {
       console.log(error)

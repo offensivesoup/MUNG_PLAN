@@ -6,7 +6,7 @@ class ArticleListSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = Article
-        fields = ('id', 'title', 'content', 'user')
+        fields = '__all__'
         
     def get_user_nickname(self, obj):
         try:
