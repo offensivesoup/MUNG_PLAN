@@ -107,24 +107,24 @@ font-size: 15px;
 }
 
 .content {
-  width: 1500px;
-  padding: 100px;
-  transition: all 2s ease;
+width: 1500px;
+padding: 100px;
+transition: all 2s ease;
 }
 
 .content:hover {
-  border-radius: 15%;
-  background-color: rgb(255, 191, 155, 0.3);
+border-radius: 15%;
+background-color: rgb(255, 191, 155, 0.3);
 }
 
 .loading {
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  align-items: center;
-  height: 90vh;
+display: flex;
+flex-direction: column;
+justify-content: center;
+align-items: center;
+height: 90vh;
   /* Viewport height */
-  width: 75vw;
+width: 75vw;
   /* Viewport width */
 }
 

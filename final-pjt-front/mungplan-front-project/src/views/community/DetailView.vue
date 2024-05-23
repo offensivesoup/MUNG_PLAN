@@ -8,16 +8,15 @@
         <button @click="likeArticle(article.id)" v-if="userStore.state.id !== article.user">
           {{ isLiked ? '좋아요 취소' : '좋아요' }}
         </button>
+
       </div>
       <div class="article-content">
         <p>{{ article.content }}</p>
       </div>
       <div class="article-dates">
-        <p>Created at: {{ formatDate(article.created_at) }}</p>
-        <p>Updated at: {{ formatDate(article.updated_at) }}</p>
       </div>
     </div>
-    
+
     <div v-if="comments && comments.length" class="comments-section">
       <h2>Comments</h2>
       <div class="comment" v-for="comment in comments" :key="comment.id">
@@ -62,6 +61,7 @@ onMounted(() => {
   })
     .then((response) => {
       article.value = response.data
+      console.log(response.data)
       checkLike()
       axios({
         method: 'get',
@@ -88,24 +88,24 @@ const formatDate = (dateString) => {
 const deleteArticle = (id) => {
   axios({
     method: 'DELETE',
-    url : `${store.API_URL}community/article/${route.params.id}/`,
+    url: `${store.API_URL}community/article/${route.params.id}/`,
     headers: {
-            'Authorization': `Token ${userStore.state.token}`
-          }
+      'Authorization': `Token ${userStore.state.token}`
+    }
   })
-  .then((response) => {
-    console.log(response)
-    router.push({ name: 'ArticleView' })
-  })
-  .catch((error) => {
-    console.log(userStore.state)
-    console.log(error, error.data)
-  })
+    .then((response) => {
+      console.log(response)
+      router.push({ name: 'ArticleView' })
+    })
+    .catch((error) => {
+      console.log(userStore.state)
+      console.log(error, error.data)
+    })
 }
 
 const checkLike = () => {
   axios({
-    method:'GET',
+    method: 'GET',
     url: `${store.API_URL}community/article/${route.params.id}/isliked/`,
     headers: {
       'Authorization': `Token ${userStore.state.token}`
@@ -121,22 +121,22 @@ const checkLike = () => {
 }
 
 const likeArticle = (id) => {
-    axios({
-      method: 'POST',
-      url: `${store.API_URL}community/article/${route.params.id}/likes/`,
-      headers: {
-        'Authorization': `Token ${userStore.state.token}`
-      }
+  axios({
+    method: 'POST',
+    url: `${store.API_URL}community/article/${route.params.id}/likes/`,
+    headers: {
+      'Authorization': `Token ${userStore.state.token}`
+    }
+  })
+    .then((response) => {
+      console.log(response)
+      isLiked.value = !isLiked.value
     })
-      .then((response) => {
-        console.log(response)
-        isLiked.value = !isLiked.value
-      })
-      .catch((error) => {
-        console.log(userStore.state)
-        console.log(error, error.data)
-      })
-  } 
+    .catch((error) => {
+      console.log(userStore.state)
+      console.log(error, error.data)
+    })
+}
 
 const changeArticle = (id) => {
   router.push({ name: 'ArticleUpdateView', params: { id } })
@@ -154,14 +154,14 @@ const createComment = (id) => {
         content: newComment.value
       }
     })
-     .then((response) => {
+      .then((response) => {
         console.log(response)
         axios({
           method: 'get',
           url: `${store.API_URL}community/article/${id}/comments/`,
           headers: {
-        'Authorization': `Token ${userStore.state.token}`
-      },
+            'Authorization': `Token ${userStore.state.token}`
+          },
         })
           .then((response) => {
             comments.value = response.data
@@ -170,11 +170,11 @@ const createComment = (id) => {
             console.log(error, error.data)
           })
       })
-     .catch((error) => {
+      .catch((error) => {
         console.log(error, error.data)
       })
-    newComment.value = '' 
-}
+    newComment.value = ''
+  }
 }
 
 </script>
